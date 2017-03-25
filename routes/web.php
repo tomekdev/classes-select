@@ -21,6 +21,11 @@ Route::post('/login', [
     'as' => 'login.student'
 ]);
 
+Route::post('/logout', [
+    'uses' => 'LoginController@logoutStudent',
+    'as' => 'logout.student'
+]);
+
 Route::get('/dashboard', [
     'uses' => 'LoginController@getDashboard',
     'as' => 'dashboard'
