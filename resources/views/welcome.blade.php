@@ -10,7 +10,7 @@
                     <h3>Logowanie</h3>
                 </div>
                 <div class="panel-body">
-                    <form action="{{ route('login.student') }}" method="post">
+                    <form action="{{ route('student.login') }}" method="post">
                         <div class="form-group label-floating">
                             <label for="login" class="control-label">Login</label>
                             <input type="text" class="form-control" id="login" name="login">

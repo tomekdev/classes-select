@@ -13,7 +13,7 @@
         @if (Auth::check())
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li {{{ (Request::is( 'dashboard') ? 'class=active' : '') }}}><a href="{{ route('dashboard') }}">Moje przedmioty</a></li>
+                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Moje przedmioty</a></li>
 <!--
                 <li class="dropdown">
                     <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
@@ -38,12 +38,12 @@
                         <li><a href="nieistniejącametoda">Zmień pytania zabezpieczające</a></li>
                         <li class="divider"></li>
                         <li>
-                            <a href="{{ route('logout.student') }}"
+                            <a href="{{ route('student.logout') }}"
                                 onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
                                 Wyloguj
                             </a>
-                            <form id="logout-form" action="{{ route('logout.student') }}" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('student.logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                             </form>
                         </li>

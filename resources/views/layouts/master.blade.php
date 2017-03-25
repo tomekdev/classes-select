@@ -14,8 +14,31 @@
 </head>
 
 <body>
-    
+
     @yield('navbar')
+    
+    <div class="container-fluid">
+        <div class="row">
+            @if (Session::has('error'))
+            <div class="alert alert-dismissible alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{Session::get('error')}}</strong>
+            </div>
+            @endif 
+            @if (Session::has('info'))
+            <div class="alert alert-dismissible alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{Session::get('info')}}</strong>
+            </div>
+            @endif 
+            @if (Session::has('success'))
+            <div class="alert alert-dismissible alert-success">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{Session::get('success')}}</strong>
+            </div>
+            @endif 
+        </div>
+    </div>
     
     @yield('content')
 
@@ -25,6 +48,11 @@
     <script src="https://cdn.rawgit.com/FezVrasta/bootstrap-material-design/4aad2fe4/dist/js/ripples.min.js"></script>
     <script type="text/javascript">
         $.material.init();
+        
+        $('.alert.alert-dismissible.alert-success, .alert.alert-dismissible.alert-info').fadeTo(5000, 500).slideUp(500, function(){
+            $(this).slideUp(500);
+        });
+
     </script>
 </body>
 

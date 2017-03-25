@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Student;
+use \Session;
 
 class LoginController extends Controller
 {
@@ -12,17 +13,19 @@ class LoginController extends Controller
     {
         if(Auth::attempt(['email' => $request['login'], 'password' => $request['password']]))
         {
-            return redirect('dashboard');
+            Session::flash('success', 'Zalogowano pomyślnie');
+            return redirect()->route('student.dashboard');
         }
-
+        Session::flash('error', 'Co to ma być? Masz ty człowieku godność i honor Pieseł?');
         return redirect()->back();
     }
     
     public function logoutStudent(Request $request)
     {
         Auth::logout();
+        Session::flash('success', 'Wlogowano z systemu');
 
-        return redirect('login.student');
+        return redirect()->route('student.login');
     }
 
     public function getDashboard()

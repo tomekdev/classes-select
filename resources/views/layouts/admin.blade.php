@@ -13,12 +13,12 @@
         @if (Auth::check())
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li {{{ (Request::is( 'dashboard') ? 'class=active' : '') }}}><a href="{{ route('dashboard') }}">Terminy zapisu</a></li>
-                <li {{{ (Request::is( 'dashboard') ? 'class=active' : '') }}}><a href="{{ route('dashboard') }}">Studenci</a></li>
-                <li {{{ (Request::is( 'dashboard') ? 'class=active' : '') }}}><a href="{{ route('dashboard') }}">Przedmioty wybieralne</a></li>
-                <li {{{ (Request::is( 'dashboard') ? 'class=active' : '') }}}><a href="{{ route('dashboard') }}">Wydziały</a></li>
-                <li {{{ (Request::is( 'dashboard') ? 'class=active' : '') }}}><a href="{{ route('dashboard') }}">Kierunki</a></li>
-                <li {{{ (Request::is( 'dashboard') ? 'class=active' : '') }}}><a href="{{ route('dashboard') }}">Semestry</a></li>
+                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Terminy zapisu</a></li>
+                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Studenci</a></li>
+                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Przedmioty wybieralne</a></li>
+                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Wydziały</a></li>
+                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Kierunki</a></li>
+                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Semestry</a></li>
 <!--
                 <li class="dropdown">
                     <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
@@ -42,12 +42,12 @@
                         <li><a href="nieistniejącametoda">Zmień hasło</a></li>
                         <li class="divider"></li>
                         <li>
-                            <a href="{{ route('logout.student') }}"
+                            <a href="{{ route('student.logout') }}"
                                 onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
                                 Wyloguj
                             </a>
-                            <form id="logout-form" action="{{ route('logout.student') }}" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('student.logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                             </form>
                         </li>

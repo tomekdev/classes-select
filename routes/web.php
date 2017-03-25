@@ -18,16 +18,16 @@ Route::get('/', function() {
 
 Route::post('/login', [
     'uses' => 'LoginController@loginStudent',
-    'as' => 'login.student'
+    'as' => 'student.login'
 ]);
 
 Route::post('/logout', [
     'uses' => 'LoginController@logoutStudent',
-    'as' => 'logout.student'
+    'as' => 'student.logout'
 ]);
 
 Route::get('/dashboard', [
     'uses' => 'LoginController@getDashboard',
-    'as' => 'dashboard'
+    'as' => 'student.dashboard'
 ]);
 
