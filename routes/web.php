@@ -17,17 +17,17 @@ Route::get('/', function() {
 });
 
 Route::post('/login', [
-    'uses' => 'LoginController@loginStudent',
+    'uses' => 'Student\LoginController@loginStudent',
     'as' => 'student.login'
 ]);
 
 Route::post('/logout', [
-    'uses' => 'LoginController@logoutStudent',
+    'uses' => 'Student\LoginController@logoutStudent',
     'as' => 'student.logout'
 ]);
 
 Route::get('/dashboard', [
-    'uses' => 'LoginController@getDashboard',
+    'uses' => 'Student\DashboardController@index',
     'as' => 'student.dashboard'
 ]);
 

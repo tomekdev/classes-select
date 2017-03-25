@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Student;
 use \Session;
 
 class LoginController extends Controller
@@ -26,10 +26,5 @@ class LoginController extends Controller
         Session::flash('success', 'Wlogowano z systemu');
 
         return redirect('/');
-    }
-
-    public function getDashboard()
-    {
-        return view('dashboard');
     }
 }
