@@ -32,7 +32,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{{Auth::user()->email}}}<b class="caret"></b></a>
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{{Auth::user()->name}}} {{{Auth::user()->surname}}}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="nieistniejącametoda">Zmień hasło</a></li>
                         <li><a href="nieistniejącametoda">Zmień pytania zabezpieczające</a></li>
