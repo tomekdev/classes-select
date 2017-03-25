@@ -11,9 +11,10 @@
 |
 */
 
+/************ STUDENT ROUTES ************/
 
 Route::get('/', function() {
-    return view('welcome');
+    return view('student/welcome');
 });
 
 Route::post('/login', [
@@ -30,4 +31,18 @@ Route::get('/dashboard', [
     'uses' => 'Student\DashboardController@index',
     'as' => 'student.dashboard'
 ]);
+
+/************ ADMIN ROUTES ************/
+
+Route::group(['prefix' => 'admin'], function()
+{
+    Route::get('/', function() {
+        return view('welcome');
+    });
+    
+    Route::get('/students', [
+        'uses' => 'Admin\StudentController@index',
+        'as' => 'admin.students'
+    ]);
+});
 
