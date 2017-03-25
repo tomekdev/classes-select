@@ -25,7 +25,7 @@ class LoginController extends Controller
         Auth::logout();
         Session::flash('success', 'Wlogowano z systemu');
 
-        return redirect()->route('student.login');
+        return redirect('/');
     }
 
     public function getDashboard()
