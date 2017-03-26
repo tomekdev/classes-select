@@ -38,9 +38,9 @@ class StudentController extends Controller
         
         return view('admin/students', [
             'students' => $query->get(),
-            'years' => $faculties,
-            'faculties' => $fields,
-            'fields' => $years,
+            'years' => $years,
+            'faculties' => $faculties,
+            'fields' => $fields,
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
             'filtered' => $filtered
