@@ -9,8 +9,8 @@
                     <h4 class="panel-title">
                     <a data-toggle="collapse" href="#filter">Filtruj</a>
                 </h4>
-                <div class="panel-body collapse" id="filter">
-                    <form class="form">
+                <div class="panel-body collapse {{$filtered? 'in': ''}}" id="filter">
+                    <form class="form" method="post" action="{{route('admin.students')}}">
                         <div class="form-group col-md-4">
                             <label for="status">Status</label>
                             <select id="status" name="status" class="form-control select">
@@ -37,7 +37,9 @@
                             <label for="study_end">Rok ukończenia</label>
                             <select id="study_end" name="study_end" class="form-control select">
                                 <option value="">-- wybierz --</option>
-                                <option value="2018">2018</option>
+                                @foreach ($years as $key => $name)
+                                    <option value="{{$key}}" {{old('study_end') == $key? 'selected' : ''}}>{{$name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-4">
@@ -48,6 +50,7 @@
                                 <option value="pending">Niezapisany</option>
                             </select>
                         </div>
+                        {{ csrf_field() }}
                         <div class="col-md-12">
                             <button type="submit" class="pull-right btn btn-primary">Filtruj</button>
                         </div>

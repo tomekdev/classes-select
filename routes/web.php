@@ -44,5 +44,10 @@ Route::group(['prefix' => 'admin'], function()
         'uses' => 'Admin\StudentController@index',
         'as' => 'admin.students'
     ]);
+    
+    Route::post('/students', [
+        'uses' => 'Admin\StudentController@index',
+        'as' => 'admin.students'
+    ]);
 });
 
