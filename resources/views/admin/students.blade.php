@@ -15,7 +15,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#filter">Filtruj</a>
+                    <a data-toggle="collapse" href="#filter">Filtruj <i class="fa fa-filter"></i></a>
                 </h4>
                 <div class="panel-body collapse {{$filtered? 'in': ''}}" id="filter">
                     <form class="form" method="post" action="{{route('admin.students')}}">
