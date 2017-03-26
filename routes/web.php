@@ -30,7 +30,7 @@ Route::post('/logout', [
 Route::get('/dashboard', [
     'uses' => 'Student\DashboardController@index',
     'as' => 'student.dashboard'
-]);
+])->middleware('auth');
 
 /************ ADMIN ROUTES ************/
 

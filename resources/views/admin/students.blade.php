@@ -122,7 +122,7 @@
                         <td>{{{$student->average}}}</td>
                         <td>
                             @foreach ($student->getStudies() as $study)
-                            <p>{{{$study->field->name}}}, {{{$study->semester->number}}} semestr</p>
+                            <p>{{{$study['field']->name}}}, {{{$study['semester']->number}}} semestr</p>
                             @endforeach
                         </td>
                         <td>
