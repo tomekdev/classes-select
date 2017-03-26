@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Student;
-use App\Faculty;
 use App\Field;
+use App\Faculty;
 
 class StudentController extends Controller
 {
@@ -19,6 +19,7 @@ class StudentController extends Controller
         $fields = Field::all();
                 
         $query = Student::where([]);
+        
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
         foreach ($request->all() as $key => $filter) {
@@ -26,6 +27,23 @@ class StudentController extends Controller
                 case 'study_end':
                     if($filter) {
                         $query->where($key, $filter);
+                        $filtered = true;
+                    }
+                    break;
+                case 'fields':
+                    if($filter) {
+                        $query->whereHas($key, function($q) use ($key, $filter){
+                            $q->where($key.'.id', $filter);
+                        });
+                        $filtered = true;
+                    }
+                    break;
+                case 'faculties':
+                    if($filter) {
+                        //skomplikowana relacja zrobiona ręcznie zagnieżdżonym selectem
+                        $query->whereHas('fields', function($q) use ($key, $filter){
+                            $q->whereIn('fields.id',array_column(Faculty::find($filter)->getFields()->toArray(),"id"));
+                        });
                         $filtered = true;
                     }
                     break;

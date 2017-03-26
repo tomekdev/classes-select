@@ -28,27 +28,27 @@
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="faculty">Wydział</label>
-                            <select id="faculty" name="faculty" class="form-control select">
+                            <label for="faculties">Wydział</label>
+                            <select id="faculties" name="faculties" class="form-control select">
                                 <option value="">-- wybierz --</option>
                                 <option value="weaii">WEAiI</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="field">Kierunek</label>
-                            <select id="field" name="field" class="form-control select">
+                            <label for="fields">Kierunek</label>
+                            <select id="fields" name="fields" class="form-control select">
                                 <option value="">-- wybierz --</option>
                                 @foreach ($fields as $field)
-                                    <option value="{{$field->id}}">{{$field->name}}</option>
+                                    <option value="{{$field->id}}" {{old('fields') == $field->id? 'selected' : ''}}>{{$field->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="study_end">Rok ukończenia</label>
-                            <select id="study_end" name="study_end" class="form-control select">
+                            <label for="faculties">Wydział</label>
+                            <select id="faculties" name="faculties" class="form-control select">
                                 <option value="">-- wybierz --</option>
-                                @foreach ($years as $name)
-                                    <option value="{{$name->study_end}}" {{old('study_end') == $name->study_end? 'selected' : ''}}>{{$name->study_end}}</option>
+                                @foreach ($faculties as $faculty)
+                                    <option value="{{$faculty->id}}" {{old('faculties') == $faculty->id? 'selected' : ''}}>{{$faculty->name}}</option>
                                 @endforeach
                             </select>
                         </div>

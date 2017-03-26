@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model implements Authenticatable
 {
     use \Illuminate\Auth\Authenticatable;
+    public function fields()
+    {
+        return $this->belongsToMany(Field::class, 'student_has_studies');
+    }
+    
     // metoda zwraca niezależnie wszystkie kierunki na jakich studiuje student
     public function getFields()
     {
