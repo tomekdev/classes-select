@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Student;
 use App\Field;
 use App\Faculty;
+use App\Semester;
 
 class StudentController extends Controller
 {
@@ -17,6 +18,7 @@ class StudentController extends Controller
         $years = Student::select('study_end')->distinct()->get();
         $faculties = Faculty::all();
         $fields = Field::all();
+        $semesters = Semester::all();
                 
         $query = Student::where([]);
         
@@ -31,6 +33,7 @@ class StudentController extends Controller
                     }
                     break;
                 case 'fields':
+                case 'semesters':
                     if($filter) {
                         $query->whereHas($key, function($q) use ($key, $filter){
                             $q->where($key.'.id', $filter);
@@ -59,6 +62,7 @@ class StudentController extends Controller
             'years' => $years,
             'faculties' => $faculties,
             'fields' => $fields,
+            'semesters' => $semesters,
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
             'filtered' => $filtered

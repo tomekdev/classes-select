@@ -20,18 +20,12 @@
                 <div class="panel-body collapse {{$filtered? 'in': ''}}" id="filter">
                     <form class="form" method="post" action="{{route('admin.students')}}">
                         <div class="form-group col-md-4">
-                            <label for="status">Status</label>
-                            <select id="status" name="status" class="form-control select">
-                                <option value="">-- wybierz --</option>
-                                <option value="active">Aktywny</option>
-                                <option value="removed">Usunięty</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4">
                             <label for="faculties">Wydział</label>
                             <select id="faculties" name="faculties" class="form-control select">
                                 <option value="">-- wybierz --</option>
-                                <option value="weaii">WEAiI</option>
+                                @foreach ($faculties as $faculty)
+                                    <option value="{{$faculty->id}}" {{old('faculties') == $faculty->id? 'selected' : ''}}>{{$faculty->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-4">
@@ -44,12 +38,20 @@
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="faculties">Wydział</label>
-                            <select id="faculties" name="faculties" class="form-control select">
+                            <label for="semesters">Semestr</label>
+                            <select id="semesters" name="semesters" class="form-control select">
                                 <option value="">-- wybierz --</option>
-                                @foreach ($faculties as $faculty)
-                                    <option value="{{$faculty->id}}" {{old('faculties') == $faculty->id? 'selected' : ''}}>{{$faculty->name}}</option>
+                                @foreach ($semesters as $semester)
+                                    <option value="{{$semester->id}}" {{old('semesters') == $semester->id? 'selected' : ''}}>{{$semester->number}} semestr</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="status">Status studenta</label>
+                            <select id="status" name="status" class="form-control select">
+                                <option value="">-- wybierz --</option>
+                                <option value="active">Aktywny</option>
+                                <option value="removed">Usunięty</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
