@@ -44,9 +44,9 @@ class Student extends Model implements Authenticatable
        $i = 0;
        foreach($all as $al)
        {
-           $studies[$i][0] = Field::where('id', $al['field_id'])->first();
-           $studies[$i][1] = Semester::where('id', $al['semester_id'])->first();
-           $studies[$i][2] = Faculty::where('id', $studies[$i][0]['id'])->first();
+           $studies[$i]['field'] = Field::where('id', $al['field_id'])->first();
+           $studies[$i]['semester'] = Semester::where('id', $al['semester_id'])->first();
+           $studies[$i]['faculty'] = Faculty::where('id', $studies[$i][0]['id'])->first();
            ++$i;
        }
 

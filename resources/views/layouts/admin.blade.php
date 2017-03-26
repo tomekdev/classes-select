@@ -13,12 +13,12 @@
         @if (Auth::check())
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Terminy zapisu</a></li>
-                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Studenci</a></li>
-                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Przedmioty wybieralne</a></li>
-                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Wydziały</a></li>
-                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Kierunki</a></li>
-                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Semestry</a></li>
+                <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Terminy zapisu</a></li>
+                <li {{{ (Request::url() === route('admin.students')? 'class=active' : '') }}}><a href="{{ route('admin.students') }}">Studenci</a></li>
+                <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Przedmioty wybieralne</a></li>
+                <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Wydziały</a></li>
+                <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Kierunki</a></li>
+                <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Semestry</a></li>
 <!--
                 <li class="dropdown">
                     <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown

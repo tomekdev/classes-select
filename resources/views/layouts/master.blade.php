@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.rawgit.com/FezVrasta/bootstrap-material-design/4aad2fe4/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/FezVrasta/bootstrap-material-design/4aad2fe4/dist/css/ripples.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/FezVrasta/dropdown.js/5583fb6f/jquery.dropdown.css">
+    
 </head>
 
 <body>
@@ -46,8 +48,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdn.rawgit.com/FezVrasta/bootstrap-material-design/4aad2fe4/dist/js/material.min.js"></script>
     <script src="https://cdn.rawgit.com/FezVrasta/bootstrap-material-design/4aad2fe4/dist/js/ripples.min.js"></script>
+    <script src="https://cdn.rawgit.com/FezVrasta/bootstrap-material-design/4aad2fe4/dist/js/ripples.min.js"></script>
+    <script src="https://cdn.rawgit.com/FezVrasta/dropdown.js/5583fb6f/jquery.dropdown.js"></script>
     <script type="text/javascript">
         $.material.init();
+        
+        $(document).ready(function() {
+            $(".select").dropdown({"optionClass": "withripple"});
+        });
         
         $('.alert.alert-dismissible.alert-success, .alert.alert-dismissible.alert-info').fadeTo(5000, 500).slideUp(500, function(){
             $(this).slideUp(500);

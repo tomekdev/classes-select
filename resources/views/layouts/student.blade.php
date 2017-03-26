@@ -13,7 +13,7 @@
         @if (Auth::check())
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li {{{ (Request::is( 'student.dashboard') ? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Moje przedmioty</a></li>
+                <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Moje przedmioty</a></li>
 <!--
                 <li class="dropdown">
                     <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown

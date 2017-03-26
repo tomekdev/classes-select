@@ -16,7 +16,12 @@ class LoginController extends Controller
             Session::flash('success', 'Zalogowano pomyślnie');
             return redirect()->route('student.dashboard');
         }
+        
+        //wyświetl pasek błędu
         Session::flash('error', 'Co to ma być? Masz ty człowieku godność i honor Pieseł?');
+        
+        //zapisanie wpisanego loginu w celu późniejszego wyświetlenia
+        $request->flashOnly('login');
         return redirect()->back();
     }
     

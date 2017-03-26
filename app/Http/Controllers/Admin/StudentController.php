@@ -9,6 +9,12 @@ use App\Student;
 class StudentController extends Controller
 {
     public function index(Request $request) {
-        return view('admin/students', ['students' => Student::all()]);
+        $sortProperty = $request->input('sortProperty')?:'surname';
+        $sortOrder = $request->input('sortOrder')?:'asc';
+        return view('admin/students', [
+            'students' => Student::where([])->orderBy($sortProperty, $sortOrder)->get(),
+            'sortProperty' => $sortProperty,
+            'sortOrder' => $sortOrder
+        ]);
     }
 }
