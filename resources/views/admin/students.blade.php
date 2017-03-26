@@ -5,7 +5,11 @@
         <div class="panel-body">
             <h3>Studenci</h3>
             <div class="panel panel-default">
-                <div class="panel-body">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#filter">Filtruj</a>
+                </h4>
+                <div class="panel-body collapse" id="filter">
                     <form class="form">
                         <div class="form-group col-md-4">
                             <label for="status">Status</label>
