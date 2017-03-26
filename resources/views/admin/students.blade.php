@@ -38,15 +38,17 @@
                             <label for="field">Kierunek</label>
                             <select id="field" name="field" class="form-control select">
                                 <option value="">-- wybierz --</option>
-                                <option value="computer_science">Informatyka</option>
+                                @foreach ($fields as $field)
+                                    <option value="{{$field->id}}">{{$field->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="study_end">Rok ukończenia</label>
                             <select id="study_end" name="study_end" class="form-control select">
                                 <option value="">-- wybierz --</option>
-                                @foreach ($years as $key => $name)
-                                    <option value="{{$key}}" {{old('study_end') == $key? 'selected' : ''}}>{{$name}}</option>
+                                @foreach ($years as $name)
+                                    <option value="{{$name->study_end}}" {{old('study_end') == $name->study_end? 'selected' : ''}}>{{$name->study_end}}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Student;
+use App\Faculty;
+use App\Field;
 
 class StudentController extends Controller
 {
@@ -12,12 +14,10 @@ class StudentController extends Controller
         $sortProperty = $request->input('sortProperty')?:'surname';
         $sortOrder = $request->input('sortOrder')?:'asc';
         
-        //to w przyszłości musimy pobrać z bazy
-        $years = [
-            1 => 1,
-            2018 => 2018
-        ];
-        
+        $years = Student::select('study_end')->distinct()->get();
+        $faculties = Faculty::all();
+        $fields = Field::all();
+                
         $query = Student::where([]);
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
@@ -38,7 +38,9 @@ class StudentController extends Controller
         
         return view('admin/students', [
             'students' => $query->get(),
-            'years' => $years,
+            'years' => $faculties,
+            'faculties' => $fields,
+            'fields' => $years,
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
             'filtered' => $filtered

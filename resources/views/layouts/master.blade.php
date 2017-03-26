@@ -62,11 +62,11 @@
         });
         
         function selectAll() {
-            $("table input:checkbox").attr ( "checked" , true );
+            $("table input:checkbox").prop ( "checked" , true );
         }
         
         function deselectAll() {
-            $("table input:checkbox").attr ( "checked" , false );
+            $("table input:checkbox").prop ( "checked", false);
         }
 
     </script>
