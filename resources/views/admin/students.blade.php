@@ -3,7 +3,15 @@
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body">
-            <h3>Studenci</h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <h3>Studenci</h3>
+                </div>
+                <div class="text-right col-md-9">
+                    <button class="btn btn-primary">Dodaj studenta</button>
+                    <button class="btn btn-primary">Importuj studentów</button>
+                </div>
+            </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -128,8 +136,9 @@
                 </tbody>
             </table>
             <div class="text-right">
-                <a href="/">Zaznacz wszystko</a> /
-                <a href="/">Usuń zaznaczenia</a>
+                <a href="javascript:void(0)" onclick="selectAll()">Zaznacz wszystko</a>
+                /
+                <a href="javascript:void(0)" onclick="deselectAll()">Usuń zaznaczenia</a>
             </div>
             <div class="text-right">
                 <a href="/">Usuń</a>

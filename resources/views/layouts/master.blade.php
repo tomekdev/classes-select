@@ -60,6 +60,14 @@
         $('.alert.alert-dismissible.alert-success, .alert.alert-dismissible.alert-info').fadeTo(5000, 500).slideUp(500, function(){
             $(this).slideUp(500);
         });
+        
+        function selectAll() {
+            $("table input:checkbox").attr ( "checked" , true );
+        }
+        
+        function deselectAll() {
+            $("table input:checkbox").attr ( "checked" , false );
+        }
 
     </script>
 </body>

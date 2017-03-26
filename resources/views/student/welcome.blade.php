@@ -21,8 +21,8 @@
                             <input type="password" class="form-control" id="password" name="password">
                         </div>
                         <div class="pull-right">
-                            <button class="btn">Zapomniałem hasła</button>
-                            <button type="submit" class="btn btn-primary">Zaloguj</button>
+                            <button class="btn btn-raised">Zapomniałem hasła</button>
+                            <button type="submit" class="btn btn-primary btn-raised">Zaloguj</button>
                         </div>
                         <input type="hidden" name="_token" value="{{ Session::token() }}"/>
                     </form>
