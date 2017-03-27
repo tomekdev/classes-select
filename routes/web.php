@@ -51,3 +51,17 @@ Route::group(['prefix' => 'admin'], function()
     ]);
 });
 
+// to jest strefa dla Mateusza i Grzesia do testowania pojedynczych widoków. Proszę tu nie grzebać, poza nimi dwoma
+// Oni są panami tej strefy i tu może być szyf taki jaki zrobią, Poźniej to im skasujemy.
+//-------------------------------------------------------------------------------------------------------------------------
+
+
+Route::group(['prefix' => 'testowanie'], function() {
+
+Route::get('/sb', function() {
+    return view('student.selectableSubject');
+});
+});
+
+//-------------------------------------------------------------------------------------------------------------------------
+
