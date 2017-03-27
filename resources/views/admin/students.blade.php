@@ -131,7 +131,7 @@
                         </td>
                         <td>
                             <a href="/">Usuń</a>
-                            <a href="/">Edytuj</a>
+                            <a href="{{route('admin.savestudent', ['id' => $student->id])}}">Edytuj</a>
                             <a href="/">Pokaż zapisy</a>
                         </td>
                         <td class="text-right">

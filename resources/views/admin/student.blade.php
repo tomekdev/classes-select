@@ -7,7 +7,7 @@
                 <div class="col-md-6">
                     <h3>{{$student? 'Edytuj' : 'Dodaj'}} studenta</h3>
                 </div>
-                <form class="form form-horizontal col-lg-8 col-lg-offset-2" method="post" action="{{$student? route('admin.savestudent', array('id' => $student->id)) : route('admin.savestudent')}}">
+                <form class="form form-horizontal col-lg-8 col-lg-offset-2" method="post" action="{{$student? route('admin.savestudent', ['id' => $student->id]) : route('admin.savestudent')}}">
                     <h4>Dane studenta</h4>
                     <div class="form-group">
                         <label for="name" class="col-md-2 control-label">Imię</label>
