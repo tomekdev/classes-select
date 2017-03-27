@@ -70,76 +70,78 @@
                 </div>
             </div>
         </div>
-        <table class="table table-striped table-hover text-center">
-            <thead>
-                <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-center">
-                        <a href="{{{URL::route('admin.students', array('sortProperty' => 'index', 'sortOrder' => $sortProperty === 'index'? ($sortOrder === 'asc'? 'desc': 'asc'): $sortOrder ))}}}">Nr indeksu
-                            @if ($sortProperty === 'index')
-                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
-                                    <span class="caret"></span>
-                                </span>
-                            @endif
-                        </a>
-                    </th>
-                    <th class="text-center">
-                        <a href="{{{URL::route('admin.students', array('sortProperty' => 'surname', 'sortOrder' => $sortProperty === 'surname'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Nazwisko i imię
-                            @if ($sortProperty === 'surname')
-                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
-                                    <span class="caret"></span>
-                                </span>
-                            @endif
-                        </a>
-                    </th>
-                    <th class="text-center">
-                        <a href="{{{URL::route('admin.students', array('sortProperty' => 'email', 'sortOrder' => $sortProperty === 'email'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Email
-                            @if ($sortProperty === 'email')
-                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
-                                    <span class="caret"></span>
-                                </span>
-                            @endif
-                        </a>
-                    </th>
-                    <th class="text-center">
-                        <a href="{{{URL::route('admin.students', array('sortProperty' => 'average', 'sortOrder' => $sortProperty === 'average'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Średnia
-                            @if ($sortProperty === 'average')
-                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
-                                    <span class="caret"></span>
-                                </span>
-                            @endif
-                        </a>
-                    </th>
-                    <th class="text-center">Kierunki</th>
-                    <th class="text-center">Opcje</th>
-                    <th class="text-right">Zaznacz</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($students as $index => $student)
-                <tr>
-                    <td>{{{$index+1}}}</td>
-                    <td>{{{$student->index}}}</td>
-                    <td>{{{$student->surname}}} {{{$student->name}}}</td>
-                    <td>{{{$student->email}}}</td>
-                    <td>{{{$student->average}}}</td>
-                    <td>
-                        @foreach ($student->getStudies() as $study)
-                        <p>{{{$study['field']->name}}}, {{{$study['semester']->number}}} semestr</p>
-                        @endforeach
-                    </td>
-                    <td>
-                        <a href="/">Usuń</a>
-                        <a href="/">Edytuj</a>
-                        <a href="/">Pokaż zapisy</a>
-                    </td>
-                    <td class="text-right">
-                        <input type="checkbox" />
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover text-center">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">
+                            <a href="{{{URL::route('admin.students', array('sortProperty' => 'index', 'sortOrder' => $sortProperty === 'index'? ($sortOrder === 'asc'? 'desc': 'asc'): $sortOrder ))}}}">Nr indeksu
+                                @if ($sortProperty === 'index')
+                                    <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                        <span class="caret"></span>
+                                    </span>
+                                @endif
+                            </a>
+                        </th>
+                        <th class="text-center">
+                            <a href="{{{URL::route('admin.students', array('sortProperty' => 'surname', 'sortOrder' => $sortProperty === 'surname'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Nazwisko i imię
+                                @if ($sortProperty === 'surname')
+                                    <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                        <span class="caret"></span>
+                                    </span>
+                                @endif
+                            </a>
+                        </th>
+                        <th class="text-center">
+                            <a href="{{{URL::route('admin.students', array('sortProperty' => 'email', 'sortOrder' => $sortProperty === 'email'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Email
+                                @if ($sortProperty === 'email')
+                                    <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                        <span class="caret"></span>
+                                    </span>
+                                @endif
+                            </a>
+                        </th>
+                        <th class="text-center">
+                            <a href="{{{URL::route('admin.students', array('sortProperty' => 'average', 'sortOrder' => $sortProperty === 'average'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Średnia
+                                @if ($sortProperty === 'average')
+                                    <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                        <span class="caret"></span>
+                                    </span>
+                                @endif
+                            </a>
+                        </th>
+                        <th class="text-center">Kierunki</th>
+                        <th class="text-center">Opcje</th>
+                        <th class="text-right">Zaznacz</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($students as $index => $student)
+                    <tr>
+                        <td>{{{$index+1}}}</td>
+                        <td>{{{$student->index}}}</td>
+                        <td>{{{$student->surname}}} {{{$student->name}}}</td>
+                        <td>{{{$student->email}}}</td>
+                        <td>{{{$student->average}}}</td>
+                        <td>
+                            @foreach ($student->getStudies() as $study)
+                            <p>{{{$study['field']->name}}}, {{{$study['semester']->number}}} semestr</p>
+                            @endforeach
+                        </td>
+                        <td>
+                            <a href="/">Usuń</a>
+                            <a href="/">Edytuj</a>
+                            <a href="/">Pokaż zapisy</a>
+                        </td>
+                        <td class="text-right">
+                            <input type="checkbox" />
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         <div class="text-right">
             <a href="javascript:void(0)" onclick="selectAll()">Zaznacz wszystko</a>
             /

@@ -68,4 +68,23 @@ class StudentController extends Controller
             'filtered' => $filtered
         ]);
     }
+    
+    public function getStudentForm($id = null) {
+        
+        $student = $id? Student::find($id) : null;
+        $fields = Field::all();
+        
+        return view('admin/student',[
+            'student' => $student,
+            'fields' => $fields
+        ]);
+    }
+    
+    public function saveStudent($id = null, Request $request) {
+        var_dump($request->all());
+    }
+    
+    public function deleteStudent($id) {
+        
+    }
 }
