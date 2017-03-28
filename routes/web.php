@@ -59,6 +59,11 @@ Route::group(['prefix' => 'admin'], function()
         'uses' => 'Admin\StudentController@saveStudent',
         'as' => 'admin.savestudent'
     ])->where('id', '[0-9]+');
+
+    Route::delete('/student/{id}', [
+        'uses' => 'Admin\StudentController@deletestudent',
+        'as' => 'admin.deletestudent'
+    ])->where('id', '[0-9]+');
 });
 
 // to jest strefa dla Mateusza i Grzesia do testowania pojedynczych widoków. Proszę tu nie grzebać, poza nimi dwoma
