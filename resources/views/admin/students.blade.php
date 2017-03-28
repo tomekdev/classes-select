@@ -129,11 +129,13 @@
                             @endforeach
                         </td>
                         <td>
-                            <form action="{{ URL::route('admin.deletestudent', $student->id) }}" method="POST" style="display:inline-block">
-                                <input type="hidden" name="_method" value="DELETE">
-                                {{ csrf_field() }}
-                                <a href="javascript:void(0)" onclick="confirm('Czy chcesz usunąć studenta {{$student->surname}} {{{$student->name}}}?')? $(this).closest('form').submit() : null;">Usuń</a>
-                            </form>
+                            @if ($student->active)
+                                <form action="{{ URL::route('admin.deletestudent', $student->id) }}" method="POST" style="display:inline-block">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    {{ csrf_field() }}
+                                    <a href="javascript:void(0)" onclick="confirm('Czy chcesz usunąć studenta {{$student->surname}} {{{$student->name}}}?')? $(this).closest('form').submit() : null;">Usuń</a>
+                                </form>
+                            @endif
                             <a href="{{route('admin.savestudent', ['id' => $student->id])}}">Edytuj</a>
                             <a href="/">Pokaż zapisy</a>
                         </td>
