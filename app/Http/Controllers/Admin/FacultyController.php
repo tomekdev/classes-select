@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 
 class FacultyController extends Controller
 {
-     public function getFacultyForm($id = null) {        
+     public function index($id = null) {        
+        return view('admin/faculties');
+    }
+    
+    public function getFacultyForm($id = null) {        
         return view('admin/facultiesadd');
     }
 }

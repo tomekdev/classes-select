@@ -65,6 +65,11 @@ Route::group(['prefix' => 'admin'], function()
         'as' => 'admin.deletestudent'
     ])->where('id', '[0-9]+');
     
+    Route::get('/faculties', [
+        'uses' => 'Admin\FacultyController@index',
+        'as' => 'admin.faculties'
+    ]);
+    
     Route::get('/faculty/{id?}', [
         'uses' => 'Admin\FacultyController@getFacultyForm',
         'as' => 'admin.addfaculty'
