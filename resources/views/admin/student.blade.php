@@ -4,7 +4,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <h3>{{$student? 'Edytuj' : 'Dodaj'}} studenta</h3>
                 </div>
                 <form class="form form-horizontal col-lg-8 col-lg-offset-2" method="post" action="{{$student? route('admin.savestudent', ['id' => $student->id]) : route('admin.savestudent')}}">
