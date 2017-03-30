@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model implements Authenticatable
 {
     use \Illuminate\Auth\Authenticatable;
+    protected $fillable = [
+        'name', 'surname', 'email', 'index'
+        ];
+
     public function fields()
     {
         return $this->belongsToMany(Field::class, 'student_has_studies');
@@ -45,18 +49,25 @@ class Student extends Model implements Authenticatable
         return $faculties;
     }
 
+    // metoda ktora zwraca obiekt tabeli "Student_Has_Studies" czyli tabele, która opisuje stuida studenta
+    public function getDBStudies()
+    {
+        return $this->hasMany(StudentHasStudy::class)->get();
+    }
+
     // metoda zwraca pełne informacje o studiach studenta (semestr, kierunek, wydział) włączając w to powiązanie,
     // student studiuje na konkretnym wydziale, kierunku i semestrze
     public function getStudies()
     {
-       $all = $this->hasMany(StudentHasStudy::class)->get();
+       $all = $this->getDBStudies();
        $studies = [];
        $i = 0;
        foreach($all as $al)
        {
-           $studies[$i]['field'] = Field::where('id', $al['field_id'])->first();
-           $studies[$i]['semester'] = Semester::where('id', $al['semester_id'])->first();
-           $studies[$i]['faculty'] = Faculty::where('id', $studies[$i]['field']['id'])->first();
+           $studies[$i]['id'] = $al['id'];
+           $studies[$i]['field'] = Field::find($al['field_id']);
+           $studies[$i]['semester'] = Semester::find($al['semester_id']);
+           $studies[$i]['faculty'] = Faculty::find($studies[$i]['field']['id']);
            ++$i;
        }
 

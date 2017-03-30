@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Field extends Model
 {
+    protected $fillable = [
+        'name', 'faculty_id'
+    ];
     // metoda zwraca wydział do jakiego jest przypisany dany kierunek
     public function getFaculty()
     {

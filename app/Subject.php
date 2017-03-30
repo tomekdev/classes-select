@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
 {
+    protected $fillable = [
+      'semester_id', 'field_id', 'min_person', 'max_person', 'name'
+    ];
     // metoda zwraca kierunek jaki został przypisany dla tego przedmiotu wybieralnego
     public function getField()
     {

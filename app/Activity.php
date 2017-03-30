@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
+    protected $fillable = [
+        'name', 'subject_id'
+    ];
     // metoda zwraca przedmiot wybieralny dla tej aktywności (zajęcia)
     public function getSubject() {
 

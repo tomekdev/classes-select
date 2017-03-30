@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\StudentHasStudy;
 use Illuminate\Http\Request;
 use App\Student;
 use App\Field;
@@ -73,18 +74,89 @@ class StudentController extends Controller
         
         $student = $id? Student::find($id) : null;
         $fields = Field::all();
+        $semesters = Semester::all()->sortByDesc('id');
         
         return view('admin/student',[
             'student' => $student,
-            'fields' => $fields
+            'fields' => $fields,
+            'semesters' => $semesters
         ]);
     }
     
     public function saveStudent($id = null, Request $request) {
-        var_dump($request->all());
+        $student = $id ? Student::find($id) : null;
+
+        if($student) {
+            $studies = $student->getDBStudies();
+            $reqStudies = $request['fields'];
+            $student->fill($request->all());
+            // jeżeli kierunki się powtażają
+            if(!$this->checkRepeatInFields($reqStudies))
+            {
+                $studies = $this->deleteEndedStudies($studies, $reqStudies);
+                foreach ($reqStudies as $reqStudy)
+                {
+                    $isFounded = false;
+                    foreach ($studies as $study)
+                        if ($reqStudy['id'] == $study->id)
+                        {
+                            $study->field_id = $reqStudy['field_id'];
+                            $study->semester_id = $reqStudy['semester_id'];
+                            $study->student_id = $student['id'];
+                            $study->save();
+                            $isFounded = true;
+                            break;
+                        }
+                }
+                if(!$isFounded)
+                {
+                    $newStudy = new StudentHasStudy();
+                    $newStudy->field_id = $reqStudy['field_id'];
+                    $newStudy->semester_id = $reqStudy['semester_id'];
+                    $newStudy->student_id = $student['id'];
+                    $newStudy->save();
+                }
+                $student->save();
+                return redirect()->back();
+            }
+        }
+    }
+
+    // Metoda do usuwania studiów na których student już nie studiuje
+    private function deleteEndedStudies($actuallyStudies, $newStudies)
+    {
+        foreach ($actuallyStudies as $index => $actuallyStudy)
+        {
+            $isFounded = false;
+            foreach ($newStudies as $newStudy)
+            {
+                if ($actuallyStudies[$index]['id'] == $newStudy['id'])
+                {
+                    $isFounded = true;
+                    break;
+                }
+            }
+            if(!$isFounded)
+                $actuallyStudies[$index]->delete();
+        }
+        return $actuallyStudies;
+    }
+
+    // metoda do sprawdzania czy dany obiekt się powtarza
+    private function checkRepeatInFields($objects)
+    {
+        foreach ($objects as $index => $object)
+            $objects[$index]['id'] = 0;
+
+        foreach($objects as $key => $object)
+            foreach($objects as $key1 => $object1)
+                if($key != $key1)
+                    if($objects[$key]['field_id'] === $objects[$key1]['field_id'])
+                        return true;
+        return false;
     }
     
     public function deleteStudent($id) {
-        
+
     }
 }
