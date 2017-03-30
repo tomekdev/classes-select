@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Semester extends Model
 {
     protected $fillable = [
-        'name'
-    ]
+        'name', 'number', 'shortcut'
+    ];
     // metoda zwraca studentów którzy studiują na tym semestrze
     public function getStudents()
     {

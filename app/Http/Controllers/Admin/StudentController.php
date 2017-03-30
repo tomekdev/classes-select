@@ -85,10 +85,10 @@ class StudentController extends Controller
     
     public function saveStudent($id = null, Request $request) {
         $student = $id ? Student::find($id) : null;
+        $reqStudies = $request['fields'];
 
         if($student) {
             $studies = $student->getDBStudies();
-            $reqStudies = $request['fields'];
             $student->fill($request->all());
             // jeżeli kierunki się powtażają
             if(!$this->checkRepeatInFields($reqStudies))
@@ -118,6 +118,23 @@ class StudentController extends Controller
                 }
                 $student->save();
                 return redirect()->back();
+            }
+        }
+        else
+        {
+            $student = new Student();
+            $student->fill($request->all());
+            if(!$this->checkRepeatInFields($reqStudies))
+            {
+                foreach ($reqStudies as $reqStudy)
+                {
+                    $newStudy = new StudentHasStudy();
+                    $newStudy->field_id = $reqStudy['field_id'];
+                    $newStudy->semester_id = $reqStudy['semester_id'];
+                    $newStudy->student_id = $student->id;
+                    $newStudy->save();
+                }
+                $student->save();
             }
         }
     }
