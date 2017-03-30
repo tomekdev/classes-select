@@ -4,6 +4,12 @@
     <link rel="stylesheet" href="{{ URL::asset('css/admin.css') }}" />
 @endsection
 
+@section('content')
+    <div class="admin-panel">
+        @yield('content')
+    </div>
+@endsection
+
 @section('navbar')
 
 <div class="navbar navbar-inverse">
