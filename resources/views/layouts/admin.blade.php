@@ -4,9 +4,11 @@
     <link rel="stylesheet" href="{{ URL::asset('css/admin.css') }}" />
 @endsection
 
-@section('content')
+@section('extra-wrapper-start')
     <div class="admin-panel">
-        @yield('content')
+@endsection
+
+@section('extra-wrapper-end')
     </div>
 @endsection
 

@@ -2,6 +2,5 @@
 
 @section('content')
 
-    Welcome Grzesiu i Mateusz (Pozdrowienia od Grubego designera)
-
+    Welcome Grzesiu i Mateusz
 @endsection
