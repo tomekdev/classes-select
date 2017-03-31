@@ -4,6 +4,14 @@
     <link rel="stylesheet" href="{{ URL::asset('css/admin.css') }}" />
 @endsection
 
+@section('extra-wrapper-start')
+    <div class="admin-panel">
+@endsection
+
+@section('extra-wrapper-end')
+    </div>
+@endsection
+
 @section('navbar')
 
 <div class="navbar navbar-inverse">
