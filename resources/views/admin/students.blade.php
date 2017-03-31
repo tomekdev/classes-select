@@ -47,11 +47,10 @@
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="status">Status studenta</label>
-                            <select id="status" name="status" class="form-control select">
-                                <option value="">-- wybierz --</option>
-                                <option value="active">Aktywny</option>
-                                <option value="removed">Usunięty</option>
+                            <label for="active">Status studenta</label>
+                            <select id="active" name="active" class="form-control select">
+                                <option value="1" {{old('active') === '1'? 'selected' : ''}}>Aktywny</option>
+                                <option value="0" {{old('active') === '0'? 'selected' : ''}}>Usunięty</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
@@ -130,7 +129,13 @@
                             @endforeach
                         </td>
                         <td>
-                            <a href="/">Usuń</a>
+                            @if ($student->active)
+                                <form action="{{ URL::route('admin.deletestudent', $student->id) }}" method="POST" style="display:inline-block">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    {{ csrf_field() }}
+                                    <a href="javascript:void(0)" onclick="confirm('Czy chcesz usunąć studenta {{$student->surname}} {{{$student->name}}}?')? $(this).closest('form').submit() : null;">Usuń</a>
+                                </form>
+                            @endif
                             <a href="{{route('admin.savestudent', ['id' => $student->id])}}">Edytuj</a>
                             <a href="/">Pokaż zapisy</a>
                         </td>

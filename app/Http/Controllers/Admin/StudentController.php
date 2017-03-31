@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\StudentHasStudy;
 use Illuminate\Http\Request;
+use \Session;
 use App\Student;
 use App\Field;
 use App\Faculty;
@@ -51,7 +52,16 @@ class StudentController extends Controller
                         $filtered = true;
                     }
                     break;
+                case 'active':
+                    $query->where($key, !!$filter);
+                    $filtered = true;
+                    break;
             }
+        }
+        
+        //ustawia domyślne wartości, jeśli nie filtrowany
+        if (!$filtered) {
+            $query->where('active', true);
         }
         
         $query->orderBy($sortProperty, $sortOrder);
@@ -174,6 +184,10 @@ class StudentController extends Controller
     }
     
     public function deleteStudent($id) {
-
+        $student = Student::find($id);
+        $student->active = false;
+        $student->save();
+        Session::flash('success', 'Pomyślnie usunięto studenta');
+        return redirect()->route('admin.students');
     }
 }
