@@ -95,7 +95,13 @@ class StudentController extends Controller
     
     public function saveStudent($id = null, Request $request) {
         $student = $id ? Student::find($id) : null;
-        $reqStudies = $request['fields'];
+        if(isSet($request['fields']))
+            $reqStudies = $request['fields'];
+        else
+        {
+            Session::flash('error', 'Student musi mieć przypisany conajmniej jeden kierunek studiów. Zmiany nie zostały zapisane.');
+            return redirect()->back();
+        }
 
         if($student) {
             $studies = $student->getDBStudies();
@@ -127,6 +133,13 @@ class StudentController extends Controller
                     $newStudy->save();
                 }
                 $student->save();
+                Session::flash('success', 'Zmiany zostały pomyślnie zapisane.');
+                return redirect()->back();
+
+            }
+            else
+            {
+                Session::flash('error', 'Student nie może studiować jednocześnie na dwóch takich samych kierunkach. Zmiany nie zostały zapisane.');
                 return redirect()->back();
             }
         }
