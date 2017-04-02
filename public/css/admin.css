@@ -1,0 +1,57 @@
+.admin-panel .btn:not(.btn-raised).btn-primary, .admin-panel .input-group-btn .btn:not(.btn-raised).btn-primary{
+  color: #3f51b5;
+}
+.admin-panel a, .admin-panel a:focus, .admin-panel a:hover{
+  color: #3f51b5;
+}
+.admin-panel .form-control, .admin-panel .form-group .form-control{
+  color: #3f51b5;
+}
+.admin-panel .form-control, .admin-panel .form-group .form-control {
+  color: #3f51b5;
+}
+.admin-panel .btn-group-raised .btn.btn-primary,
+.admin-panel .btn-group-raised .input-group-btn .btn.btn-primary,
+.admin-panel .btn.btn-fab.btn-primary,
+.admin-panel .btn.btn-raised.btn-primary,
+.admin-panel .input-group-btn .btn.btn-fab.btn-primary,
+.admin-panel .input-group-btn .btn.btn-raised.btn-primary
+{
+  background-color: #3f51b5;
+}
+.admin-panel .form-group.is-focused label,
+.admin-panel .form-group.is-focused label.control-label{
+color: #3f51b5;
+}
+.admin-panel .form-group.is-focused .form-control{
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#3f51b5),to(#3f51b5)),-webkit-gradient(linear,left top,left bottom,from(#D2D2D2),to(#D2D2D2));
+  background-image: -webkit-linear-gradient(#3f51b5,#3f51b5),-webkit-linear-gradient(#D2D2D2,#D2D2D2);
+  background-image: -o-linear-gradient(#3f51b5,#3f51b5),-o-linear-gradient(#D2D2D2,#D2D2D2);
+  background-image: linear-gradient(#3f51b5,#3f51b5),linear-gradient(#D2D2D2,#D2D2D2);
+}
+.admin-panel .panel.panel-primary>.panel-heading
+{
+  background-color: #3f51b5;
+}
+.admin-panel .btn-group-raised .btn:not(.btn-link).active.btn-primary,
+.admin-panel .btn-group-raised .btn:not(.btn-link):active.btn-primary,
+.admin-panel .btn-group-raised .btn:not(.btn-link):focus.btn-primary,
+.admin-panel .btn-group-raised .btn:not(.btn-link):hover.btn-primary,
+.admin-panel .btn-group-raised .input-group-btn .btn:not(.btn-link).active.btn-primary,
+.admin-panel .btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-primary,
+.admin-panel .btn-group-raised .input-group-btn .btn:not(.btn-link):focus.btn-primary,
+.admin-panel .btn-group-raised .input-group-btn .btn:not(.btn-link):hover.btn-primary,
+.admin-panel .btn.btn-raised:not(.btn-link).active.btn-primary,
+.admin-panel .btn.btn-raised:not(.btn-link):active.btn-primary,
+.admin-panel .btn.btn-raised:not(.btn-link):focus.btn-primary,
+.admin-panel .btn.btn-raised:not(.btn-link):hover.btn-primary,
+.admin-panel .input-group-btn .btn.btn-raised:not(.btn-link).active.btn-primary,
+.admin-panel .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-primary,
+.admin-panel .input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-primary,
+.admin-panel .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-primary
+{
+  background-color: #5568d4;
+}
+.admin-panel :focus{
+outline-color: #3f51b5;
+}
