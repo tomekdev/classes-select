@@ -86,52 +86,30 @@ Route::group(['prefix' => 'testowanie'], function() {
     Route::get('/sb', function() {
         return view('student.selectableSubject');
     });
-});
-
-Route::group(['prefix' => 'testowanie'], function() {
 
     Route::get('/facultiesadd', function() {
         return view('admin.facultiesadd');
     });
-});
-
-Route::group(['prefix' => 'testowanie'], function() {
-
     Route::get('/facultiesedit', function() {
         return view('admin.facultiesedit');
     });
-});
-
-Route::group(['prefix' => 'testowanie'], function() {
 
     Route::get('/faculties', function() {
         return view('admin.faculties');
     });
-});
-
-Route::group(['prefix' => 'testowanie'], function() {
 
     Route::get('/welcome', function() {
         return view('admin.welcome');
     });
-});
-
-Route::group(['prefix' => 'testowanie'], function() {
 
     Route::get('/importstudents', function() {
         return view('admin.importstudents');
     });
-});
-
-Route::group(['prefix' => 'testowanie'], function() {
 
     Route::get('/fields', function() {
         return view('admin.fields');
     });
-});
-
-Route::group(['prefix' => 'testowanie'], function() {
-
+    
     Route::get('/fieldsadd', function() {
         return view('admin.fieldsadd');
     });
