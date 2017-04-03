@@ -8,8 +8,8 @@
                     <h3>Studenci</h3>
                 </div>
                 <div class="text-right col-md-9">
-                    <button class="btn btn-primary">Dodaj studenta</button>
-                    <button class="btn btn-primary">Importuj studentów</button>
+                    <a href="{{route('admin.getstudent')}}" class="btn btn-primary">Dodaj studenta</a>
+                    <a class="btn btn-primary">Importuj studentów</a>
                 </div>
             </div>
             <div class="panel panel-default">
