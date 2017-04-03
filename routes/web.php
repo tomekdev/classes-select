@@ -70,9 +70,24 @@ Route::group(['prefix' => 'admin'], function()
         'as' => 'admin.faculties'
     ]);
     
+    Route::post('/faculties', [
+        'uses' => 'Admin\FacultyController@index',
+        'as' => 'admin.faculties'
+    ]);
+    
     Route::get('/faculty/{id?}', [
         'uses' => 'Admin\FacultyController@getFacultyForm',
-        'as' => 'admin.addfaculty'
+        'as' => 'admin.getfaculty'
+    ])->where('id', '[0-9]+');
+    
+    Route::post('/faculty/{id?}', [
+        'uses' => 'Admin\FacultyController@saveFaculty',
+        'as' => 'admin.savefaculty'
+    ])->where('id', '[0-9]+');
+    
+    Route::delete('/faculty/{id}', [
+        'uses' => 'Admin\FacultyController@deleteFaculty',
+        'as' => 'admin.deletefaculty'
     ])->where('id', '[0-9]+');
 });
 
