@@ -12,7 +12,7 @@
                 <div class="panel-body">
                     <form action="{{$faculty? route('admin.savefaculty', ['id' => $faculty->id]) : route('admin.savefaculty')}}" method="post">
                         <div class="form-group label-floating">
-                            <label for="name" class="control-label">Wydział</label>
+                            <label for="name" class="control-label">Nazwa</label>
                             <input type="text" class="form-control" id="name" name="name" value="{{$faculty? $faculty->name : ''}}">
                         </div>    
                         {{ csrf_field() }}
