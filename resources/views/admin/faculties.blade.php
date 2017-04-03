@@ -8,9 +8,7 @@
                     <h3>Wydziały</h3>
                 </div>
                 <div class="text-right col-md-9">
-                    <a href="{{route('admin.getfaculty')}}">
-                        <button class="btn btn-primary">Dodaj wydział</button>
-                    </a>
+                    <a href="{{route('admin.getfaculty')}}" class="btn btn-primary">Dodaj wydział</a>
                 </div>
             </div>
         </div>
