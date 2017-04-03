@@ -52,9 +52,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($faculties as $faculty)
+                    @foreach ($faculties as $index => $faculty)
                     <tr>
-                        <td class="text-center">1</td>
+                        <td class="text-center">{{$index+1}}</td>
                         <td class="text-center">{{{$faculty->name}}}</td>
                         <td>
                             @if ($faculty->active)
