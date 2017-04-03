@@ -147,6 +147,7 @@ class StudentController extends Controller
         {
             $student = new Student();
             $student->fill($request->all());
+            $student->save();
             if(!$this->checkRepeatInFields($reqStudies))
             {
                 foreach ($reqStudies as $reqStudy)
@@ -157,7 +158,7 @@ class StudentController extends Controller
                     $newStudy->student_id = $student->id;
                     $newStudy->save();
                 }
-                $student->save();
+
             }
         }
     }

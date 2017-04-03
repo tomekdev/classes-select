@@ -109,7 +109,7 @@ Route::group(['prefix' => 'testowanie'], function() {
     Route::get('/fields', function() {
         return view('admin.fields');
     });
-    
+
     Route::get('/fieldsadd', function() {
         return view('admin.fieldsadd');
     });
