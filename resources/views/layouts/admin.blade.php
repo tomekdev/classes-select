@@ -24,7 +24,7 @@
             </button>
             <a class="navbar-left" href="/"><img src="https://wu.po.opole.pl/wp-content/uploads/2014/07/logo-3-640x360.png" style="max-height:60px" /></a>
         </div>
-        @if (Auth::check())
+        @if (Auth::guard('admin')->check())
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
                 <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Terminy zapisu</a></li>
@@ -51,7 +51,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{{Auth::user()->name}}} {{{Auth::user()->surname}}}<b class="caret"></b></a>
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{{Auth::guard('admin')->user()->name}}} {{{Auth::guard('admin')->user()->surname}}}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="nieistniejącametoda">Zmień hasło</a></li>
                         <li class="divider"></li>
@@ -61,7 +61,7 @@
                                          document.getElementById('logout-form').submit();">
                                 Wyloguj
                             </a>
-                            <form id="logout-form" action="{{ route('student.logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                             </form>
                         </li>
