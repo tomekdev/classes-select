@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.rawgit.com/FezVrasta/bootstrap-material-design/4aad2fe4/dist/css/ripples.min.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/FezVrasta/dropdown.js/5583fb6f/jquery.dropdown.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ URL::asset('css/master.css') }}" />
     @yield('head')
 </head>
 
@@ -54,9 +55,10 @@
     <script src="https://cdn.rawgit.com/FezVrasta/bootstrap-material-design/4aad2fe4/dist/js/ripples.min.js"></script>
     <script src="https://cdn.rawgit.com/FezVrasta/dropdown.js/5583fb6f/jquery.dropdown.js"></script>
     <script type="text/javascript">
-        $.material.init();
+        $.material.options.autofill = true;
         
         $(document).ready(function() {
+            $.material.init();
             $(".select").dropdown({"optionClass": "withripple"});
         });
         

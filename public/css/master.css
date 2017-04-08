@@ -1,0 +1,14 @@
+.form-group.label-floating input.form-control:-webkit-autofill ~ label.control-label {
+    top: -30px;
+    left: 0;
+    font-size: 12px;
+    line-height: 1.07142857;
+}
+
+.form-control-wrapper .form-control:focus ~ .floating-label, 
+.form-control-wrapper .form-control:not(.empty) ~ .floating-label, 
+.form-control-wrapper .form-control:-webkit-autofill ~ .floating-label {
+  top: -10px;
+  font-size: 10px;
+  opacity: 1;
+}

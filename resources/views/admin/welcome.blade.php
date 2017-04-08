@@ -17,8 +17,8 @@
                             <span class="help-block">Jako login może posłużyć mail przypisany do konta</span>
                         </div>
                         <div class="form-group label-floating">
-                            <label for="password" class="control-label">Hasło</label>
                             <input type="password" class="form-control" id="password" name="password">
+                            <label for="password" class="control-label">Hasło</label>
                         </div>
                         <div class="pull-right">
                             <button class="btn btn-raised">Zapomniałem hasła</button>
