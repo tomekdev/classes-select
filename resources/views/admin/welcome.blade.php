@@ -13,7 +13,7 @@
                     <form action="{{ route('admin.login') }}" method="post">
                         <div class="form-group label-floating">
                             <label for="login" class="control-label">Login</label>
-                            <input type="text" class="form-control" id="login" name="login" value="{{{ old('login') }}}">
+                            <input type="text" class="form-control" id="login" name="login" value="{{{ old('login') }}}" autofocus>
                             <span class="help-block">Jako login może posłużyć mail przypisany do konta</span>
                         </div>
                         <div class="form-group label-floating">
