@@ -143,6 +143,33 @@ Route::group([
             'uses' => 'Admin\FieldController@deleteField',
             'as' => 'admin.deletefield'
         ])->where('id', '[0-9]+');
+
+        /***********Semesters***************/
+
+        Route::get('/semesters', [
+            'uses' => 'Admin\SemesterController@index',
+            'as' => 'admin.semesters'
+        ]);
+
+        Route::post('/semesters', [
+            'uses' => 'Admin\SemesterController@index',
+            'as' => 'admin.semesters'
+        ]);
+
+        Route::get('/semester/{id?}', [
+            'uses' => 'Admin\SemesterController@getSemesterForm',
+            'as' => 'admin.getSemester'
+        ])->where('id', '[0-9]+');
+
+        Route::post('/semester/{id?}', [
+            'uses' => 'Admin\SemesterController@saveSemester',
+            'as' => 'admin.saveSemester'
+        ])->where('id', '[0-9]+');
+
+        Route::delete('/semester/{id}', [
+            'uses' => 'Admin\SemesterController@deleteSemester',
+            'as' => 'admin.deleteSemester'
+        ])->where('id', '[0-9]+');
     });
 
 // to jest strefa dla Mateusza i Grzesia do testowania pojedynczych widoków. Proszę tu nie grzebać, poza nimi dwoma
