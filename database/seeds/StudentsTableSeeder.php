@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class StudentsTableSeeder extends Seeder
 {
@@ -12,8 +13,8 @@ class StudentsTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
+        // '$2y$10$AvgEjI2.YO1fdrYqr0hsauGYam7vycRBnq5.LYytB2/Q6NGrecM5m' - zaq12wsx
         \DB::table('students')->delete();
         
         \DB::table('students')->insert(array (
@@ -26,38 +27,38 @@ class StudentsTableSeeder extends Seeder
                 'email' => '89546@student.po.edu.pl',
                 'name' => 'Patryk',
                 'surname' => 'Trompeta',
-                'password' => '$$2y$10$bAKvU0yzRvsWHNy/QAvJLexi.XP8M8EJu/gOVYW.wyxsz1Pw.WqC2',
+                'password' => Hash::make('zaq12wsx'),
                 'average' => 3.0,
                 'study_end' => 2018,
                 'active' => 1,
             ),
             1 => 
             array (
-                'id' => 3,
+                'id' => 2,
                 'created_at' => NULL,
                 'updated_at' => '2017-03-26 18:06:27',
                 'index' => 89546,
                 'email' => '89545@studet.po.edu.pl',
                 'name' => 'Mateusz',
                 'surname' => 'Trobus',
-                'password' => '$2y$10$AvgEjI2.YO1fdrYqr0hsauGYam7vycRBnq5.LYytB2/Q6NGrecM5m',
+                'password' => Hash::make('zaq12wsx'),
                 'average' => 3.2000000000000002,
                 'study_end' => 2025,
                 'active' => 1,
             ),
             2 => 
             array (
-                'id' => 4,
+                'id' => 3,
                 'created_at' => NULL,
-                'updated_at' => '2017-03-28 14:43:17',
+                'updated_at' => NULL,
                 'index' => 89534,
                 'email' => '89534@student.po.edu.pl',
                 'name' => 'Jan',
-                'surname' => 'Kowalsi',
-                'password' => '$$2y$10$bAKvU0yzRvsWHNy/QAvJLexi.XP8M8EJu/gOVYW.wyxsz1Pw.WqC2',
+                'surname' => 'Kowalski',
+                'password' => Hash::make('zaq12wsx'),
                 'average' => 4.9000000000000004,
                 'study_end' => 2018,
-                'active' => 0,
+                'active' => 1,
             ),
         ));
         

@@ -13,9 +13,10 @@
 
 /************ STUDENT ROUTES ************/
 
-Route::get('/', function () {
-    return view('student/welcome');
-});
+Route::get('/', [
+    'uses' => 'Student\StudentController@welcome',
+    'as' => 'student.welcome',
+]);
 
 Route::post('/login', [
     'uses' => 'Student\StudentController@login',
@@ -32,17 +33,18 @@ Route::group([
     ]);
 
     Route::get('/dashboard', [
-        'uses' => 'Student\DashboardController@index',
-        'as' => 'student.dashboard'
+        'uses' => 'Student\StudentController@dashboard',
+        'as' => 'student.dashboard',
     ]);
 });
 
 /************* ADMIN ROUTES ************/
 
     // ------ Admins ------
-    Route::get('admin/', function () {
-        return view('admin/welcome');
-    });
+    Route::get('admin/', [
+        'uses' => 'Admin\AdminController@welcome',
+        'as' => 'admin.welcome',
+    ]);
 
     Route::post('admin/login', [
         'uses' => 'Admin\AdminController@login',
@@ -54,11 +56,14 @@ Route::group([
         'prefix' => 'admin'
     ], function() {
 
+        /***********Logging***************/
 
         Route::post('admin/logout', [
             'uses' => 'Admin\AdminController@logout',
             'as' => 'admin.logout'
         ]);
+
+        /***********Students***************/
 
         Route::get('/students', [
             'uses' => 'Admin\StudentController@index',
@@ -85,6 +90,8 @@ Route::group([
             'as' => 'admin.deletestudent'
         ])->where('id', '[0-9]+');
 
+        /***********Faculty***************/
+
         Route::get('/faculties', [
             'uses' => 'Admin\FacultyController@index',
             'as' => 'admin.faculties'
@@ -109,6 +116,33 @@ Route::group([
             'uses' => 'Admin\FacultyController@deleteFaculty',
             'as' => 'admin.deletefaculty'
         ])->where('id', '[0-9]+');
+
+        /***********Fields***************/
+
+        Route::get('/fields', [
+            'uses' => 'Admin\FieldController@index',
+            'as' => 'admin.fields'
+        ]);
+
+        Route::post('/fields', [
+            'uses' => 'Admin\FieldController@index',
+            'as' => 'admin.fields'
+        ]);
+
+        Route::get('/field/{id?}', [
+            'uses' => 'Admin\FieldController@getFieldForm',
+            'as' => 'admin.getfield'
+        ])->where('id', '[0-9]+');
+
+        Route::post('/field/{id?}', [
+            'uses' => 'Admin\FieldController@saveField',
+            'as' => 'admin.savefield'
+        ])->where('id', '[0-9]+');
+
+        Route::delete('/field/{id}', [
+            'uses' => 'Admin\FieldController@deleteField',
+            'as' => 'admin.deletefield'
+        ])->where('id', '[0-9]+');
     });
 
 // to jest strefa dla Mateusza i Grzesia do testowania pojedynczych widoków. Proszę tu nie grzebać, poza nimi dwoma
@@ -122,31 +156,8 @@ Route::group([
             return view('student.selectableSubject');
         });
 
-        Route::get('/facultiesadd', function() {
-            return view('admin.facultiesadd');
-        });
-        Route::get('/facultiesedit', function() {
-            return view('admin.facultiesedit');
-        });
-
-        Route::get('/faculties', function() {
-            return view('admin.faculties');
-        });
-
-        Route::get('/welcome', function() {
-            return view('admin.welcome');
-        });
-
         Route::get('/importstudents', function() {
             return view('admin.importstudents');
-        });
-
-        Route::get('/fields', function() {
-            return view('admin.fields');
-        });
-
-        Route::get('/fieldsadd', function() {
-            return view('admin.fieldsadd');
         });
     });
 //-------------------------------------------------------------------------------------------------------------------------

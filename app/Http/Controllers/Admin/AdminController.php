@@ -11,6 +11,14 @@ use App\Admin;
 
 class AdminController extends Controller
 {
+    public function welcome()
+    {
+        if(Auth::guard('admin')->check())
+            return redirect()->route('admin.students');
+        else
+            return view('admin.welcome');
+    }
+
     public function login(Request $request)
     {
         $login = $request['login'];

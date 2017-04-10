@@ -38,7 +38,7 @@ class FieldsTableSeeder extends Seeder
                 'id' => 3,
                 'created_at' => NULL,
                 'updated_at' => NULL,
-                'name' => 'GUNWO',
+                'name' => 'Biologia',
                 'faculty_id' => 2,
             ),
         ));

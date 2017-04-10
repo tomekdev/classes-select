@@ -23,6 +23,7 @@ class CreateSubjectsTable extends Migration
             $table->integer('min_person');
             $table->integer('max_person');
             $table->string('name');
+            $table->boolean('active')->default(true);
         });
 
         Schema::table('subjects', function (Blueprint $table) {

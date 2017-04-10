@@ -12,7 +12,7 @@ class Field extends Model
     // metoda zwraca wydział do jakiego jest przypisany dany kierunek
     public function getFaculty()
     {
-        return $this->belongsTo(Faculty::class)->first();
+        return $this->belongsTo(Faculty::class, 'faculty_id', 'id')->first();
     }
 
     // metoda zwraca przedmiotwy wybieralne jakie są powiązane z tym kierunkiem

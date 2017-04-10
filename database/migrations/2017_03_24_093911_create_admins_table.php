@@ -20,6 +20,7 @@ class CreateAdminsTable extends Migration
             $table->string('surname');
             $table->string('login');
             $table->string('password');
+            $table->boolean('active')->default(true);
         });
     }
 

@@ -19,6 +19,7 @@ class CreateSecurityQuestionsTable extends Migration
             $table->integer('question_id')->unsigned();
             $table->string('answer');
             $table->integer('student_id')->unsigned();
+            $table->boolean('active')->default(true);
         });
 
         Schema::table('security_questions', function (Blueprint $table) {

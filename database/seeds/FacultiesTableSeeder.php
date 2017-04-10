@@ -29,7 +29,7 @@ class FacultiesTableSeeder extends Seeder
                 'id' => 2,
                 'created_at' => NULL,
                 'updated_at' => NULL,
-                'name' => 'XD',
+                'name' => 'Wydział Fizjoterapii',
             ),
         ));
         

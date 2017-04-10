@@ -18,12 +18,13 @@ class CreateFieldsTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->integer('faculty_id')->unsigned();
+            $table->boolean('active')->default(true);
         });
 
         Schema::table('fields', function (Blueprint $table) {
             $table->foreign('faculty_id')
                 ->references('id')
-                ->on('faculties');
+                ->on('faculties')->onDelete('cascade');
         });
     }
 

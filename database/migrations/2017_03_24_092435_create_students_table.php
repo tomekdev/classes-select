@@ -21,8 +21,9 @@ class CreateStudentsTable extends Migration
             $table->string('name');
             $table->string('surname');
             $table->string('password');
-            $table->float('average');
-            $table->integer('study_end');
+            $table->float('average')->nullable();
+            $table->integer('study_end')->nullable();
+            $table->boolean('active')->default(true);
         });
     }
 

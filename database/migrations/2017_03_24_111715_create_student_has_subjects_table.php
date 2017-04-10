@@ -16,8 +16,9 @@ class CreateStudentHasSubjectsTable extends Migration
         Schema::create('student_has_subjects', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('student_id')->unsigned();;
-            $table->integer('activity_id')->unsigned();;
+            $table->integer('student_id')->unsigned();
+            $table->integer('activity_id')->unsigned();
+            $table->boolean('active')->default(true);
         });
 
         Schema::table('student_has_subjects', function (Blueprint $table) {

@@ -11,7 +11,20 @@ use App\Student;
 
 class StudentController extends Controller
 {
-    //
+
+    public function dashboard()
+    {
+        return view('student.dashboard');
+    }
+
+    public function welcome()
+    {
+        if(Auth::guard('student')->check())
+            return redirect()->route('student.dashboard');
+        else
+            return view('student.welcome');
+    }
+
     public function login(Request $request)
     {
         $login = $request['login'];

@@ -19,6 +19,7 @@ class CreateStudentHasStudiesTable extends Migration
             $table->integer('student_id')->unsigned();
             $table->integer('field_id')->unsigned();
             $table->integer('semester_id')->unsigned();
+            $table->boolean('active')->default(true);
         });
 
         Schema::table('student_has_studies', function (Blueprint $table) {

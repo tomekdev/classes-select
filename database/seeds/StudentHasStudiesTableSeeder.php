@@ -40,7 +40,7 @@ class StudentHasStudiesTableSeeder extends Seeder
                 'id' => 3,
                 'created_at' => NULL,
                 'updated_at' => NULL,
-                'student_id' => 4,
+                'student_id' => 3,
                 'field_id' => 3,
                 'semester_id' => 3,
             ),

@@ -18,6 +18,7 @@ class CreateSemestrsTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->integer('number');
+            $table->boolean('active')->default(true);
         });
     }
 

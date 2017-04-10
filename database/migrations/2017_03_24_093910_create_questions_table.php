@@ -17,6 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('question');
+            $table->boolean('active')->default(true);
         });
     }
 

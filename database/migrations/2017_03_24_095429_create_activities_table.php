@@ -17,7 +17,8 @@ class CreateActivitiesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
-            $table->integer('subject_id')->unsigned();;
+            $table->integer('subject_id')->unsigned();
+            $table->boolean('active')->default(true);
         });
 
         Schema::table('activities', function (Blueprint $table) {

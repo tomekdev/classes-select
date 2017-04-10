@@ -18,7 +18,6 @@ class RedirectIfNotStudent
      */
     public function handle($request, Closure $next, $guard = 'student')
     {
-        print_r(Auth::guard($guard)->user());
         if(!Auth::guard($guard)->check()){
             Session::flash('error', 'Nie masz dostępu do tej sekcji.');
             return redirect()->back();

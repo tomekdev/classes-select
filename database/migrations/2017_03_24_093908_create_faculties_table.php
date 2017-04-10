@@ -17,6 +17,7 @@ class CreateFacultiesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
+            $table->boolean('active')->default(true);
         });
     }
 

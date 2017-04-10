@@ -11,6 +11,8 @@ use App\Student;
 use App\Field;
 use App\Faculty;
 use App\Semester;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
@@ -95,7 +97,31 @@ class StudentController extends Controller
     }
     
     public function saveStudent($id = null, Request $request) {
-        $student = $id ? Student::find($id) : null;
+
+        $messages = array (
+            'name.required' => 'Pole imię jest wymagane.',
+            'name.alpha' => 'Pole imię może zawierać tylko litery.',
+            'surname.required' => 'Pole nazwisko jest wymagane.',
+            'surname.alpha' => 'Pole nazwisko może zawierać tylko litery.',
+            'index.required' => 'Pole index jest wymagane.',
+            'index.integer' => 'Pole index może zawierać tylko cyfry',
+            'email.required' => 'Pole email jest wymagane',
+            'email.email' => 'Pole email musi być zgodne z konwencją email-a',
+
+        );
+        $v = Validator::make($request->all(), [
+            'name' => 'required|alpha',
+            'surname' => 'required|alpha',
+            'index' => 'required|integer',
+            'email' => 'required|email',
+        ], $messages);
+
+        if ($v->fails())
+            return redirect()->back()->withErrors($v->errors());
+
+        $request['name'] = ucfirst($request['name']);
+        $request['surname'] = ucfirst($request['surname']);
+
         if(isSet($request['fields']))
             $reqStudies = $request['fields'];
         else
@@ -103,6 +129,8 @@ class StudentController extends Controller
             Session::flash('error', 'Student musi mieć przypisany conajmniej jeden kierunek studiów. Zmiany nie zostały zapisane.');
             return redirect()->back();
         }
+
+        $student = $id ? Student::find($id) : null;
 
         if($student) {
             $studies = $student->getDBStudies();
@@ -148,6 +176,9 @@ class StudentController extends Controller
         {
             $student = new Student();
             $student->fill($request->all());
+            $student->password = Hash::make(str_random(8));
+            $student->average = null;
+            $student->study_end = null;
             $student->save();
             if(!$this->checkRepeatInFields($reqStudies))
             {
@@ -161,6 +192,8 @@ class StudentController extends Controller
                 }
 
             }
+            Session::flash('success', 'Pomyślnie dodano studenta.');
+            return redirect()->back();
         }
     }
 
