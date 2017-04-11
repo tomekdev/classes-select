@@ -116,8 +116,10 @@ class StudentController extends Controller
             'email' => 'required|email',
         ], $messages);
 
-        if ($v->fails())
+        if ($v->fails()) {
+            $request->flash();
             return redirect()->back()->withErrors($v->errors());
+        }
 
         $request['name'] = ucfirst($request['name']);
         $request['surname'] = ucfirst($request['surname']);
@@ -127,6 +129,7 @@ class StudentController extends Controller
         else
         {
             Session::flash('error', 'Student musi mieć przypisany conajmniej jeden kierunek studiów. Zmiany nie zostały zapisane.');
+            $request->flash();
             return redirect()->back();
         }
 
@@ -169,19 +172,21 @@ class StudentController extends Controller
             else
             {
                 Session::flash('error', 'Student nie może studiować jednocześnie na dwóch takich samych kierunkach. Zmiany nie zostały zapisane.');
+                $request->flash();
                 return redirect()->back();
             }
         }
         else
         {
-            $student = new Student();
-            $student->fill($request->all());
-            $student->password = Hash::make(str_random(8));
-            $student->average = null;
-            $student->study_end = null;
-            $student->save();
             if(!$this->checkRepeatInFields($reqStudies))
             {
+                $student = new Student();
+                $student->fill($request->all());
+                $student->password = Hash::make(str_random(8));
+                $student->average = null;
+                $student->study_end = null;
+                $student->save();
+
                 foreach ($reqStudies as $reqStudy)
                 {
                     $newStudy = new StudentHasStudy();
@@ -190,10 +195,15 @@ class StudentController extends Controller
                     $newStudy->student_id = $student->id;
                     $newStudy->save();
                 }
-
+                Session::flash('success', 'Pomyślnie dodano studenta.');
+                return redirect()->back();
             }
-            Session::flash('success', 'Pomyślnie dodano studenta.');
-            return redirect()->back();
+            else
+            {
+                Session::flash('error', 'Student nie może studiować jednocześnie na dwóch takich samych kierunkach. Zmiany nie zostały zapisane.');
+                $request->flash();
+                return redirect()->back();
+            }
         }
     }
 
@@ -220,13 +230,13 @@ class StudentController extends Controller
     // metoda do sprawdzania czy dany obiekt się powtarza
     private function checkRepeatInFields($objects)
     {
-        foreach ($objects as $index => $object)
-            $objects[$index]['id'] = 0;
+//        foreach ($objects as $index => $object)
+//            $objects[$index]['id'] = 0;
 
         foreach($objects as $key => $object)
             foreach($objects as $key1 => $object1)
                 if($key != $key1)
-                    if($objects[$key]['field_id'] === $objects[$key1]['field_id'])
+                    if($objects[$key]['field_id'] == $objects[$key1]['field_id'])
                         return true;
         return false;
     }
