@@ -19,6 +19,8 @@ class CreateStudentHasStudiesTable extends Migration
             $table->integer('student_id')->unsigned();
             $table->integer('field_id')->unsigned();
             $table->integer('semester_id')->unsigned();
+            $table->integer('degree_id')->unsigned();
+            $table->integer('study_form_id')->unsigned();
             $table->boolean('active')->default(true);
         });
 
@@ -38,6 +40,18 @@ class CreateStudentHasStudiesTable extends Migration
             $table->foreign('semester_id')
                 ->references('id')
                 ->on('semesters');
+        });
+
+        Schema::table('student_has_studies', function (Blueprint $table) {
+            $table->foreign('degree_id')
+                ->references('id')
+                ->on('degrees');
+        });
+
+        Schema::table('student_has_studies', function (Blueprint $table) {
+            $table->foreign('study_form_id')
+                ->references('id')
+                ->on('study_forms');
         });
     }
 

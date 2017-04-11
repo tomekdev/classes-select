@@ -25,6 +25,8 @@ class StudentHasStudiesTableSeeder extends Seeder
                 'student_id' => 1,
                 'field_id' => 1,
                 'semester_id' => 1,
+                'degree_id' => 2,
+                'study_form_id' => 1,
             ),
             1 => 
             array (
@@ -34,6 +36,8 @@ class StudentHasStudiesTableSeeder extends Seeder
                 'student_id' => 3,
                 'field_id' => 1,
                 'semester_id' => 2,
+                'degree_id' => 1,
+                'study_form_id' => 2,
             ),
             2 => 
             array (
@@ -43,7 +47,20 @@ class StudentHasStudiesTableSeeder extends Seeder
                 'student_id' => 3,
                 'field_id' => 3,
                 'semester_id' => 3,
+                'degree_id' => 1,
+                'study_form_id' => 1,
             ),
+            3 =>
+                array (
+                    'id' => 4,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'student_id' => 2,
+                    'field_id' => 3,
+                    'semester_id' => 2,
+                    'degree_id' => 2,
+                    'study_form_id' => 2,
+                ),
         ));
         
         

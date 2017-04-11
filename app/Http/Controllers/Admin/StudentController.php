@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
-use App\StudentHasStudy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use \Session;
+use App\StudentHasStudy;
 use App\Student;
 use App\Field;
 use App\Faculty;
 use App\Semester;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Degree;
+use App\StudyForm;
+
 
 class StudentController extends Controller
 {
@@ -86,13 +89,19 @@ class StudentController extends Controller
     public function getStudentForm($id = null) {
         
         $student = $id? Student::find($id) : null;
+        $faculties = Faculty::all();
         $fields = Field::all();
         $semesters = Semester::all()->sortByDesc('id');
+        $degrees = Degree::all();
+        $study_forms = StudyForm::all();
         
         return view('admin/student',[
             'student' => $student,
+            'faculties' => $faculties,
             'fields' => $fields,
-            'semesters' => $semesters
+            'semesters' => $semesters,
+            'degrees' => $degrees,
+            'study_forms' => $study_forms,
         ]);
     }
     
@@ -132,15 +141,20 @@ class StudentController extends Controller
             $request->flash();
             return redirect()->back();
         }
+        // jeżeli kierunki się powtażają
+        if($this->checkRepeatInFields($reqStudies))
+        {
+            Session::flash('error', 'Student nie może studiować jednocześnie na dwóch takich samych kierunkach na tym samym stopniu. Zmiany nie zostały zapisane.');
+            $request->flash();
+            return redirect()->back();
+        }
 
         $student = $id ? Student::find($id) : null;
 
         if($student) {
             $studies = $student->getDBStudies();
             $student->fill($request->all());
-            // jeżeli kierunki się powtażają
-            if(!$this->checkRepeatInFields($reqStudies))
-            {
+
                 $studies = $this->deleteEndedStudies($studies, $reqStudies);
                 foreach ($reqStudies as $reqStudy)
                 {
@@ -151,6 +165,8 @@ class StudentController extends Controller
                             $study->field_id = $reqStudy['field_id'];
                             $study->semester_id = $reqStudy['semester_id'];
                             $study->student_id = $student['id'];
+                            $study->degree_id = $reqStudy['degree_id'];
+                            $study->study_form_id = $reqStudy['study_form_id'];
                             $study->save();
                             $isFounded = true;
                             break;
@@ -162,24 +178,16 @@ class StudentController extends Controller
                     $newStudy->field_id = $reqStudy['field_id'];
                     $newStudy->semester_id = $reqStudy['semester_id'];
                     $newStudy->student_id = $student['id'];
+                    $newStudy->degree_id = $reqStudy['degree_id'];
+                    $newStudy->study_form_id = $reqStudy['study_form_id'];
                     $newStudy->save();
                 }
                 $student->save();
                 Session::flash('success', 'Zmiany zostały pomyślnie zapisane.');
                 return redirect()->back();
-
-            }
-            else
-            {
-                Session::flash('error', 'Student nie może studiować jednocześnie na dwóch takich samych kierunkach. Zmiany nie zostały zapisane.');
-                $request->flash();
-                return redirect()->back();
-            }
         }
         else
         {
-            if(!$this->checkRepeatInFields($reqStudies))
-            {
                 $student = new Student();
                 $student->fill($request->all());
                 $student->password = Hash::make(str_random(8));
@@ -193,17 +201,12 @@ class StudentController extends Controller
                     $newStudy->field_id = $reqStudy['field_id'];
                     $newStudy->semester_id = $reqStudy['semester_id'];
                     $newStudy->student_id = $student->id;
+                    $newStudy->degree_id = $reqStudy['degree_id'];
+                    $newStudy->study_form_id = $reqStudy['study_form_id'];
                     $newStudy->save();
                 }
                 Session::flash('success', 'Pomyślnie dodano studenta.');
                 return redirect()->back();
-            }
-            else
-            {
-                Session::flash('error', 'Student nie może studiować jednocześnie na dwóch takich samych kierunkach. Zmiany nie zostały zapisane.');
-                $request->flash();
-                return redirect()->back();
-            }
         }
     }
 
@@ -222,6 +225,7 @@ class StudentController extends Controller
                 }
             }
             if(!$isFounded)
+                // smienione z delete na sctive
                 $actuallyStudies[$index]->delete();
         }
         return $actuallyStudies;
@@ -230,13 +234,11 @@ class StudentController extends Controller
     // metoda do sprawdzania czy dany obiekt się powtarza
     private function checkRepeatInFields($objects)
     {
-//        foreach ($objects as $index => $object)
-//            $objects[$index]['id'] = 0;
-
         foreach($objects as $key => $object)
             foreach($objects as $key1 => $object1)
                 if($key != $key1)
-                    if($objects[$key]['field_id'] == $objects[$key1]['field_id'])
+                    if($objects[$key]['field_id'] == $objects[$key1]['field_id'] &&
+                    $objects[$key]['degree_id'] == $objects[$key1]['degree_id'])
                         return true;
         return false;
     }

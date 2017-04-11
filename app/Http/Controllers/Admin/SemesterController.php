@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Degree;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Semester;
@@ -46,7 +47,7 @@ class SemesterController extends Controller
     public function getSemesterForm($id = null) {
         $semester = $id? Semester::find($id) : null;
         return view('admin/semester',[
-            'semester' => $semester
+            'semester' => $semester,
         ]);
     }
 

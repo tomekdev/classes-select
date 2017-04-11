@@ -51,6 +51,17 @@
                                 <div class="panel-heading">
                                     <a href="javascript:void(0)" onclick="removeField(this)" class="pull-right">Usuń</a>
                                     <div class="form-group">
+                                        <label for="fields[{{$key}}][faculty_id]" class="col-md-2 control-label">Wydział</label>
+                                        <div class="col-md-10">
+                                            <select name="fields[{{$key}}][faculty_id]" class="form-control select">
+                                                <option value="">-- wybierz --</option>
+                                                @foreach ($faculties as $faculty)
+                                                    <option value="{{$faculty->id}}" {{$study['field']->faculty_id == $faculty->id? 'selected' : ''}}>{{$faculty->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="fields[{{$key}}][field_id]" class="col-md-2 control-label">Kierunek</label>
                                         <div class="col-md-10">
                                             <select name="fields[{{$key}}][field_id]" class="form-control select">
@@ -74,6 +85,28 @@
                                         <label for="fields[{{$key}}][id]"></label>
                                         <input type="hidden" name="fields[{{$key}}][id]" value="{{ $study['id'] }}"/>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="fields[{{$key}}][degree_id]" class="col-md-2 control-label">Stopień</label>
+                                        <div class="col-md-10">
+                                            <select name="fields[{{$key}}][degree_id]" class="form-control select">
+                                                <option value="">-- wybierz --</option>
+                                                @foreach ($degrees as $degree)
+                                                    <option value="{{$degree->id}}" {{$study['degree']->id == $degree->id? 'selected' : ''}}>{{$degree->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fields[{{$key}}][study_form_id]" class="col-md-2 control-label">Forma studiów</label>
+                                        <div class="col-md-10">
+                                            <select name="fields[{{$key}}][study_form_id]" class="form-control select">
+                                                <option value="">-- wybierz --</option>
+                                                @foreach ($study_forms as $study_form)
+                                                    <option value="{{$study_form->id}}" {{$study['study_form']->id == $study_form->id? 'selected' : ''}}>{{$study_form->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -88,6 +121,17 @@
 <div class="panel" id="field-template" style="display:none">
     <div class="panel-heading">
         <a href="javascript:void(0)" onclick="removeField(this)" class="pull-right">Usuń</a>
+        <div class="form-group">
+            <label for="fields[@counter@][faculty_id]" class="col-md-2 control-label">Wydział</label>
+            <div class="col-md-10">
+                <select name="fields[@counter@][faculty_id]" class="form-control select@counter@">
+                    <option value="">-- wybierz --</option>
+                    @foreach ($faculties as $faculty)
+                        <option value="{{$faculty->id}}">{{$faculty->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         <div class="form-group">
             <label for="fields[@counter@][field_id]" class="col-md-2 control-label">Kierunek</label>
 
@@ -112,6 +156,28 @@
             </div>
             <label for="fields[@counter@][id]"></label>
             <input type="hidden" name="fields[@counter@][id]" value="0"/>
+        </div>
+        <div class="form-group">
+            <label for="fields[@counter@][degree_id]" class="col-md-2 control-label">Stopień</label>
+            <div class="col-md-10">
+                <select name="fields[@counter@][degree_id]" class="form-control select@counter@">
+                    <option value="">-- wybierz --</option>
+                    @foreach ($degrees as $degree)
+                        <option value="{{$degree->id}}">{{$degree->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="fields[@counter@][study_form_id]" class="col-md-2 control-label">Forma studiów</label>
+            <div class="col-md-10">
+                <select name="fields[@counter@][study_form_id]" class="form-control select@counter@">
+                    <option value="">-- wybierz --</option>
+                    @foreach ($study_forms as $study_form)
+                        <option value="{{$study_form->id}}">{{$study_form->name}}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
     </div>
 </div>
