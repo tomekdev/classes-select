@@ -11,6 +11,12 @@
 |
 */
 
+/*************Test Ajax request***********/
+Route::get('admin/getFieldsFromFaculty/{id?}', [
+    'uses' => 'AjaxController@getFieldsFromFaculty',
+    'as' => 'ajaxGetFields',
+])->where('id', '[0-9]+');
+
 /************ STUDENT ROUTES ************/
 
 Route::get('/', [

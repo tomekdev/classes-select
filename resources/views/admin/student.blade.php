@@ -27,7 +27,7 @@
                         <label for="index" class="col-md-2 control-label">Numer indeksu</label>
 
                         <div class="col-md-10">
-                            <input type="number" name="index" class="form-control" id="index" required value="{{$student? $student->index : (old('index')?: '')}}">
+                            <input type="text" name="index" class="form-control" id="index" required value="{{$student? $student->index : (old('index')?: '')}}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -53,7 +53,7 @@
                                     <div class="form-group">
                                         <label for="fields[{{$key}}][faculty_id]" class="col-md-2 control-label">Wydział</label>
                                         <div class="col-md-10">
-                                            <select name="fields[{{$key}}][faculty_id]" class="form-control select">
+                                            <select id="{{$key}}" name="fields[{{$key}}][faculty_id]" class="form-control select" onchange="getFields(this.value, this.id)">
                                                 <option value="">-- wybierz --</option>
                                                 @foreach ($faculties as $faculty)
                                                     <option value="{{$faculty->id}}" {{$study['field']->faculty_id == $faculty->id? 'selected' : ''}}>{{$faculty->name}}</option>
@@ -64,9 +64,9 @@
                                     <div class="form-group">
                                         <label for="fields[{{$key}}][field_id]" class="col-md-2 control-label">Kierunek</label>
                                         <div class="col-md-10">
-                                            <select name="fields[{{$key}}][field_id]" class="form-control select">
+                                            <select id="select-field{{$key}}" name="fields[{{$key}}][field_id]" class="form-control select">
                                                 <option value="">-- wybierz --</option>
-                                                @foreach ($fields as $field)
+                                                @foreach ($study['faculty']->getFields() as $field)
                                                     <option value="{{$field->id}}" {{$study['field']->id == $field->id? 'selected' : ''}}>{{$field->name}}</option>
                                                 @endforeach
                                             </select>
@@ -124,7 +124,7 @@
         <div class="form-group">
             <label for="fields[@counter@][faculty_id]" class="col-md-2 control-label">Wydział</label>
             <div class="col-md-10">
-                <select name="fields[@counter@][faculty_id]" class="form-control select@counter@">
+                <select id="@counter@" name="fields[@counter@][faculty_id]" class="form-control select@counter@" onchange="getFields(this.value, this.id)">
                     <option value="">-- wybierz --</option>
                     @foreach ($faculties as $faculty)
                         <option value="{{$faculty->id}}">{{$faculty->name}}</option>
@@ -136,11 +136,8 @@
             <label for="fields[@counter@][field_id]" class="col-md-2 control-label">Kierunek</label>
 
             <div class="col-md-10">
-                <select name="fields[@counter@][field_id]" class="form-control select@counter@">
+                <select id="select-field@counter@" name="fields[@counter@][field_id]" class="form-control select@counter@">
                     <option value="">-- wybierz --</option>
-                    @foreach ($fields as $field)
-                        <option value="{{$field->id}}">{{$field->name}}</option>
-                    @endforeach
                 </select>
             </div>
         </div>
@@ -195,6 +192,17 @@
         $(".select" + counter).dropdown({"optionClass": "withripple"});
         counter++;
     }
+    function getFields(value, id) {
+        $.ajax({
+            url: '/admin/getFieldsFromFaculty/'+value,
+            method: "get",
+            data: {},
+            success: function (data) {
+                $('#select-field'+id).html(data);
+            }
+        });
+    }
 </script>
+
 
 @endsection

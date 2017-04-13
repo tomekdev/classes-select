@@ -67,7 +67,7 @@ class Student extends Model implements Authenticatable
            $studies[$i]['id'] = $al['id'];
            $studies[$i]['field'] = Field::find($al['field_id']);
            $studies[$i]['semester'] = Semester::find($al['semester_id']);
-           $studies[$i]['faculty'] = Faculty::find($studies[$i]['field']['id']);
+           $studies[$i]['faculty'] = Faculty::find($studies[$i]['field']->faculty_id);
            $studies[$i]['degree'] = Degree::find($al['degree_id']);
            $studies[$i]['study_form'] = StudyForm::find($al['study_form_id']);
            ++$i;

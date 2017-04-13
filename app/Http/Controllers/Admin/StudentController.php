@@ -87,7 +87,7 @@ class StudentController extends Controller
     }
     
     public function getStudentForm($id = null) {
-        
+
         $student = $id? Student::find($id) : null;
         $faculties = Faculty::all();
         $fields = Field::all();
@@ -130,14 +130,18 @@ class StudentController extends Controller
             return redirect()->back()->withErrors($v->errors());
         }
 
-        $request['name'] = ucfirst($request['name']);
-        $request['surname'] = ucfirst($request['surname']);
-
-        if(isSet($request['fields']))
-            $reqStudies = $request['fields'];
+        if(isSet($request['fields'])) {
+            if (!$this->checkIsNull($request['fields']))
+                $reqStudies = $request['fields'];
+            else {
+                Session::flash('error', 'Musisz wypełnić wszystkie pola dotyczące studiowania. Zmiany nie zostały zapisane.');
+                $request->flash();
+                return redirect()->back();
+            }
+        }
         else
         {
-            Session::flash('error', 'Student musi mieć przypisany conajmniej jeden kierunek studiów. Zmiany nie zostały zapisane.');
+            Session::flash('error', 'Student musi mieć przypisany co najmniej jeden kierunek studiów. Zmiany nie zostały zapisane.');
             $request->flash();
             return redirect()->back();
         }
@@ -145,6 +149,16 @@ class StudentController extends Controller
         if($this->checkRepeatInFields($reqStudies))
         {
             Session::flash('error', 'Student nie może studiować jednocześnie na dwóch takich samych kierunkach na tym samym stopniu. Zmiany nie zostały zapisane.');
+            $request->flash();
+            return redirect()->back();
+        }
+
+        $request['name'] = ucfirst(mb_strtolower($request['name']));
+        $request['surname'] = ucfirst(mb_strtolower($request['surname']));
+
+        if(intval($request['index']) < 1)
+        {
+            Session::flash('error', 'Index studenta musi być większy od zera. Zmiany nie zostały zapisane.');
             $request->flash();
             return redirect()->back();
         }
@@ -241,6 +255,16 @@ class StudentController extends Controller
                     $objects[$key]['degree_id'] == $objects[$key1]['degree_id'])
                         return true;
         return false;
+    }
+
+    private function checkIsNull($objects)
+    {
+        foreach ($objects as $object)
+            foreach($object as $ob)
+                if($ob == null)
+                    return true;
+        return false;
+
     }
     
     public function deleteStudent($id) {
