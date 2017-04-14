@@ -12,10 +12,7 @@
 */
 
 /*************Test Ajax request***********/
-Route::get('admin/getFieldsFromFaculty/{id?}', [
-    'uses' => 'AjaxController@getFieldsFromFaculty',
-    'as' => 'ajaxGetFields',
-])->where('id', '[0-9]+');
+
 
 /************ STUDENT ROUTES ************/
 
@@ -62,9 +59,16 @@ Route::group([
         'prefix' => 'admin'
     ], function() {
 
+        /************AJAX********************/
+
+        Route::get('/getFieldsFromFaculty/{id?}', [
+            'uses' => 'Admin\AjaxController@getFieldsFromFaculty',
+            'as' => 'admin.ajaxGetFields',
+        ])->where('id', '[0-9]+');
+
         /***********Logging***************/
 
-        Route::post('admin/logout', [
+        Route::post('/logout', [
             'uses' => 'Admin\AdminController@logout',
             'as' => 'admin.logout'
         ]);

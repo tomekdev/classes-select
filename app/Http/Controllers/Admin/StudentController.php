@@ -109,20 +109,24 @@ class StudentController extends Controller
 
         $messages = array (
             'name.required' => 'Pole imię jest wymagane.',
-            'name.alpha' => 'Pole imię może zawierać tylko litery.',
+            'name.alpha_spaces' => 'Pole imię może zawierać tylko litery i spacje.',
+            'name.max' => 'Pole imię może zawierać maksymalnie 255 znaków.',
             'surname.required' => 'Pole nazwisko jest wymagane.',
-            'surname.alpha' => 'Pole nazwisko może zawierać tylko litery.',
+            'surname.alpha_spaces' => 'Pole nazwisko może zawierać tylko litery i spacje.',
+            'surname.max' => 'Pole nazwisko może zawierać maksymalnie 255 znaków.',
             'index.required' => 'Pole index jest wymagane.',
             'index.integer' => 'Pole index może zawierać tylko cyfry',
+            'index.min' => 'Pole index nie może być mniejsze od 1.',
             'email.required' => 'Pole email jest wymagane',
             'email.email' => 'Pole email musi być zgodne z konwencją email-a',
+            'email.max' => 'Pole email może zawierać maksymalnie 255 znaków.'
 
         );
         $v = Validator::make($request->all(), [
-            'name' => 'required|alpha',
-            'surname' => 'required|alpha',
-            'index' => 'required|integer',
-            'email' => 'required|email',
+            'name' => 'required|alpha_spaces|max:255',
+            'surname' => 'required|alpha_spaces|max:255',
+            'index' => 'required|integer|min:1',
+            'email' => 'required|email|max:255',
         ], $messages);
 
         if ($v->fails()) {
@@ -155,13 +159,6 @@ class StudentController extends Controller
 
         $request['name'] = ucfirst(mb_strtolower($request['name']));
         $request['surname'] = ucfirst(mb_strtolower($request['surname']));
-
-        if(intval($request['index']) < 1)
-        {
-            Session::flash('error', 'Index studenta musi być większy od zera. Zmiany nie zostały zapisane.');
-            $request->flash();
-            return redirect()->back();
-        }
 
         $student = $id ? Student::find($id) : null;
 

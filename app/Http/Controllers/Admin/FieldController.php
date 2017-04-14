@@ -7,6 +7,7 @@ use App\Field;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use \Session;
+use Illuminate\Support\Facades\Validator;
 
 class FieldController extends Controller
 {
@@ -54,6 +55,20 @@ class FieldController extends Controller
 
     public function saveField($id = null, Request $request)
     {
+        $messages = array (
+            'name.required' => 'Pole semestr jest wymagane.',
+            'name.alpha' => 'Pole nazwa może zawierać tylko litery i spacje.',
+            'name.max' => 'Pole nazwa może zawierać maksymalnie 255 znaków',
+        );
+        $v = Validator::make($request->all(), [
+            'name' => 'required|alpha_spaces|max:255',
+        ], $messages);
+
+        if ($v->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($v->errors());
+        }
+
         $field = $id ? Field::find($id) : new Field();
         $field->fill($request->all());
         $field->save();

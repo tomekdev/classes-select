@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \Session;
 use App\Faculty;
+use Illuminate\Support\Facades\Validator;
 
 class FacultyController extends Controller
 {
@@ -51,6 +52,21 @@ class FacultyController extends Controller
     }
     
     public function saveFaculty($id = null, Request $request) {
+
+        $messages = array (
+            'name.required' => 'Pole semestr jest wymagane.',
+            'name.alpha_spaces' => 'Pole nazwa może zawierać tylko litery i spacje.',
+            'name.max' => 'Pole nazwa może zawierać maksymalnie 255 znaków',
+        );
+        $v = Validator::make($request->all(), [
+            'name' => 'required|alpha_spaces|max:255',
+        ], $messages);
+
+        if ($v->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($v->errors());
+        }
+
         $faculty = $id? Faculty::find($id) : new Faculty();
         $faculty->fill($request->all());
         $faculty->save();

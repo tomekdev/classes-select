@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Semester;
 use \Session;
+use Illuminate\Support\Facades\Validator;
 
 class SemesterController extends Controller
 {
@@ -52,6 +53,25 @@ class SemesterController extends Controller
     }
 
     public function saveSemester($id = null, Request $request) {
+        $messages = array (
+            'name.required' => 'Pole semestr jest wymagane.',
+            'name.alpha_spaces' => 'Pole nazwa może zawierać tylko litery i spacje.',
+            'name.max' => 'Pole nazwa może zawierać maksymalnie 255 znaków',
+            'number.required' => 'Pole numer jest wymagane.',
+            'number.integer' => 'Pole numer może zawierać tylko cyfry',
+            'number.max' => 'Pole numer nie może zawierać wartości większej niż 255',
+            'number.min' => 'Pole numer musi zawierać wartość większą od 0'
+        );
+        $v = Validator::make($request->all(), [
+            'name' => 'required|alpha_spaces|max:255',
+            'number' => 'required|integer|max:255|min:1',
+        ], $messages);
+
+        if ($v->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($v->errors());
+        }
+
         $semester = $id? Semester::find($id) : new Semester();
         $semester->fill($request->all());
         $semester->save();

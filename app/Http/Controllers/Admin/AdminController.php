@@ -51,7 +51,7 @@ class AdminController extends Controller
     {
 
         Auth::guard('admin')->logout();
-        Session::flash('success', 'Wlogowano z systemu');
+        Session::flash('success', 'Wylogowano z systemu');
 
         return redirect('admin/');
     }
