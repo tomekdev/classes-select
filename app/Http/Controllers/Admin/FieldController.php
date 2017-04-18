@@ -64,7 +64,7 @@ class FieldController extends Controller
         $messages = array (
             'name.required' => 'Pole semestr jest wymagane.',
             'name.alpha_spaces' => 'Pole nazwa może zawierać tylko litery i spacje.',
-            'name.max' => 'Pole nazwa może zawierać maksymalnie 255 znaków',
+            'name.max' => 'Pole nazwa może zawierać maksymalnie 255 znaków.',
         );
         $v = Validator::make($request->all(), [
             'name' => 'required|alpha_spaces|max:255',
