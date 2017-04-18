@@ -82,7 +82,6 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <label for="fields[{{$key}}][id]"></label>
                                         <input type="hidden" name="fields[{{$key}}][id]" value="{{ $study['id'] }}"/>
                                     </div>
                                     <div class="form-group">
@@ -151,7 +150,6 @@
                     @endforeach
                 </select>
             </div>
-            <label for="fields[@counter@][id]"></label>
             <input type="hidden" name="fields[@counter@][id]" value="0"/>
         </div>
         <div class="form-group">

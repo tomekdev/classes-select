@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-                <form id="del" method="post">
+                <form id="del" method="post" action="{{ route('admin.changeStudyAll') }}">
                 <div class="table-responsive">
                     <table class="table table-striped table-hover text-center">
                         <thead>
@@ -155,16 +155,7 @@
                     |
                     <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz zaznaczonych studentów?', '{{ route('admin.deletestudent', ['id' => 0]) }}')">Usuń</a>
                 </div>
-                <div id="div_study">
-
-                </div>
-
-                    {{ csrf_field() }}
-                </form>
-            </div>
-        </div>
-    </div>
-    <template id="template_study">
+                <div id="div_study" style="display:none">
                     <div class="panel-heading">
                         <div class="form-group">
                             <label for="fields[faculty_id]" class="col-md-2 control-label">Wydział</label>
@@ -219,14 +210,17 @@
                             </div>
                         </div>
                     </div>
-        <button type="submit" class="btn btn-primary btn-raised pull-right">Wykonaj</button>
-    </template>
+                    <button type="submit" class="btn btn-primary btn-raised pull-right">Wykonaj</button>
+                </div>
+
+                    {{ csrf_field() }}
+                </form>
+            </div>
+        </div>
+    </div>
     <script>
         function changeStudyAll() {
-            var form = document.getElementById('del');
-            form.action = "{{ route('admin.changeStudyAll') }}"
-            var fieldView = document.getElementById('template_study').innerHTML;
-            document.getElementById('div_study').innerHTML = fieldView;
+            $('#div_study').slideDown();
         }
     </script>
 @endsection

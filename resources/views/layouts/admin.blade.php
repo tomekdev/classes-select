@@ -33,8 +33,8 @@
                 <li {{{ (Request::url() === route('admin.students')? 'class=active' : '') }}}><a href="{{ route('admin.students') }}">Studenci</a></li>
                 <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Przedmioty wybieralne</a></li>
                 <li {{{ (Request::url() === route('admin.faculties')? 'class=active' : '') }}}><a href="{{ route('admin.faculties') }}">Wydziały</a></li>
-                <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('admin.fields') }}">Kierunki</a></li>
-                <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('admin.semesters') }}">Semestry</a></li>
+                <li {{{ (Request::url() === route('admin.fields')? 'class=active' : '') }}}><a href="{{ route('admin.fields') }}">Kierunki</a></li>
+                <li {{{ (Request::url() === route('admin.semesters')? 'class=active' : '') }}}><a href="{{ route('admin.semesters') }}">Semestry</a></li>
 <!--
                 <li class="dropdown">
                     <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
