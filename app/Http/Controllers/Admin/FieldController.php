@@ -17,8 +17,10 @@ class FieldController extends Controller
         $sortOrder = $request->input('sortOrder')?:'asc';
 
         $faculties = Faculty::all();
-        $query = Field::where([]);
-
+        $query = Field::whereHas('faculties', function($q) {
+            $q->where('faculties.active', true);
+        });
+        
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
         foreach ($request->all() as $key => $filter) {
@@ -55,7 +57,11 @@ class FieldController extends Controller
     public function getFieldForm($id = null)
     {
         $field = $id ? Field::find($id) : null;
-        $faculties = Faculty::all();
+        $faculties = Faculty::where('active', true);
+        if ($id) {
+            $faculties->orWhere('id', $field->faculty_id); //żeby wyświetlić też istniejącą opcję
+        }
+        $faculties = $faculties->get();
         return view('admin.field')->with(['field' => $field, 'faculties' => $faculties]);
     }
 

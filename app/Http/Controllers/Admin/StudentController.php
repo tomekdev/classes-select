@@ -95,11 +95,23 @@ class StudentController extends Controller
     public function getStudentForm($id = null) {
 
         $student = $id? Student::find($id) : null;
-        $faculties = Faculty::all();
-        $fields = Field::all();
-        $semesters = Semester::all()->sortByDesc('id');
+        $faculties = Faculty::where('active', true);
+        $fields = Field::where('active', true);
+        $semesters = Semester::where('active', true);
         $degrees = Degree::all();
         $study_forms = StudyForm::all();
+        
+        if ($id) {
+            $faculties->orWhereHas('fields', function($q) use ($student){
+                $q->whereIn('fields.id',array_column($student->getFields()->toArray(),"id"));
+            });
+            $fields->orWhereIn('fields.id',array_column($student->getFields()->toArray(),"id"));
+            $semesters->orWhereIn('semesters.id',array_column($student->getSemesters()->toArray(),"id"));
+        }
+        
+        $faculties = $faculties->get();
+        $fields = $fields->get();
+        $semesters = $semesters->get()->sortByDesc('id');
 
         return view('admin/student',[
             'student' => $student,

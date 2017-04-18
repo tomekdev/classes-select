@@ -9,6 +9,10 @@ class Field extends Model
     protected $fillable = [
         'name', 'faculty_id'
     ];
+    public function faculties()
+    {
+        return $this->belongsTo(Faculty::class, 'faculty_id', 'id');
+    }
     // metoda zwraca wydział do jakiego jest przypisany dany kierunek
     public function getFaculty()
     {

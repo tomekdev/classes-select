@@ -10,7 +10,7 @@ class AjaxController extends Controller
     public function getFieldsFromFaculty($id = null)
     {
             if($id != null) {
-                $fields = Field::where('faculty_id', $id)->get();
+                $fields = Field::where(['faculty_id' => $id, 'active' => true])->get();
                 $html = '<option value="">-- wybierz --</option>';
                 foreach ($fields as $field)
                     $html .= '<option value="' . $field->id . '">' . $field->name . '</option>';

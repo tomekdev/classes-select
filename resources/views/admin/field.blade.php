@@ -19,7 +19,8 @@
 							</div>
                         </div>
                         <div class="form-group label-floating">
-                            <select class="form-control" name="faculty_id">
+                            <select class="form-control select" name="faculty_id">
+                                <option value="">-- wybierz --</option>
                                 @foreach($faculties as $faculty)
                                     <option value="{{ $faculty->id }}" {{ $field ? $field->faculty_id == $faculty->id ? 'selected' : '' : '' }}>{{ $faculty->name }}</option>
                                 @endforeach
