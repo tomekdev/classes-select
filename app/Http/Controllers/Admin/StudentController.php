@@ -120,9 +120,9 @@ class StudentController extends Controller
             'surname.required' => 'Pole nazwisko jest wymagane.',
             'surname.alpha_spaces' => 'Pole nazwisko może zawierać tylko litery i spacje.',
             'surname.max' => 'Pole nazwisko może zawierać maksymalnie 255 znaków.',
-            'index.required' => 'Pole index jest wymagane.',
-            'index.numeric' => 'Pole index może zawierać tylko cyfry.',
-            'index.min' => 'Pole index nie może być mniejsze od 1.',
+            'index.required' => 'Numer indeksu jest wymagany.',
+            'index.numeric' => 'Numer indeksu może zawierać tylko cyfry.',
+            'index.min' => 'Numer indeksu nie może być mniejszy od 1.',
             'email.required' => 'Pole email jest wymagane.',
             'email.email' => 'Pole email musi być zgodne z konwencją email-a.',
             'email.max' => 'Pole email może zawierać maksymalnie 255 znaków.'
