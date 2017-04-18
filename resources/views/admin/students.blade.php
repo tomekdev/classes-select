@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-                <form id="del" method="post" action="{{ route('admin.changeStudyAll') }}">
+                <form id="del" method="post">
                 <div class="table-responsive">
                     <table class="table table-striped table-hover text-center">
                         <thead>
@@ -155,13 +155,22 @@
                     |
                     <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz zaznaczonych studentów?', '{{ route('admin.deletestudent', ['id' => 0]) }}')">Usuń</a>
                 </div>
-                <div id="div_study" style="display:none">
+                <div id="div_study">
+
+                </div>
+
+                    {{ csrf_field() }}
+                </form>
+            </div>
+        </div>
+    </div>
+    <template id="template_study">
                     <div class="panel-heading">
                         <div class="form-group">
                             <label for="fields[faculty_id]" class="col-md-2 control-label">Wydział</label>
                             <div class="col-md-10">
-                                <select id="0" name="fields[faculty_id]" class="form-control select" onchange="ajaxGetFields(this.value, this.id)">
-                                    <option value="0">-- wybierz --</option>
+                                <select id="0" name="fields[faculty_id]" class="form-control templateSelect" onchange="ajaxGetFields(this.value, this.id)">
+                                    <option value="0">-- bez zmian --</option>
                                     @foreach ($faculties as $faculty)
                                         <option value="{{$faculty->id}}">{{$faculty->name}}</option>
                                     @endforeach
@@ -171,16 +180,16 @@
                         <div class="form-group">
                             <label for="fields[field_id]" class="col-md-2 control-label">Kierunek</label>
                             <div class="col-md-10">
-                                <select id="select-field0" name="fields[field_id]" class="form-control select">
-                                    <option value="0">-- wybierz --</option>
+                                <select id="select-field0" name="fields[field_id]" class="form-control templateSelect">
+                                    <option value="0">-- bez zmian --</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="fields[semester_id]" class="col-md-2 control-label">Semestr</label>
                             <div class="col-md-10">
-                                <select name="fields[semester_id]" class="form-control select">
-                                    <option value="0">-- wybierz --</option>
+                                <select name="fields[semester_id]" class="form-control templateSelect">
+                                    <option value="0">-- bez zmian --</option>
                                     @foreach($semesters as $sem)
                                         <option value="{{$sem->id}}">{{ $sem->id . ', ' . $sem->name }}</option>
                                     @endforeach
@@ -190,8 +199,8 @@
                         <div class="form-group">
                             <label for="fields[degree_id]" class="col-md-2 control-label">Stopień</label>
                             <div class="col-md-10">
-                                <select name="fields[degree_id]" class="form-control select">
-                                    <option value="0">-- wybierz --</option>
+                                <select name="fields[degree_id]" class="form-control templateSelect">
+                                    <option value="0">-- bez zmian --</option>
                                     @foreach ($degrees as $degree)
                                         <option value="{{$degree->id}}">{{$degree->name}}</option>
                                     @endforeach
@@ -201,8 +210,8 @@
                         <div class="form-group">
                             <label for="fields[study_form_id]" class="col-md-2 control-label">Forma studiów</label>
                             <div class="col-md-10">
-                                <select name="fields[study_form_id]" class="form-control select">
-                                    <option value="0">-- wybierz --</option>
+                                <select name="fields[study_form_id]" class="form-control templateSelect">
+                                    <option value="0">-- bez zmian --</option>
                                     @foreach ($study_forms as $study_form)
                                         <option value="{{$study_form->id}}">{{$study_form->name}}</option>
                                     @endforeach
@@ -210,17 +219,15 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-raised pull-right">Wykonaj</button>
-                </div>
-
-                    {{ csrf_field() }}
-                </form>
-            </div>
-        </div>
-    </div>
+        <button type="submit" class="btn btn-primary btn-raised pull-right">Wykonaj</button>
+    </template>
     <script>
         function changeStudyAll() {
-            $('#div_study').slideDown();
+            var form = document.getElementById('del');
+            form.action = "{{ route('admin.changeStudyAll') }}"
+            var fieldView = document.getElementById('template_study').innerHTML;
+            document.getElementById('div_study').innerHTML = fieldView;
+            $(".templateSelect").dropdown({"optionClass": "withripple"});
         }
     </script>
 @endsection
