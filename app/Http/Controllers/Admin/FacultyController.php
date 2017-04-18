@@ -70,7 +70,7 @@ class FacultyController extends Controller
         $faculty = $id? Faculty::find($id) : new Faculty();
         $faculty->fill($request->all());
         $faculty->save();
-        Session::flash('success', 'Pomyślnie zapisano wydział');
+        Session::flash('success', 'Pomyślnie zapisano wydział.');
         return redirect()->route('admin.faculties');
     }
     
@@ -79,7 +79,7 @@ class FacultyController extends Controller
              $faculty = Faculty::find($id);
              $faculty->active = false;
              $faculty->save();
-             Session::flash('success', 'Pomyślnie usunięto wydział');
+             Session::flash('success', 'Pomyślnie usunięto wydział.');
          }
          else
          {
@@ -92,7 +92,7 @@ class FacultyController extends Controller
                  }
              }
              if($isChecked)
-                Session::flash('success', 'Pomyślnie usunięto zaznaczone wydziały');
+                Session::flash('success', 'Pomyślnie usunięto zaznaczone wydziały.');
              else Session::flash('error', 'Nie zaznaczono żadnego wydziału.');
          }
         return redirect()->route('admin.faculties');

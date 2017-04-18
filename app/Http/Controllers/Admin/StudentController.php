@@ -158,7 +158,7 @@ class StudentController extends Controller
         // jeżeli kierunki się powtażają
         if($this->checkRepeatInFields($reqStudies))
         {
-            Session::flash('error', 'Student nie może studiować jednocześnie na dwóch takich samych kierunkach na tym samym stopniu. Zmiany nie zostały zapisane.');
+            Session::flash('error', 'Student nie może studiować jednocześnie na dwóch takich samych kierunkach, na tym samym stopniu. Zmiany nie zostały zapisane.');
             $request->flash();
             return redirect()->back();
         }
@@ -276,7 +276,7 @@ class StudentController extends Controller
             $student = Student::find($id);
             $student->active = false;
             $student->save();
-            Session::flash('success', 'Pomyślnie usunięto studenta');
+            Session::flash('success', 'Pomyślnie usunięto studenta.');
         }
         else
         {
@@ -290,7 +290,7 @@ class StudentController extends Controller
                 }
             }
             if($isChecked)
-                Session::flash('success', 'Pomyślnie usunięto wszystkich studentów');
+                Session::flash('success', 'Pomyślnie usunięto wszystkich studentów.');
             else
                 Session::flash('error', 'Nie zaznaczono żadnego studenta.');
         }
@@ -344,7 +344,7 @@ class StudentController extends Controller
             $studies[$key][0]->save();
         }
 
-        Session::flash('success', 'Kierunek dla zaznaczonych studentów został pomyślnie zmieniony');
+        Session::flash('success', 'Kierunek dla zaznaczonych studentów został pomyślnie zmieniony.');
         return redirect()->back();
     }
 }

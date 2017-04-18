@@ -49,7 +49,7 @@ class StudentController extends Controller
     public function logout()
     {
         Auth::guard('student')->logout();
-        Session::flash('success', 'Wylogowano z systemu');
+        Session::flash('success', 'Wylogowano z systemu.');
 
         return redirect('/');
     }

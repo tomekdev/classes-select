@@ -78,7 +78,7 @@ class FieldController extends Controller
         $field = $id ? Field::find($id) : new Field();
         $field->fill($request->all());
         $field->save();
-        Session::flash('success', 'Kierunek został pomyślnie zapisany');
+        Session::flash('success', 'Kierunek został pomyślnie zapisany.');
         return redirect()->route('admin.getfield');
     }
 
@@ -88,7 +88,7 @@ class FieldController extends Controller
             $field = Field::find($id);
             $field->active = false;
             $field->save();
-            Session::flash('success', 'Pomyslnie usunięto kierunek');
+            Session::flash('success', 'Pomyślnie usunięto kierunek.');
         }
         else
         {
@@ -102,7 +102,7 @@ class FieldController extends Controller
                 }
             }
             if($isChecked)
-                Session::flash('success', 'Pomyślnie usunięto zaznaczone kierunki');
+                Session::flash('success', 'Pomyślnie usunięto zaznaczone kierunki.');
             else Session::flash('error', 'Nie zaznaczono żadnego kierunku.');
         }
         return redirect()->back();

@@ -75,7 +75,7 @@ class SemesterController extends Controller
         $semester = $id? Semester::find($id) : new Semester();
         $semester->fill($request->all());
         $semester->save();
-        Session::flash('success', 'Pomyślnie zapisano semestr');
+        Session::flash('success', 'Pomyślnie zapisano semestr.');
         return redirect()->route('admin.semesters');
     }
 
@@ -84,7 +84,7 @@ class SemesterController extends Controller
             $semester = Semester::find($id);
             $semester->active = false;
             $semester->save();
-            Session::flash('success', 'Pomyślnie usunięto semestr');
+            Session::flash('success', 'Pomyślnie usunięto semestr.');
         }
         else
         {
@@ -98,7 +98,7 @@ class SemesterController extends Controller
                 }
             }
             if($isChecked)
-                Session::flash('success', 'Pomyślnie usunięto zaznaczone semestry');
+                Session::flash('success', 'Pomyślnie usunięto zaznaczone semestry.');
             else
                 Session::flash('error', 'Nie zaznaczono żadnego semestru.');
         }
