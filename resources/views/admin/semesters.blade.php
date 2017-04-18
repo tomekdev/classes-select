@@ -34,6 +34,7 @@
                     </div>
                 </div>
             </div>
+            <form id="del" method="post">
             <div class="table-responsive">
                 <table class="table table-striped table-hover text-center">
                     <thead>
@@ -67,21 +68,30 @@
                             <td class="text-center">{{{$semester->name}}}</td>
                             <td class="text-center"> {{$semester->number}}</td>
                             <td>
-                                @if ($semester->active)
-                                    <form action="{{ URL::route('admin.deleteSemester', $semester->id) }}" method="POST" style="display:inline-block">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        {{ csrf_field() }}
-                                        <a href="javascript:void(0)" onclick="confirm('Czy chcesz usunąć {{{$semester->name}}}?')? $(this).closest('form').submit() : null;">Usuń</a>
-                                    </form>
-                                @endif
-                                <a href="{{route('admin.getSemester', ['id' => $semester->id])}}">Edytuj</a>
+                                <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz ten semestr?', '{{ route('admin.deleteSemester', ['id' => $semester->id]) }}')">Usuń</a>
+                                <a href="{{route('admin.saveSemester', ['id' => $semester->id])}}">Edytuj</a>
+                            </td>
+                            <td class="text-right">
+                                <label for="checkboxes[{{$index}}][checkbox]"></label>
+                                <input name="checkboxes[{{$index}}][checkbox]" type="checkbox" />
+                                <label for="checkboxes[{{$index}}][id]"></label>
+                                <input type="hidden" name="checkboxes[{{$index}}][id]" value="{{ $semester->id }}"/>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
+            <div class="text-right">
+                <a href="javascript:void(0)" onclick="selectAll()">Zaznacz wszystko</a>
+                /
+                <a href="javascript:void(0)" onclick="deselectAll()">Usuń zaznaczenia</a>
+            </div>
+            <div class="text-right">
+                <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć zaznaczone semestry?','{{ route('admin.deleteSemester', ['id' => 0]) }}')">Usuń</a>
+            </div>
+            {{ csrf_field() }}
+            </form>
         </div>
     </div>
-
 @endsection

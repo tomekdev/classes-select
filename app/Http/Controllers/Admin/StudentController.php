@@ -15,6 +15,8 @@ use App\Faculty;
 use App\Semester;
 use App\Degree;
 use App\StudyForm;
+use Input;
+
 
 
 class StudentController extends Controller
@@ -27,6 +29,8 @@ class StudentController extends Controller
         $faculties = Faculty::all();
         $fields = Field::all();
         $semesters = Semester::all();
+        $degrees = Degree::all();
+        $study_forms = StudyForm::all();
                 
         $query = Student::where([]);
         
@@ -80,6 +84,8 @@ class StudentController extends Controller
             'faculties' => $faculties,
             'fields' => $fields,
             'semesters' => $semesters,
+            'degrees' => $degrees,
+            'study_forms' => $study_forms,
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
             'filtered' => $filtered
@@ -94,7 +100,7 @@ class StudentController extends Controller
         $semesters = Semester::all()->sortByDesc('id');
         $degrees = Degree::all();
         $study_forms = StudyForm::all();
-        
+
         return view('admin/student',[
             'student' => $student,
             'faculties' => $faculties,
@@ -264,11 +270,81 @@ class StudentController extends Controller
 
     }
     
-    public function deleteStudent($id) {
-        $student = Student::find($id);
-        $student->active = false;
-        $student->save();
-        Session::flash('success', 'Pomyślnie usunięto studenta');
+    public function deleteStudent($id = null, Request $request) {
+
+        if($id) {
+            $student = Student::find($id);
+            $student->active = false;
+            $student->save();
+            Session::flash('success', 'Pomyślnie usunięto studenta');
+        }
+        else
+        {
+            $isChecked = false;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $isChecked = true;
+                    $student = Student::find($req['id']);
+                    $student->active = false;
+                    $student->save();
+                }
+            }
+            if($isChecked)
+                Session::flash('success', 'Pomyślnie usunięto wszystkich studentów');
+            else
+                Session::flash('error', 'Nie zaznaczono żadnego studenta.');
+        }
         return redirect()->route('admin.students');
+    }
+
+    public function changeStudyAll(Request $request)
+    {
+        $reqStudies = $request['fields'];
+        $hasChange = false;
+        foreach ($reqStudies as $study)
+            if($study != 0)
+                $hasChange = true;
+
+        if(!$hasChange){
+            Session::flash('error', 'Nie wybrano żadnej opcji. Zmiany nie zostały wprowadzone.');
+            return redirect()->back();
+        }
+
+        $studies = [];
+        $isChecked = false;
+        foreach ($request['checkboxes'] as $key => $req) {
+            if(count($req) > 1) {
+                $isChecked = true;
+                $student = Student::find($req['id']);
+                $studies[$key] = $student->getDBStudies();
+                if(count($studies[$key]) > 1)
+                {
+                    Session::flash('error', 'Aby zmienić masowo kierunek musisz zaznaczyc tylko tych studentów, którzy studiują na jednym kierunku.');
+                    return redirect()->back();
+                }
+                else {
+                    if($reqStudies['field_id'])
+                            $studies[$key][0]->field_id = $reqStudies['field_id'];
+                    if($reqStudies['semester_id'])
+                        $studies[$key][0]->semester_id = $reqStudies['semester_id'];
+                    if($reqStudies['degree_id'])
+                        $studies[$key][0]->degree_id = $reqStudies['degree_id'];
+                    if($reqStudies['study_form_id'])
+                        $studies[$key][0]->study_form_id = $reqStudies['study_form_id'];
+                }
+            }
+        }
+        if(!$isChecked)
+        {
+            Session::flash('error', 'Nie zaznaczono żadnego studenta.');
+            return redirect()->back();
+        }
+
+        foreach ($studies as $key => $study) {
+            $studies[$key][0]->save();
+        }
+
+        Session::flash('success', 'Kierunek dla zaznaczonych studentów został pomyślnie zmieniony');
+        return redirect()->back();
     }
 }

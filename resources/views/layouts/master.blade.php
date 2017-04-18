@@ -69,6 +69,11 @@
         $(document).ready(function() {
             $.material.init();
             $(".select").dropdown({"optionClass": "withripple"});
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('[name="_token"]').val()
+                }
+            });
         });
         
         $('.alert.alert-dismissible.alert-success, .alert.alert-dismissible.alert-info').fadeTo(5000, 500).slideUp(500, function(){
@@ -83,6 +88,29 @@
             $("table input:checkbox").prop ( "checked", false);
         }
 
+        function ajaxGetFields(value, id) {
+            $.ajax({
+                url: "{{ route('admin.ajaxGetFields') }}/"+value, // zmienic na route
+                method: "get",
+                data: {},
+                success: function (data) {
+                    $('#select-field'+id).html(data);
+                }
+            });
+        }
+
+        function deleteItems(msg, url) {
+            var form = document.getElementById('del');
+            form.action = url;
+            if(confirm(msg)) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = '_method';
+                input.value = 'DELETE';
+                form.appendChild(input);
+                form.submit();
+            }
+        }
     </script>
 </body>
 

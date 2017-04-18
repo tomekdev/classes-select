@@ -34,6 +34,7 @@
                 </div>
             </div>
         </div>
+        <form id="del" method="post">
         <div class="table-responsive">
             <table class="table table-striped table-hover text-center">
                 <thead>
@@ -57,21 +58,30 @@
                         <td class="text-center">{{$index+1}}</td>
                         <td class="text-center">{{{$faculty->name}}}</td>
                         <td>
-                            @if ($faculty->active)
-                                <form action="{{ URL::route('admin.deletefaculty', $faculty->id) }}" method="POST" style="display:inline-block">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    {{ csrf_field() }}
-                                    <a href="javascript:void(0)" onclick="confirm('Czy chcesz usunąć {{{$faculty->name}}}?')? $(this).closest('form').submit() : null;">Usuń</a>
-                                </form>
-                            @endif
+                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz ten wydział?', '{{ route('admin.deletefaculty', ['id' => $faculty->id]) }}')">Usuń</a>
                             <a href="{{route('admin.getfaculty', ['id' => $faculty->id])}}">Edytuj</a>
+                        </td>
+                        <td class="text-right">
+                            <label for="checkboxes[{{$index}}][checkbox]"></label>
+                            <input name="checkboxes[{{$index}}][checkbox]" type="checkbox" />
+                            <label for="checkboxes[{{$index}}][id]"></label>
+                            <input type="hidden" name="checkboxes[{{$index}}][id]" value="{{ $faculty->id }}"/>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+            <div class="text-right">
+                <a href="javascript:void(0)" onclick="selectAll()">Zaznacz wszystko</a>
+                /
+                <a href="javascript:void(0)" onclick="deselectAll()">Usuń zaznaczenia</a>
+            </div>
+            <div class="text-right">
+                <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć zaznaczone wydziały?', '{{ route('admin.deletefaculty', ['id' => 0]) }}')">Usuń</a>
+            </div>
+            {{ csrf_field() }}
+        </form>
     </div>
 </div>
-
 @endsection

@@ -11,9 +11,6 @@
 |
 */
 
-/*************Test Ajax request***********/
-
-
 /************ STUDENT ROUTES ************/
 
 Route::get('/', [
@@ -52,6 +49,11 @@ Route::group([
     Route::post('admin/login', [
         'uses' => 'Admin\AdminController@login',
         'as' => 'admin.login'
+    ]);
+
+    Route::post('admin/delstudents', [
+        'uses' => 'Admin\StudentController@deleteStudents',
+        'as' => 'admin.deletestudents'
     ]);
 
     Route::group([
@@ -95,9 +97,16 @@ Route::group([
             'as' => 'admin.savestudent'
         ])->where('id', '[0-9]+');
 
-        Route::delete('/student/{id}', [
+
+        Route::delete('/student/{id?}', [ // zmienione na znak zapytania
             'uses' => 'Admin\StudentController@deletestudent',
             'as' => 'admin.deletestudent'
+        ])->where('id', '[0-9]+');
+
+
+        Route::post('/changeStudyAll', [ // zmienione na znak zapytania
+            'uses' => 'Admin\StudentController@changeStudyAll',
+            'as' => 'admin.changeStudyAll'
         ])->where('id', '[0-9]+');
 
         /***********Faculty***************/
@@ -122,7 +131,7 @@ Route::group([
             'as' => 'admin.savefaculty'
         ])->where('id', '[0-9]+');
 
-        Route::delete('/faculty/{id}', [
+        Route::delete('/faculty/{id?}', [
             'uses' => 'Admin\FacultyController@deleteFaculty',
             'as' => 'admin.deletefaculty'
         ])->where('id', '[0-9]+');
@@ -149,7 +158,7 @@ Route::group([
             'as' => 'admin.savefield'
         ])->where('id', '[0-9]+');
 
-        Route::delete('/field/{id}', [
+        Route::delete('/field/{id?}', [
             'uses' => 'Admin\FieldController@deleteField',
             'as' => 'admin.deletefield'
         ])->where('id', '[0-9]+');
@@ -176,7 +185,7 @@ Route::group([
             'as' => 'admin.saveSemester'
         ])->where('id', '[0-9]+');
 
-        Route::delete('/semester/{id}', [
+        Route::delete('/semester/{id?}', [
             'uses' => 'Admin\SemesterController@deleteSemester',
             'as' => 'admin.deleteSemester'
         ])->where('id', '[0-9]+');

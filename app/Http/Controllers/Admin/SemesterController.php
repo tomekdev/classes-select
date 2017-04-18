@@ -79,11 +79,29 @@ class SemesterController extends Controller
         return redirect()->route('admin.semesters');
     }
 
-    public function deleteSemester($id) {
-        $semester = Semester::find($id);
-        $semester->active = false;
-        $semester->save();
-        Session::flash('success', 'Pomyślnie usunięto wydział');
+    public function deleteSemester($id = null, Request $request) {
+        if($id) {
+            $semester = Semester::find($id);
+            $semester->active = false;
+            $semester->save();
+            Session::flash('success', 'Pomyślnie usunięto semestr');
+        }
+        else
+        {
+            $isChecked = false;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $isChecked = true;
+                    $semester = Semester::find($req['id']);
+                    $semester->active = false;
+                    $semester->save();
+                }
+            }
+            if($isChecked)
+                Session::flash('success', 'Pomyślnie usunięto zaznaczone semestry');
+            else
+                Session::flash('error', 'Nie zaznaczono żadnego semestru.');
+        }
         return redirect()->route('admin.semesters');
     }
 }

@@ -53,7 +53,7 @@
                                     <div class="form-group">
                                         <label for="fields[{{$key}}][faculty_id]" class="col-md-2 control-label">Wydział</label>
                                         <div class="col-md-10">
-                                            <select id="{{$key}}" name="fields[{{$key}}][faculty_id]" class="form-control select" onchange="getFields(this.value, this.id)">
+                                            <select id="{{$key}}" name="fields[{{$key}}][faculty_id]" class="form-control select" onchange="ajaxGetFields(this.value, this.id)">
                                                 <option value="">-- wybierz --</option>
                                                 @foreach ($faculties as $faculty)
                                                     <option value="{{$faculty->id}}" {{$study['field']->faculty_id == $faculty->id? 'selected' : ''}}>{{$faculty->name}}</option>
@@ -124,7 +124,7 @@
         <div class="form-group">
             <label for="fields[@counter@][faculty_id]" class="col-md-2 control-label">Wydział</label>
             <div class="col-md-10">
-                <select id="@counter@" name="fields[@counter@][faculty_id]" class="form-control select@counter@" onchange="getFields(this.value, this.id)">
+                <select id="@counter@" name="fields[@counter@][faculty_id]" class="form-control select@counter@" onchange="ajaxGetFields(this.value, this.id)">
                     <option value="">-- wybierz --</option>
                     @foreach ($faculties as $faculty)
                         <option value="{{$faculty->id}}">{{$faculty->name}}</option>
@@ -191,16 +191,6 @@
         $('#fields').append(template);
         $(".select" + counter).dropdown({"optionClass": "withripple"});
         counter++;
-    }
-    function getFields(value, id) {
-        $.ajax({
-            url: '/admin/getFieldsFromFaculty/'+value,
-            method: "get",
-            data: {},
-            success: function (data) {
-                $('#select-field'+id).html(data);
-            }
-        });
     }
 </script>
 

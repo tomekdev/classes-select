@@ -16,6 +16,7 @@ class FieldController extends Controller
         $sortProperty = $request->input('sortProperty')?:'name';
         $sortOrder = $request->input('sortOrder')?:'asc';
 
+        $faculties = Faculty::all();
         $query = Field::where([]);
 
         $filtered = false;
@@ -24,6 +25,10 @@ class FieldController extends Controller
             switch($key) {
                 case 'active':
                     $query->where($key, !!$filter);
+                    $filtered = true;
+                    break;
+                case 'faculty':
+                    $query->where($key.'_id', $filter);
                     $filtered = true;
                     break;
             }
@@ -40,6 +45,7 @@ class FieldController extends Controller
 
         return view('admin/fields',[
             'fields' => $query->get(),
+            'faculties' => $faculties,
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
             'filtered' => $filtered
@@ -76,12 +82,29 @@ class FieldController extends Controller
         return redirect()->route('admin.getfield');
     }
 
-    public function deleteField($id)
+    public function deleteField($id, Request $request)
     {
-        $field = Field::find($id);
-        $field->active = false;
-        $field->save();
-        Session::flash('success', 'Pomyslnie usunięto kierunek');
+        if($id) {
+            $field = Field::find($id);
+            $field->active = false;
+            $field->save();
+            Session::flash('success', 'Pomyslnie usunięto kierunek');
+        }
+        else
+        {
+            $isChecked = false;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $isChecked = true;
+                    $field = Field::find($req['id']);
+                    $field->active = false;
+                    $field->save();
+                }
+            }
+            if($isChecked)
+                Session::flash('success', 'Pomyślnie usunięto zaznaczone kierunki');
+            else Session::flash('error', 'Nie zaznaczono żadnego kierunku.');
+        }
         return redirect()->back();
     }
 }

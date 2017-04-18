@@ -74,11 +74,27 @@ class FacultyController extends Controller
         return redirect()->route('admin.faculties');
     }
     
-    public function deleteFaculty($id) {
-        $faculty = Faculty::find($id);
-        $faculty->active = false;
-        $faculty->save();
-        Session::flash('success', 'Pomyślnie usunięto wydział');
+    public function deleteFaculty($id = null, Request $request) {
+         if($id) {
+             $faculty = Faculty::find($id);
+             $faculty->active = false;
+             $faculty->save();
+             Session::flash('success', 'Pomyślnie usunięto wydział');
+         }
+         else
+         {
+             $isChecked = false;
+             foreach ($request['checkboxes'] as $req) {
+                 if(count($req) > 1) {
+                     $faculty = Faculty::find($req['id']);
+                     $faculty->active = false;
+                     $faculty->save();
+                 }
+             }
+             if($isChecked)
+                Session::flash('success', 'Pomyślnie usunięto zaznaczone wydziały');
+             else Session::flash('error', 'Nie zaznaczono żadnego wydziału.');
+         }
         return redirect()->route('admin.faculties');
     }
 }

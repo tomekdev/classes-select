@@ -26,6 +26,15 @@
                                 <option value="0" {{old('active') === '0'? 'selected' : ''}}>Usunięty</option>
                             </select>
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="faculty">Wydział</label>
+                            <select id="faculty" name="faculty" class="form-control select">
+                                <option value="">-- wybierz --</option>
+                                @foreach ($faculties as $faculty)
+                                    <option value="{{$faculty->id}}" {{old('faculty') == $faculty->id? 'selected' : ''}}>{{$faculty->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         {{ csrf_field() }}
                         <div class="col-md-12">
                             <button type="submit" class="pull-right btn btn-primary">Filtruj</button>
@@ -34,6 +43,7 @@
                 </div>
             </div>
         </div>
+        <form id="del" method="post">
         <div class="table-responsive">
             <table class="table table-striped table-hover text-center">
                 <thead>
@@ -59,33 +69,30 @@
 						<td class="text-center">{{ $field->name }}</td>
 						<td class="text-center">{{ $field->getFaculty()->name }}</td>
                         <td>
-                        @if ($field->active)
-                            <form action="{{ URL::route('admin.deletefield', $field->id) }}" method="POST" style="display:inline-block">
-                                <input type="hidden" name="_method" value="DELETE">
-                                {{ csrf_field() }}
-                                <a href="javascript:void(0)" onclick="confirm('Czy chcesz usunąć {{{$field->name}}}?')? $(this).closest('form').submit() : null;">Usuń</a>
-                            </form>
-                        @endif
-                        <a href="{{route('admin.getfield', ['id' => $field->id])}}">Edytuj</a>
+                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz ten kierunek?', '{{ route('admin.deletefield', ['id' => $field->id]) }}')">Usuń</a>
+                            <a href="{{route('admin.getfield', ['id' => $field->id])}}">Edytuj</a>
                         </td>
                         <td class="text-right">
-                            <input type="checkbox" />
+                            <label for="checkboxes[{{$index}}][checkbox]"></label>
+                            <input name="checkboxes[{{$index}}][checkbox]" type="checkbox" />
+                            <label for="checkboxes[{{$index}}][id]"></label>
+                            <input type="hidden" name="checkboxes[{{$index}}][id]" value="{{ $field->id }}"/>
                         </td>
                     </tr>
                     @endforeach
-             
                 </tbody>
             </table>
         </div>
-		<div class="text-right">
+        <div class="text-right">
             <a href="javascript:void(0)" onclick="selectAll()">Zaznacz wszystko</a>
             /
             <a href="javascript:void(0)" onclick="deselectAll()">Usuń zaznaczenia</a>
         </div>
         <div class="text-right">
-            <a href="/">Usuń</a>
+            <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć zaznaczone kierunki?', '{{ route('admin.deletefield', ['id' => 0]) }}')">Usuń</a>
         </div>
+        {{ csrf_field() }}
+        </form>
     </div>
 </div>
-
 @endsection
