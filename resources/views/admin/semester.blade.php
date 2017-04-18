@@ -13,11 +13,11 @@
                         <form action="{{$semester? route('admin.saveSemester', ['id' => $semester->id]) : route('admin.saveSemester')}}" method="post">
                             <div class="form-group label-floating">
                                 <label for="name" class="control-label">Nazwa semestru</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{$semester? $semester->name : ''}}">
+                                <input type="text" class="form-control" id="name" name="name" value="{{$semester? $semester->name : (old('name')?: '')}}">
                             </div>
                             <div class="form-group label-floating">
                                 <label for="number" class="control-label">Numer semestru</label>
-                                <input type="text" class="form-control" id="number" name="number" value="{{$semester? $semester->number : ''}}">
+                                <input type="text" class="form-control" id="number" name="number" value="{{$semester? $semester->number : (old('number')?: '')}}">
                             </div>
                             {{ csrf_field() }}
                             <div class="pull-right">
