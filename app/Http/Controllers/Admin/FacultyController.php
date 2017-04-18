@@ -86,6 +86,7 @@ class FacultyController extends Controller
              $isChecked = false;
              foreach ($request['checkboxes'] as $req) {
                  if(count($req) > 1) {
+                     $isChecked = true;
                      $faculty = Faculty::find($req['id']);
                      $faculty->active = false;
                      $faculty->save();
