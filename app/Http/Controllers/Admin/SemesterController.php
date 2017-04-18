@@ -58,13 +58,13 @@ class SemesterController extends Controller
             'name.alpha_spaces' => 'Pole nazwa może zawierać tylko litery i spacje.',
             'name.max' => 'Pole nazwa może zawierać maksymalnie 255 znaków',
             'number.required' => 'Pole numer jest wymagane.',
-            'number.integer' => 'Pole numer może zawierać tylko cyfry',
+            'number.numeric' => 'Pole numer może zawierać tylko cyfry',
             'number.max' => 'Pole numer nie może zawierać wartości większej niż 255',
             'number.min' => 'Pole numer musi zawierać wartość większą od 0'
         );
         $v = Validator::make($request->all(), [
             'name' => 'required|alpha_spaces|max:255',
-            'number' => 'required|integer|max:255|min:1',
+            'number' => 'required|numeric|max:255|min:1',
         ], $messages);
 
         if ($v->fails()) {
