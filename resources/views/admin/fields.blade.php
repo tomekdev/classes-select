@@ -68,7 +68,11 @@
                             <td class="text-center">{{ $field->name }}</td>
                             <td class="text-center">{{ $field->getFaculty()->name }}</td>
                             <td>
-                                <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz ten kierunek?', '{{ route('admin.deletefield', ['id' => $field->id]) }}')">Usuń</a>
+                                @if ($field->active)
+                                    <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć ten kierunek?', '{{ route('admin.deletefield', ['id' => $field->id]) }}')">Usuń</a>
+                                @else
+                                    <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić ten kierunek?', '{{ route('admin.restorefield', ['id' => $field->id]) }}')">Przywróć</a>
+                                @endif
                                 <a href="{{route('admin.getfield', ['id' => $field->id])}}">Edytuj</a>
                             </td>
                             <td class="text-right">

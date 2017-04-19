@@ -57,7 +57,11 @@
                                     <td class="text-center">{{$index+1}}</td>
                                     <td class="text-center">{{$degree->name .' - ' .$degree->type}}</td>
                                     <td>
-                                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz ten stopień?', '{{ route('admin.deleteDegree', ['id' => $degree->id]) }}')">Usuń</a>
+                                        @if ($degree->active)
+                                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć ten stopień?', '{{ route('admin.deleteDegree', ['id' => $degree->id]) }}')">Usuń</a>
+                                        @else
+                                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić ten stopień?', '{{ route('admin.restoredegree', ['id' => $degree->id]) }}')">Przywróć</a>
+                                        @endif
                                         <a href="{{route('admin.getDegree', ['id' => $degree->id])}}">Edytuj</a>
                                     </td>
                                     <td class="text-right">

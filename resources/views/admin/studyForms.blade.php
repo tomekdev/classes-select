@@ -57,7 +57,11 @@
                                 <td class="text-center">{{$index+1}}</td>
                                 <td class="text-center">{{$study_form->name}}</td>
                                 <td>
-                                    <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz tą formę studiów?', '{{ route('admin.deleteStudyForm', ['id' => $study_form->id]) }}')">Usuń</a>
+                                    @if ($study_form->active)
+                                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć tą formę studiów?', '{{ route('admin.deleteStudyForm', ['id' => $study_form->id]) }}')">Usuń</a>
+                                    @else
+                                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić tą formę studiów?', '{{ route('admin.restoreStudyForm', ['id' => $study_form->id]) }}')">Przywróć</a>
+                                    @endif
                                     <a href="{{route('admin.getStudyForm', ['id' => $study_form->id])}}">Edytuj</a>
                                 </td>
                                 <td class="text-right">

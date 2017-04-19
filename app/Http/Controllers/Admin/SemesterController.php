@@ -104,4 +104,13 @@ class SemesterController extends Controller
         }
         return redirect()->route('admin.semesters');
     }
+    
+    public function restoreSemester($id) {
+
+        $semester = Semester::find($id);
+        $semester->active = true;
+        $semester->save();
+        Session::flash('success', 'Przywrócono semestr '.$semester->name.'.');
+        return redirect()->back();
+    }
 }

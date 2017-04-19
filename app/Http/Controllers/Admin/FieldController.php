@@ -126,4 +126,13 @@ class FieldController extends Controller
         }
         return redirect()->back();
     }
+    
+    public function restoreField($id) {
+
+        $field = Field::find($id);
+        $field->active = true;
+        $field->save();
+        Session::flash('success', 'Przywrócono kierunek '.$field->name.'.');
+        return redirect()->back();
+    }
 }

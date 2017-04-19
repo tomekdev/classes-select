@@ -67,7 +67,11 @@
                                 <td class="text-center">{{{$semester->name}}}</td>
                                 <td class="text-center"> {{$semester->number}}</td>
                                 <td>
-                                    <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz ten semestr?', '{{ route('admin.deleteSemester', ['id' => $semester->id]) }}')">Usuń</a>
+                                    @if ($semester->active)
+                                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć ten semestr?', '{{ route('admin.deleteSemester', ['id' => $semester->id]) }}')">Usuń</a>
+                                    @else
+                                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić ten semestr?', '{{ route('admin.restoresemester', ['id' => $semester->id]) }}')">Przywróć</a>
+                                    @endif
                                     <a href="{{route('admin.saveSemester', ['id' => $semester->id])}}">Edytuj</a>
                                 </td>
                                 <td class="text-right">

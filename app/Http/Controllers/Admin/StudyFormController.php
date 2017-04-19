@@ -97,8 +97,17 @@ class StudyFormController extends Controller
             }
             if($isChecked)
                 Session::flash('success', 'Pomyślnie usunięto zaznaczone formy studiów.');
-            else Session::flash('error', 'Nie zaznaczono żadnego stopnia.');
+            else Session::flash('error', 'Nie zaznaczono żadnej formy studiów.');
         }
         return redirect()->route('admin.studyForms');
+    }
+    
+    public function restoreStudyForm($id) {
+
+        $studyForm = StudyForm::find($id);
+        $studyForm->active = true;
+        $studyForm->save();
+        Session::flash('success', 'Przywrócono formę studiów '.$studyForm->name.'.');
+        return redirect()->back();
     }
 }

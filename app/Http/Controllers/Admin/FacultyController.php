@@ -110,4 +110,13 @@ class FacultyController extends Controller
          }
         return redirect()->route('admin.faculties');
     }
+    
+    public function restoreFaculty($id) {
+
+        $faculty = Faculty::find($id);
+        $faculty->active = true;
+        $faculty->save();
+        Session::flash('success', 'Przywrócono wydział '.$faculty->name.'.');
+        return redirect()->back();
+    }
 }
