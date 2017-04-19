@@ -13,7 +13,7 @@
                     <form action="{{$faculty? route('admin.savefaculty', ['id' => $faculty->id]) : route('admin.savefaculty')}}" method="post">
                         <div class="form-group label-floating">
                             <label for="name" class="control-label">Nazwa</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{$faculty? $faculty->name : ''}}">
+                            <input type="text" class="form-control" id="name" name="name" value="{{$faculty? $faculty->name : (old('name')?: '')}}">
                         </div>    
                         {{ csrf_field() }}
                         <div class="pull-right">

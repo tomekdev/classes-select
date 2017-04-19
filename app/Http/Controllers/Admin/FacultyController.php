@@ -67,7 +67,19 @@ class FacultyController extends Controller
             return redirect()->back()->withErrors($v->errors());
         }
 
-        $faculty = $id? Faculty::find($id) : new Faculty();
+        if ($id) {
+            $faculty = Faculty::find($id);
+        }
+        else {
+            $faculty = Faculty::where(['name' => $request['name']])->get();
+            if(count($faculty) > 0) {
+                Session::flash('error', 'Wydział o takiej nazwie już istnieje w bazie.');
+                $request->flash();
+                return redirect()->back();
+            }
+            $faculty = new Faculty();
+        }
+        
         $faculty->fill($request->all());
         $faculty->save();
         Session::flash('success', 'Pomyślnie zapisano wydział.');
