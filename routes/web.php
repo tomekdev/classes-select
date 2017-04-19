@@ -102,6 +102,11 @@ Route::group([
             'uses' => 'Admin\StudentController@deletestudent',
             'as' => 'admin.deletestudent'
         ])->where('id', '[0-9]+');
+        
+        Route::delete('/student/{id}/restore', [
+            'uses' => 'Admin\StudentController@restoreStudent',
+            'as' => 'admin.restorestudent'
+        ])->where('id', '[0-9]+');
 
 
         Route::post('/changeStudyAll', [ // zmienione na znak zapytania

@@ -372,4 +372,13 @@ class StudentController extends Controller
         Session::flash('success', 'Kierunek dla zaznaczonych studentów został pomyślnie zmieniony.');
         return redirect()->back();
     }
+    
+    public function restoreStudent($id) {
+
+        $student = Student::find($id);
+        $student->active = true;
+        $student->save();
+        Session::flash('success', 'Przywrócono studenta '.$student->name.' '.$student->surname.'.');
+        return redirect()->back();
+    }
 }
