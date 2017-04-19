@@ -16,8 +16,8 @@ class CreateSubjectsTable extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('study_type');
-            $table->string('study_degree');
+            $table->integer('study_form_id')->unsigned();
+            $table->integer('degree_id')->unsigned();
             $table->integer('semester_id')->unsigned();;
             $table->integer('field_id')->unsigned();;
             $table->integer('min_person');
@@ -36,6 +36,18 @@ class CreateSubjectsTable extends Migration
             $table->foreign('field_id')
                 ->references('id')
                 ->on('fields');
+        });
+
+        Schema::table('subjects', function (Blueprint $table) {
+            $table->foreign('study_form_id')
+                ->references('id')
+                ->on('study_forms');
+        });
+
+        Schema::table('subjects', function (Blueprint $table) {
+            $table->foreign('degree_id')
+                ->references('id')
+                ->on('degrees');
         });
     }
 

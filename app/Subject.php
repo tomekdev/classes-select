@@ -26,4 +26,16 @@ class Subject extends Model
     {
         return $this->hasMany(Activity::class)->get();
     }
+
+    // metoda zwraca stopień studiów przypisany do tego przedmiotu wybieralnego
+    public function getDegree()
+    {
+        return $this->belongsTo(Degree::class)->get();
+    }
+
+    // metoda zwraca formę studiów przypisaną do tego przedmiotu wybieralnego
+    public function getStudyForm()
+    {
+        return $this->belongsTo(StudyForm::class)->get();
+    }
 }
