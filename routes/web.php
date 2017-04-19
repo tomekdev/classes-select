@@ -243,6 +243,23 @@ Route::group([
             'uses' => 'Admin\StudyFormController@deleteStudyForm',
             'as' => 'admin.deleteStudyForm'
         ])->where('id', '[0-9]+');
+
+        /***********Subject***************/
+
+        Route::get('/subjects', [
+            'uses' => 'Admin\SubjectController@index',
+            'as' => 'admin.subjects'
+        ]);
+
+        Route::post('/studyForms', [
+            'uses' => 'Admin\SubjectController@index',
+            'as' => 'admin.subjects'
+        ]);
+
+        Route::get('/subjectFrom/{id?}', [
+            'uses' => 'Admin\StudyFormController@getSubjectFrom',
+            'as' => 'admin.getSubjectFrom'
+        ])->where('id', '[0-9]+');
     });
 
 // to jest strefa dla Mateusza i Grzesia do testowania pojedynczych widoków. Proszę tu nie grzebać, poza nimi dwoma

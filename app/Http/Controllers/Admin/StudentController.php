@@ -45,6 +45,8 @@ class StudentController extends Controller
                     }
                     break;
                 case 'fields':
+                case 'study_forms':
+                case 'degrees':
                 case 'semesters':
                     if($filter) {
                         $query->whereHas($key, function($q) use ($key, $filter){
@@ -66,24 +68,6 @@ class StudentController extends Controller
                     $query->where($key, !!$filter);
                     $filtered = true;
                     break;
-                case 'degrees':
-                    if($filter) {
-                        $query->whereHas($key, function($q) use ($key, $filter){
-                            $q->where($key.'.id', $filter);
-                        });
-                        $filtered = true;
-                    }
-                    break;
-                case 'study_forms':
-                    if($filter) {
-                        $query->whereHas($key, function($q) use ($key, $filter){
-                            $q->where($key.'.id', $filter);
-                        });
-                        $filtered = true;
-                    }
-                    break;
-
-
             }
         }
         

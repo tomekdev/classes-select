@@ -31,7 +31,7 @@
             <ul class="nav navbar-nav">
                 <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Terminy zapisu</a></li>
                 <li {{{ (Request::url() === route('admin.students')? 'class=active' : '') }}}><a href="{{ route('admin.students') }}">Studenci</a></li>
-                <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Przedmioty wybieralne</a></li>
+                <li {{{ (Request::url() === route('admin.subjects')? 'class=active' : '') }}}><a href="{{ route('admin.subjects') }}">Przedmioty wybieralne</a></li>
                 <li {{{ (Request::url() === route('admin.faculties')? 'class=active' : '') }}}><a href="{{ route('admin.faculties') }}">Wydziały</a></li>
                 <li {{{ (Request::url() === route('admin.fields')? 'class=active' : '') }}}><a href="{{ route('admin.fields') }}">Kierunki</a></li>
                 <li {{{ (Request::url() === route('admin.semesters')? 'class=active' : '') }}}><a href="{{ route('admin.semesters') }}">Semestry</a></li>
