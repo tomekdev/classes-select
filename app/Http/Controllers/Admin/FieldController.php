@@ -30,8 +30,10 @@ class FieldController extends Controller
                     $filtered = true;
                     break;
                 case 'faculty':
-                    $query->where($key.'_id', $filter);
-                    $filtered = true;
+                    if($filter) {
+                        $query->where($key . '_id', $filter);
+                        $filtered = true;
+                    }
                     break;
             }
         }

@@ -189,6 +189,60 @@ Route::group([
             'uses' => 'Admin\SemesterController@deleteSemester',
             'as' => 'admin.deleteSemester'
         ])->where('id', '[0-9]+');
+
+        /***********Degrees***************/
+
+        Route::get('/degrees', [
+            'uses' => 'Admin\DegreeController@index',
+            'as' => 'admin.degrees'
+        ]);
+
+        Route::post('/degrees', [
+            'uses' => 'Admin\DegreeController@index',
+            'as' => 'admin.degrees'
+        ]);
+
+        Route::get('/degree/{id?}', [
+            'uses' => 'Admin\DegreeController@getDegreeForm',
+            'as' => 'admin.getDegree'
+        ])->where('id', '[0-9]+');
+
+        Route::post('/degree/{id?}', [
+            'uses' => 'Admin\DegreeController@saveDegree',
+            'as' => 'admin.saveDegree'
+        ])->where('id', '[0-9]+');
+
+        Route::delete('/degree/{id?}', [
+            'uses' => 'Admin\DegreeController@deleteDegree',
+            'as' => 'admin.deleteDegree'
+        ])->where('id', '[0-9]+');
+
+        /***********Study_Form***************/
+
+        Route::get('/studyForms', [
+            'uses' => 'Admin\StudyFormController@index',
+            'as' => 'admin.studyForms'
+        ]);
+
+        Route::post('/studyForms', [
+            'uses' => 'Admin\StudyFormController@index',
+            'as' => 'admin.studyForms'
+        ]);
+
+        Route::get('/studyForm/{id?}', [
+            'uses' => 'Admin\StudyFormController@getStudyFormFrom',
+            'as' => 'admin.getStudyForm'
+        ])->where('id', '[0-9]+');
+
+        Route::post('/studyForm/{id?}', [
+            'uses' => 'Admin\StudyFormController@saveStudyForm',
+            'as' => 'admin.saveStudyForm'
+        ])->where('id', '[0-9]+');
+
+        Route::delete('/studyForm/{id?}', [
+            'uses' => 'Admin\StudyFormController@deleteStudyForm',
+            'as' => 'admin.deleteStudyForm'
+        ])->where('id', '[0-9]+');
     });
 
 // to jest strefa dla Mateusza i Grzesia do testowania pojedynczych widoków. Proszę tu nie grzebać, poza nimi dwoma

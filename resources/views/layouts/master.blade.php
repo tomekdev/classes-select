@@ -90,7 +90,7 @@
 
         function ajaxGetFields(value, id) {
             $.ajax({
-                url: "{{ route('admin.ajaxGetFields') }}/"+value, // zmienic na route
+                url: "{{ route('admin.ajaxGetFields') }}/"+value,
                 method: "get",
                 data: {},
                 success: function (data) {

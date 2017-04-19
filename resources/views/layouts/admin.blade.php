@@ -35,6 +35,8 @@
                 <li {{{ (Request::url() === route('admin.faculties')? 'class=active' : '') }}}><a href="{{ route('admin.faculties') }}">Wydziały</a></li>
                 <li {{{ (Request::url() === route('admin.fields')? 'class=active' : '') }}}><a href="{{ route('admin.fields') }}">Kierunki</a></li>
                 <li {{{ (Request::url() === route('admin.semesters')? 'class=active' : '') }}}><a href="{{ route('admin.semesters') }}">Semestry</a></li>
+                <li {{{ (Request::url() === route('admin.degrees')? 'class=active' : '') }}}><a href="{{ route('admin.degrees') }}">Stopnie</a></li>
+                <li {{{ (Request::url() === route('admin.studyForms')? 'class=active' : '') }}}><a href="{{ route('admin.studyForms') }}">Formy studiów</a></li>
 <!--
                 <li class="dropdown">
                     <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
