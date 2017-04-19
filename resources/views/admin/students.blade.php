@@ -21,8 +21,8 @@
                             <form class="form" method="post" action="{{route('admin.students')}}">
                                 <div class="form-group col-md-4">
                                     <label for="faculties">Wydział</label>
-                                    <select id="faculties" name="faculties" class="form-control select">
-                                        <option value="">-- wybierz --</option>
+                                    <select id="0" name="faculties" class="form-control select" onchange="ajaxGetFields(this.value, this.id)">
+                                        <option value="0">-- wybierz --</option>
                                         @foreach ($faculties as $faculty)
                                             <option value="{{$faculty->id}}" {{old('faculties') == $faculty->id? 'selected' : ''}}>{{$faculty->name}}</option>
                                         @endforeach
@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="fields">Kierunek</label>
-                                    <select id="fields" name="fields" class="form-control select">
+                                    <select id="select-field0" name="fields" class="form-control select">
                                         <option value="">-- wybierz --</option>
                                         @foreach ($fields as $field)
                                             <option value="{{$field->id}}" {{old('fields') == $field->id? 'selected' : ''}}>{{$field->name}}</option>
@@ -43,6 +43,24 @@
                                         <option value="">-- wybierz --</option>
                                         @foreach ($semesters as $semester)
                                             <option value="{{$semester->id}}" {{old('semesters') == $semester->id? 'selected' : ''}}>{{$semester->number}} semestr</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="degrees">Stopień</label>
+                                    <select id="degrees" name="degrees" class="form-control select">
+                                        <option value="">-- wybierz --</option>
+                                        @foreach ($degrees as $degree)
+                                            <option value="{{$degree->id}}" {{old('degrees') == $degree->id? 'selected' : ''}}>{{$degree->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="study_forms">Forma studiów</label>
+                                    <select id="study_forms" name="study_forms" class="form-control select">
+                                        <option value="">-- wybierz --</option>
+                                        @foreach ($study_forms as $study_form)
+                                            <option value="{{$study_form->id}}" {{old('study_forms') == $study_form->id? 'selected' : ''}}>{{$study_form->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>

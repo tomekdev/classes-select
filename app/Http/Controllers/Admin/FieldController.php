@@ -16,7 +16,7 @@ class FieldController extends Controller
         $sortProperty = $request->input('sortProperty')?:'name';
         $sortOrder = $request->input('sortOrder')?:'asc';
 
-        $faculties = Faculty::all();
+        $faculties = Faculty::where(['active' => true])->get();
         $query = Field::whereHas('faculties', function($q) {
             $q->where('faculties.active', true);
         });

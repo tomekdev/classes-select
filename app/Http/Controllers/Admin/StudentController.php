@@ -26,9 +26,9 @@ class StudentController extends Controller
         $sortOrder = $request->input('sortOrder')?:'asc';
         
         $years = Student::select('study_end')->distinct()->get();
-        $faculties = Faculty::all();
-        $fields = Field::all();
-        $semesters = Semester::all();
+        $faculties = Faculty::where(['active' => true])->get();
+        $fields = Field::where(['active' => true])->get();
+        $semesters = Semester::where(['active' => true])->get();
         $degrees = Degree::all();
         $study_forms = StudyForm::all();
                 
@@ -66,6 +66,24 @@ class StudentController extends Controller
                     $query->where($key, !!$filter);
                     $filtered = true;
                     break;
+                case 'degrees':
+                    if($filter) {
+                        $query->whereHas($key, function($q) use ($key, $filter){
+                            $q->where($key.'.id', $filter);
+                        });
+                        $filtered = true;
+                    }
+                    break;
+                case 'study_forms':
+                    if($filter) {
+                        $query->whereHas($key, function($q) use ($key, $filter){
+                            $q->where($key.'.id', $filter);
+                        });
+                        $filtered = true;
+                    }
+                    break;
+
+
             }
         }
         
@@ -266,7 +284,7 @@ class StudentController extends Controller
             }
             if(!$isFounded)
                 // smienione z delete na sctive
-                $actuallyStudies[$index]->delete();
+                $actuallyStudies[$index]->active = false;
         }
         return $actuallyStudies;
     }

@@ -7,15 +7,13 @@ use App\Field;
 
 class AjaxController extends Controller
 {
-    public function getFieldsFromFaculty($id = null)
+    public function getFieldsFromFaculty($id = 0)
     {
-            if($id != null) {
-                $fields = Field::where(['faculty_id' => $id, 'active' => true])->get();
-                $html = '<option value="">-- wybierz --</option>';
-                foreach ($fields as $field)
-                    $html .= '<option value="' . $field->id . '">' . $field->name . '</option>';
 
-                echo $html;
-            }
+        $fields = $id ? Field::where(['faculty_id' => $id, 'active' => true])->get() : Field::where(['active' => true])->get();
+        $html = '<option value="">-- wybierz --</option>';
+        foreach ($fields as $field)
+            $html .= '<option value="' . $field->id . '">' . $field->name . '</option>';
+        echo $html;
     }
 }
