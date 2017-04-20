@@ -180,18 +180,12 @@ class StudentController extends Controller
         $request['name'] = ucfirst(mb_strtolower($request['name']));
         $request['surname'] = ucfirst(mb_strtolower($request['surname']));
 
-        if ($id) {
-            $student = Student::find($id);
+        if (count(Student::where('index',$request['index'])->where('id', '!=', $id)->get()) > 0) {
+            Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
+            $request->flash();
+            return redirect()->back();
         }
-        else {
-            $student = Student::where(['index' => $request['index']])->get();
-            if(count($student) > 0) {
-                Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
-                $request->flash();
-                return redirect()->back();
-            }
-            $student = null;
-        }
+        $student = $id? Student::find($id) : null;
 
         if($student) {
             $studies = $student->getDBStudies();
