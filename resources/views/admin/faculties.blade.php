@@ -57,7 +57,11 @@
                                 <td class="text-center">{{$index+1}}</td>
                                 <td class="text-center">{{{$faculty->name}}}</td>
                                 <td>
-                                    <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz ten wydział?', '{{ route('admin.deletefaculty', ['id' => $faculty->id]) }}')">Usuń</a>
+                                    @if ($faculty->active)
+                                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć ten wydział?', '{{ route('admin.deletefaculty', ['id' => $faculty->id]) }}')">Usuń</a>
+                                    @else
+                                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić ten wydział?', '{{ route('admin.restoreFaculty', ['id' => $faculty->id]) }}')">Przywróć</a>
+                                    @endif
                                     <a href="{{route('admin.getfaculty', ['id' => $faculty->id])}}">Edytuj</a>
                                 </td>
                                 <td class="text-right">

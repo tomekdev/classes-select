@@ -101,4 +101,13 @@ class DegreeController extends Controller
         }
         return redirect()->route('admin.degrees');
     }
+    
+    public function restoreDegree($id) {
+
+        $degree = Degree::find($id);
+        $degree->active = true;
+        $degree->save();
+        Session::flash('success', 'Przywrócono stopień '.$degree->name.'.');
+        return redirect()->back();
+    }
 }

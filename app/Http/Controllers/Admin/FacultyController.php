@@ -66,8 +66,15 @@ class FacultyController extends Controller
             $request->flash();
             return redirect()->back()->withErrors($v->errors());
         }
-
+        
+        if (count(Faculty::where('name',$request['name'])->where('id', '!=', $id)->get()) > 0) {
+            Session::flash('error', 'Wydział o takiej nazwie już istnieje w bazie.');
+            $request->flash();
+            return redirect()->back();
+        }
         $faculty = $id? Faculty::find($id) : new Faculty();
+        
+        
         $faculty->fill($request->all());
         $faculty->save();
         Session::flash('success', 'Pomyślnie zapisano wydział.');
@@ -97,5 +104,14 @@ class FacultyController extends Controller
              else Session::flash('error', 'Nie zaznaczono żadnego wydziału.');
          }
         return redirect()->route('admin.faculties');
+    }
+    
+    public function restoreFaculty($id) {
+
+        $faculty = Faculty::find($id);
+        $faculty->active = true;
+        $faculty->save();
+        Session::flash('success', 'Przywrócono wydział '.$faculty->name.'.');
+        return redirect()->back();
     }
 }

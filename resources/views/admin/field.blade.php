@@ -15,14 +15,14 @@
 
 							<div class="pull-center">
 								<label for="field" class="control-label">Kierunek</label>
-								<input type="text" class="form-control" id="field" name="name" value="{{ $field ? $field->name : '' }}" required>
+								<input type="text" class="form-control" id="field" name="name" value="{{ $field ? $field->name : (old('name')?: '') }}" required>
 							</div>
                         </div>
                         <div class="form-group label-floating">
-                            <select class="form-control select" name="faculty_id">
+                            <select class="form-control select" name="faculty_id" required>
                                 <option value="">-- wybierz --</option>
                                 @foreach($faculties as $faculty)
-                                    <option value="{{ $faculty->id }}" {{ $field ? $field->faculty_id == $faculty->id ? 'selected' : '' : '' }}>{{ $faculty->name }}</option>
+                                    <option value="{{ $faculty->id }}" {{ (($field && $field->faculty_id == $faculty->id) || old('faculty_id') == $faculty->id)? 'selected' : '' }}>{{ $faculty->name }}</option>
                                 @endforeach
                             </select>
                         </div>

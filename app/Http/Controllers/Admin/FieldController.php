@@ -83,7 +83,18 @@ class FieldController extends Controller
             return redirect()->back()->withErrors($v->errors());
         }
 
-        $field = $id ? Field::find($id) : new Field();
+        if ($id) {
+            $field = Field::find($id);
+        }
+        else {
+            $field = Field::where(['name' => $request['name']])->get();
+            if(count($field) > 0) {
+                Session::flash('error', 'Kierunek o takiej nazwie już istnieje w bazie.');
+                $request->flash();
+                return redirect()->back();
+            }
+            $field = new Field();
+        }
         $field->fill($request->all());
         $field->save();
         Session::flash('success', 'Kierunek został pomyślnie zapisany.');
@@ -113,6 +124,15 @@ class FieldController extends Controller
                 Session::flash('success', 'Pomyślnie usunięto zaznaczone kierunki.');
             else Session::flash('error', 'Nie zaznaczono żadnego kierunku.');
         }
+        return redirect()->back();
+    }
+    
+    public function restoreField($id) {
+
+        $field = Field::find($id);
+        $field->active = true;
+        $field->save();
+        Session::flash('success', 'Przywrócono kierunek '.$field->name.'.');
         return redirect()->back();
     }
 }

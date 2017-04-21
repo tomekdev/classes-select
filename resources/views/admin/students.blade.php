@@ -148,7 +148,11 @@
                                         @endforeach
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz tego studenta?', '{{ route('admin.deletestudent', ['id' => $student->id]) }}')">Usuń</a>
+                                        @if ($student->active)
+                                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć tego studenta?', '{{ route('admin.deletestudent', ['id' => $student->id]) }}')">Usuń</a>
+                                        @else
+                                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić tego studenta?', '{{route('admin.restorestudent', ['id' => $student->id])}}')">Przywróć</a>
+                                        @endif
                                         <a href="{{route('admin.savestudent', ['id' => $student->id])}}">Edytuj</a>
                                         <a href="/">Pokaż zapisy</a>
                                     </td>

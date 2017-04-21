@@ -37,6 +37,12 @@ class Student extends Model implements Authenticatable
     {
         return $this->belongsToMany(Field::class, 'student_has_studies')->get();
     }
+    
+    //zwraca stopnie, na których studiuje student
+    public function getDegrees()
+    {
+        return $this->belongsToMany(Degree::class, 'student_has_studies')->get();
+    }
 
     // metoda zwraca niezależnie wszystkie semestry na jakich studiuje student
     public function getSemesters()

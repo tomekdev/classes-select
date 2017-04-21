@@ -100,7 +100,7 @@ class StudentController extends Controller
         $faculties = Faculty::where('active', true);
         $fields = Field::where('active', true);
         $semesters = Semester::where('active', true);
-        $degrees = Degree::all();
+        $degrees = Degree::where('active', true);
         $study_forms = StudyForm::all();
         
         if ($id) {
@@ -108,11 +108,13 @@ class StudentController extends Controller
                 $q->whereIn('fields.id',array_column($student->getFields()->toArray(),"id"));
             });
             $fields->orWhereIn('fields.id',array_column($student->getFields()->toArray(),"id"));
+            $degrees->orWhereIn('degrees.id',array_column($student->getDegrees()->toArray(),"id"));
             $semesters->orWhereIn('semesters.id',array_column($student->getSemesters()->toArray(),"id"));
         }
         
         $faculties = $faculties->get();
         $fields = $fields->get();
+        $degrees = $degrees->get();
         $semesters = $semesters->get()->sortByDesc('id');
 
         return view('admin/student',[
@@ -180,18 +182,12 @@ class StudentController extends Controller
         $request['name'] = ucfirst(mb_strtolower($request['name']));
         $request['surname'] = ucfirst(mb_strtolower($request['surname']));
 
-        if ($id) {
-            $student = Student::find($id);
+        if (count(Student::where('index',$request['index'])->where('id', '!=', $id)->get()) > 0) {
+            Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
+            $request->flash();
+            return redirect()->back();
         }
-        else {
-            $student = Student::where(['index' => $request['index']])->get();
-            if(count($student) > 0) {
-                Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
-                $request->flash();
-                return redirect()->back();
-            }
-            $student = null;
-        }
+        $student = $id? Student::find($id) : null;
 
         if($student) {
             $studies = $student->getDBStudies();
@@ -370,6 +366,15 @@ class StudentController extends Controller
         }
 
         Session::flash('success', 'Kierunek dla zaznaczonych studentów został pomyślnie zmieniony.');
+        return redirect()->back();
+    }
+    
+    public function restoreStudent($id) {
+
+        $student = Student::find($id);
+        $student->active = true;
+        $student->save();
+        Session::flash('success', 'Przywrócono studenta '.$student->name.' '.$student->surname.'.');
         return redirect()->back();
     }
 }
