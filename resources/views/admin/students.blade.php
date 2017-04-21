@@ -47,6 +47,24 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
+                                    <label for="degrees">Stopień</label>
+                                    <select id="degrees" name="degrees" class="form-control select">
+                                        <option value="">-- wybierz --</option>
+                                        @foreach ($degrees as $degree)
+                                            <option value="{{$degree->id}}" {{old('degrees') == $degree->id? 'selected' : ''}}>{{$degree->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="study_forms">Forma studiów</label>
+                                    <select id="study_forms" name="study_forms" class="form-control select">
+                                        <option value="">-- wybierz --</option>
+                                        @foreach ($study_forms as $study_form)
+                                            <option value="{{$study_form->id}}" {{old('study_forms') == $study_form->id? 'selected' : ''}}>{{$study_form->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
                                     <label for="active">Status studenta</label>
                                     <select id="active" name="active" class="form-control select">
                                         <option value="1" {{old('active') === '1'? 'selected' : ''}}>Aktywny</option>
