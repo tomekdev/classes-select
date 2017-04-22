@@ -153,6 +153,13 @@ class SubjectController extends Controller
             return redirect()->back();
         }
 
+        if(intval($request['min_person']) > intval($request['max_person']))
+        {
+            Session::flash('error', 'Pole "Min osób" nie może mieć większej wartości niż pole "Max osób". Zmiany nie zostały zapisane.');
+            $request->flash();
+            return redirect()->back();
+        }
+
         $subject = $id ? Subject::find($id) : new Subject();
         $subject->name = $request['name'];
         $subject->min_person = $request['min_person'];
