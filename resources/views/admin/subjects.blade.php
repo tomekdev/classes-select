@@ -19,6 +19,51 @@
                         <div class="panel-body collapse {{$filtered? 'in': ''}}" id="filter">
                             <form class="form" method="post" action="{{route('admin.subjects')}}">
                                 <div class="form-group col-md-4">
+                                    <label for="faculties">Wydział</label>
+                                    <select id="faculties" name="faculties" class="form-control select">
+                                        <option value="">-- wybierz --</option>
+                                        @foreach ($faculties as $faculty)
+                                            <option value="{{$faculty->id}}" {{old('faculties') == $faculty->id? 'selected' : ''}}>{{$faculty->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="fields">Kierunek</label>
+                                    <select id="fields" name="fields" class="form-control select">
+                                        <option value="">-- wybierz --</option>
+                                        @foreach ($fields as $field)
+                                            <option value="{{$field->id}}" {{old('fields') == $field->id? 'selected' : ''}}>{{$field->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="semesters">Semestr</label>
+                                    <select id="semesters" name="semesters" class="form-control select">
+                                        <option value="">-- wybierz --</option>
+                                        @foreach ($semesters as $semester)
+                                            <option value="{{$semester->id}}" {{old('semesters') == $semester->id? 'selected' : ''}}>{{$semester->number}} semestr</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="degrees">Stopień</label>
+                                    <select id="degrees" name="degrees" class="form-control select">
+                                        <option value="">-- wybierz --</option>
+                                        @foreach ($degrees as $degree)
+                                            <option value="{{$degree->id}}" {{old('degrees') == $degree->id? 'selected' : ''}}>{{$degree->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="study_forms">Forma studiów</label>
+                                    <select id="study_forms" name="study_forms" class="form-control select">
+                                        <option value="">-- wybierz --</option>
+                                        @foreach ($study_forms as $study_form)
+                                            <option value="{{$study_form->id}}" {{old('study_forms') == $study_form->id? 'selected' : ''}}>{{$study_form->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
                                     <label for="active">Status</label>
                                     <select id="active" name="active" class="form-control select">
                                         <option value="1" {{old('active') === '1'? 'selected' : ''}}>Aktywny</option>
@@ -66,6 +111,8 @@
                                         @endif
                                     </a>
                                 </th>
+                                <th class="text-center">Wydział, kierunek, semestr</th>
+                                <th class="text-center">Stopień, forma studiów</th>
                                 <th class="text-center">Opcje</th>
                             </tr>
                             </thead>
@@ -76,10 +123,16 @@
                                     <td class="text-center">{{ $subject->name }}</td>
                                     <td class="text-center">{{ $subject->max_person }}</td>
                                     <td class="text-center">{{ $subject->min_person }}</td>
-                                    {{--<td>--}}
-                                        {{--<a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz ten przedmiot wybieralny?', '{{ route('admin.deleteSubject', ['id' => $subject->id]) }}')">Usuń</a>--}}
-                                        {{--<a href="{{route('admin.getfield', ['id' => $field->id])}}">Edytuj</a>--}}
-                                    {{--</td>--}}
+                                    <td class="text-center">{{ $subject->getFaculty()->name .', ' .$subject->getField()->name .', ' .$subject->getSemester()->name}}</td>
+                                    <td class="text-center">{{ $subject->getDegree()->name .', ' .$subject->getStudyForm()->name}}</td>
+                                    <td>
+                                        @if($active)
+                                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć ten przedmiot wybieralny?', '{{ route('admin.deleteSubject', ['id' => $subject->id]) }}')">Usuń</a>
+                                        @else
+                                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić ten przedmiot wybieralny?', '{{ route('admin.restoreSubject', ['id' => $subject->id]) }}')">Przywróć</a>
+                                        @endif
+                                        <a href="{{route('admin.getSubject', ['id' => $subject->id])}}">Edytuj</a>
+                                    </td>
                                     <td class="text-right">
                                         <label for="checkboxes[{{$index}}][checkbox]"></label>
                                         <input name="checkboxes[{{$index}}][checkbox]" type="checkbox" />
@@ -97,7 +150,11 @@
                         <a href="javascript:void(0)" onclick="deselectAll()">Usuń zaznaczenia</a>
                     </div>
                     <div class="text-right">
-                        {{--<a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć zaznaczone przedmioty wybieralne?', '{{ route('admin.deleteSubject', ['id' => 0]) }}')">Usuń</a>--}}
+                        @if($active)
+                            <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć zaznaczone przedmioty wybieralne?', '{{ route('admin.deleteSubject', ['id' => 0]) }}')">Usuń</a>
+                        @else
+                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić ten przedmiot wybieralny?', '{{ route('admin.restoreSubject', ['id' => 0]) }}')">Przywróć</a>
+                        @endif
                     </div>
                     {{ csrf_field() }}
                 </form>

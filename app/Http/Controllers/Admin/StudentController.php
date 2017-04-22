@@ -103,7 +103,8 @@ class StudentController extends Controller
         $faculties = Faculty::where('active', true);
         $fields = Field::where('active', true);
         $semesters = Semester::where('active', true);
-        $degrees = Degree::where('active', true);
+//        $degrees = Degree::where('active', true);
+        $degrees = Degree::all();
         $study_forms = StudyForm::all();
         
         if ($id) {
@@ -111,13 +112,13 @@ class StudentController extends Controller
                 $q->whereIn('fields.id',array_column($student->getFields()->toArray(),"id"));
             });
             $fields->orWhereIn('fields.id',array_column($student->getFields()->toArray(),"id"));
-            $degrees->orWhereIn('degrees.id',array_column($student->getDegrees()->toArray(),"id"));
+//            $degrees->orWhereIn('degrees.id',array_column($student->getDegrees()->toArray(),"id"));
             $semesters->orWhereIn('semesters.id',array_column($student->getSemesters()->toArray(),"id"));
         }
         
         $faculties = $faculties->get();
         $fields = $fields->get();
-        $degrees = $degrees->get();
+        //$degrees = $degrees->get();
         $semesters = $semesters->get()->sortByDesc('id');
 
         return view('admin/student',[

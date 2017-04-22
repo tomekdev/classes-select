@@ -286,9 +286,24 @@ Route::group([
             'as' => 'admin.subjects'
         ]);
 
-        Route::get('/subjectFrom/{id?}', [
-            'uses' => 'Admin\StudyFormController@getSubjectFrom',
-            'as' => 'admin.getSubjectFrom'
+        Route::get('/subject/{id?}', [
+            'uses' => 'Admin\SubjectController@getSubjectFrom',
+            'as' => 'admin.getSubject'
+        ])->where('id', '[0-9]+');
+
+        Route::post('/subject/{id?}', [
+            'uses' => 'Admin\SubjectController@saveSubject',
+            'as' => 'admin.saveSubject'
+        ])->where('id', '[0-9]+');
+
+        Route::delete('/subject/{id?}', [
+            'uses' => 'Admin\SubjectController@deleteSubject',
+            'as' => 'admin.deleteSubject'
+        ])->where('id', '[0-9]+');
+
+        Route::delete('/subject/{id?}/restore', [
+            'uses' => 'Admin\SubjectController@restoreSubject',
+            'as' => 'admin.restoreSubject'
         ])->where('id', '[0-9]+');
     });
 
