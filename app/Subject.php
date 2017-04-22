@@ -29,7 +29,7 @@ class Subject extends Model
     {
         return $this->belongsTo(StudyForm::class, 'study_form_id', 'id');
     }
-    
+
     // metoda zwraca wydział jaki został przypisany dla tego przedmiotu wybieralnego
     public function getFaculty()
     {

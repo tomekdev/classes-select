@@ -8,7 +8,7 @@
                         <h3>Przedmioty wybieralne</h3>
                     </div>
                     <div class="text-right col-md-9">
-                        {{--<a href="{{route('admin.getSubject')}}" class="btn btn-primary">Dodaj przemiot wybieralny</a>--}}
+                        <a href="{{route('admin.getSubject')}}" class="btn btn-primary">Dodaj przemiot wybieralny</a>
                     </div>
                 </div>
                 <div class="panel panel-default">
