@@ -173,7 +173,7 @@ class SubjectController extends Controller
         if($id)
             Session::flash('success', 'Zmiany zostały pomyślnie zapisane.');
         else
-            Session::flash('success', 'Pmyślnie dodano nowy przemiot wybierlany');
+            Session::flash('success', 'Pmyślnie dodano nowy przedmiot wybieralny');
         return redirect()->back();
     }
 
