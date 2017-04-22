@@ -129,10 +129,10 @@ class SubjectController extends Controller
             'name.alpha_spaces' => 'Pole nazwa może zawierać tylko litery i spacje.',
             'name.max' => 'Pole nazwa może zawierać maksymalnie 255 znaków.',
             'min_person.required' => 'pole "Minimalna ilość osób" jest wymagane.',
-            'min_person.numeric' => 'pole "Minimalna ilość osób" może zawierać tylko cyfry.',
+            'min_person.integer' => 'pole "Minimalna ilość osób" może zawierać tylko cyfry.',
             'min_person.min' => 'pole "Minimalna ilość osób" nie może być mniejsze od 1.',
             'max_person.required' => 'pole "Maksymalna ilość osób" jest wymagane.',
-            'max_person.numeric' => 'pole "Maksymalna ilość osób" może zawierać tylko cyfry.',
+            'max_person.integer' => 'pole "Maksymalna ilość osób" może zawierać tylko cyfry.',
             'max_person.min' => 'pole "Maksymalna ilość osób" nie może być mniejsze od 1.',
 
         );
