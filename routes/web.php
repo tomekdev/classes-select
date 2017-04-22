@@ -105,7 +105,7 @@ Route::group([
         
         Route::delete('/student/{id}/restore', [
             'uses' => 'Admin\StudentController@restoreStudent',
-            'as' => 'admin.restorestudent'
+            'as' => 'admin.restoreStudent'
         ])->where('id', '[0-9]+');
 
 
@@ -175,7 +175,7 @@ Route::group([
         
         Route::delete('/field/{id}/restore', [
             'uses' => 'Admin\FieldController@restoreField',
-            'as' => 'admin.restorefield'
+            'as' => 'admin.restoreField'
         ])->where('id', '[0-9]+');
 
         /***********Semesters***************/
@@ -207,7 +207,7 @@ Route::group([
         
         Route::delete('/semester/{id}/restore', [
             'uses' => 'Admin\SemesterController@restoreSemester',
-            'as' => 'admin.restoresemester'
+            'as' => 'admin.restoreSemester'
         ])->where('id', '[0-9]+');
 
         /***********Degrees***************/
@@ -239,7 +239,7 @@ Route::group([
         
         Route::delete('/degree/{id}/restore', [
             'uses' => 'Admin\DegreeController@restoreDegree',
-            'as' => 'admin.restoredegree'
+            'as' => 'admin.restoreDegree'
         ])->where('id', '[0-9]+');
 
         /***********Study_Form***************/

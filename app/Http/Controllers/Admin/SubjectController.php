@@ -25,6 +25,7 @@ class SubjectController extends Controller
         $study_forms = StudyForm::all();
 
         $query = Subject::where([]);
+        $active = true;
 
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
@@ -33,6 +34,7 @@ class SubjectController extends Controller
                 case 'active':
                     $query->where($key, !!$filter);
                     $filtered = true;
+                    $active = !!$filter;
                     break;
             }
         }
@@ -55,7 +57,8 @@ class SubjectController extends Controller
             'study_forms' => $study_forms,
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
-            'filtered' => $filtered
+            'filtered' => $filtered,
+            'active' => $active,
         ]);
     }
 

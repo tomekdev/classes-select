@@ -15,6 +15,7 @@ class FacultyController extends Controller
         $sortOrder = $request->input('sortOrder')?:'asc';
          
         $query = Faculty::where([]);
+        $active = true;
          
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
@@ -23,6 +24,7 @@ class FacultyController extends Controller
                 case 'active':
                     $query->where($key, !!$filter);
                     $filtered = true;
+                    $active = !!$filter;
                     break;
             }
         }
@@ -40,7 +42,8 @@ class FacultyController extends Controller
             'faculties' => $query->get(),
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
-            'filtered' => $filtered
+            'filtered' => $filtered,
+            'active' => $active,
         ]);
     }
     
@@ -106,12 +109,29 @@ class FacultyController extends Controller
         return redirect()->route('admin.faculties');
     }
     
-    public function restoreFaculty($id) {
+    public function restoreFaculty($id = 0, Request $request) {
 
-        $faculty = Faculty::find($id);
-        $faculty->active = true;
-        $faculty->save();
-        Session::flash('success', 'Przywrócono wydział '.$faculty->name.'.');
+         if($id){
+             $faculty = Faculty::find($id);
+             $faculty->active = true;
+             $faculty->save();
+             Session::flash('success', 'Przywrócono wydział '.$faculty->name.'.');
+         }
+         else
+         {
+             $isChecked = false;
+             foreach ($request['checkboxes'] as $req) {
+                 if(count($req) > 1) {
+                     $isChecked = true;
+                     $faculty = Faculty::find($req['id']);
+                     $faculty->active = true;
+                     $faculty->save();
+                 }
+             }
+             if($isChecked)
+                 Session::flash('success', 'Pomyślnie przywrócono zaznaczone wydziały.');
+             else Session::flash('error', 'Nie zaznaczono żadnego wydziału.');
+         }
         return redirect()->back();
     }
 }

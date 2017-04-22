@@ -31,6 +31,7 @@ class StudentController extends Controller
         $semesters = Semester::where(['active' => true])->get();
         $degrees = Degree::all();
         $study_forms = StudyForm::all();
+        $active = true;
                 
         $query = Student::where([]);
         
@@ -67,6 +68,7 @@ class StudentController extends Controller
                 case 'active':
                     $query->where($key, !!$filter);
                     $filtered = true;
+                    $active = !!$filter;
                     break;
             }
         }
@@ -90,7 +92,8 @@ class StudentController extends Controller
             'study_forms' => $study_forms,
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
-            'filtered' => $filtered
+            'filtered' => $filtered,
+            'active' => $active,
         ]);
     }
     
@@ -369,12 +372,30 @@ class StudentController extends Controller
         return redirect()->back();
     }
     
-    public function restoreStudent($id) {
+    public function restoreStudent($id = 0, Request $request) {
 
-        $student = Student::find($id);
-        $student->active = true;
-        $student->save();
-        Session::flash('success', 'Przywrócono studenta '.$student->name.' '.$student->surname.'.');
+        if($id) {
+            $student = Student::find($id);
+            $student->active = true;
+            $student->save();
+            Session::flash('success', 'Przywrócono studenta ' . $student->name . ' ' . $student->surname . '.');
+        }
+        else
+        {
+            $isChecked = false;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $isChecked = true;
+                    $student = Student::find($req['id']);
+                    $student->active = true;
+                    $student->save();
+                }
+            }
+            if($isChecked)
+                Session::flash('success', 'Pomyślnie przywrócono wszystkich studentów.');
+            else
+                Session::flash('error', 'Nie zaznaczono żadnego studenta.');
+        }
         return redirect()->back();
     }
 }

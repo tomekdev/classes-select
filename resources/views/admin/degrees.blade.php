@@ -60,7 +60,7 @@
                                         @if ($degree->active)
                                             <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć ten stopień?', '{{ route('admin.deleteDegree', ['id' => $degree->id]) }}')">Usuń</a>
                                         @else
-                                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić ten stopień?', '{{ route('admin.restoredegree', ['id' => $degree->id]) }}')">Przywróć</a>
+                                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić ten stopień?', '{{ route('admin.restoreDegree', ['id' => $degree->id]) }}')">Przywróć</a>
                                         @endif
                                         <a href="{{route('admin.getDegree', ['id' => $degree->id])}}">Edytuj</a>
                                     </td>
@@ -80,7 +80,11 @@
                         <a href="javascript:void(0)" onclick="deselectAll()">Usuń zaznaczenia</a>
                     </div>
                     <div class="text-right">
-                        <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć zaznaczone stopnie?', '{{ route('admin.deleteDegree', ['id' => 0]) }}')">Usuń</a>
+                        @if ($active)
+                            <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć zaznaczone stopnie?', '{{ route('admin.deleteDegree', ['id' => 0]) }}')">Usuń</a>
+                        @else
+                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić zaznaczone stopnie?', '{{route('admin.restoreDegree', ['id' => 0])}}')">Przywróć</a>
+                        @endif
                     </div>
                     {{ csrf_field() }}
                 </form>

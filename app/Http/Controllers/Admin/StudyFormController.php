@@ -14,6 +14,7 @@ class StudyFormController extends Controller
         $sortOrder = $request->input('sortOrder')?:'asc';
 
         $query = StudyForm::where([]);
+        $active = true;
 
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
@@ -22,6 +23,7 @@ class StudyFormController extends Controller
                 case 'active':
                     $query->where($key, !!$filter);
                     $filtered = true;
+                    $active = !!$filter;
                     break;
             }
         }
@@ -39,7 +41,8 @@ class StudyFormController extends Controller
             'study_forms' => $query->get(),
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
-            'filtered' => $filtered
+            'filtered' => $filtered,
+            'active' => $active,
         ]);
     }
 
@@ -102,12 +105,30 @@ class StudyFormController extends Controller
         return redirect()->route('admin.studyForms');
     }
     
-    public function restoreStudyForm($id) {
+    public function restoreStudyForm($id = 0, Request $request) {
+        if($id) {
+            $studyForm = StudyForm::find($id);
+            $studyForm->active = true;
+            $studyForm->save();
+            Session::flash('success', 'Przywrócono formę studiów '.$studyForm->name.'.');
+        }
+        else
+        {
+            $isChecked = false;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $isChecked = true;
+                    $studyForm = StudyForm::find($req['id']);
+                    $studyForm->active = true;
+                    $studyForm->save();
+                }
+            }
+            if($isChecked)
+                Session::flash('success', 'Pomyślnie przywrócono zaznaczone formy studiów.');
+            else Session::flash('error', 'Nie zaznaczono żadnej formy studiów.');
+        }
 
-        $studyForm = StudyForm::find($id);
-        $studyForm->active = true;
-        $studyForm->save();
-        Session::flash('success', 'Przywrócono formę studiów '.$studyForm->name.'.');
+
         return redirect()->back();
     }
 }

@@ -14,6 +14,7 @@ class DegreeController extends Controller
         $sortOrder = $request->input('sortOrder')?:'asc';
 
         $query = Degree::where([]);
+        $active = true;
 
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
@@ -22,6 +23,7 @@ class DegreeController extends Controller
                 case 'active':
                     $query->where($key, !!$filter);
                     $filtered = true;
+                    $active = !!$filter;
                     break;
             }
         }
@@ -39,7 +41,8 @@ class DegreeController extends Controller
             'degrees' => $query->get(),
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
-            'filtered' => $filtered
+            'filtered' => $filtered,
+            'active' => $active,
         ]);
     }
 
@@ -102,12 +105,29 @@ class DegreeController extends Controller
         return redirect()->route('admin.degrees');
     }
     
-    public function restoreDegree($id) {
+    public function restoreDegree($id = 0, Request $request) {
 
-        $degree = Degree::find($id);
-        $degree->active = true;
-        $degree->save();
-        Session::flash('success', 'Przywrócono stopień '.$degree->name.'.');
+        if($id){
+            $degree = Degree::find($id);
+            $degree->active = true;
+            $degree->save();
+            Session::flash('success', 'Przywrócono stopień '.$degree->name.'.');
+        }
+        else
+        {
+            $isChecked = false;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $isChecked = true;
+                    $degree = Degree::find($req['id']);
+                    $degree->active = true;
+                    $degree->save();
+                }
+            }
+            if($isChecked)
+                Session::flash('success', 'Pomyślnie przywrócono zaznaczone stopnie.');
+            else Session::flash('error', 'Nie zaznaczono żadnego stopnia.');
+        }
         return redirect()->back();
     }
 }

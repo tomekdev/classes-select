@@ -80,7 +80,11 @@
                     <a href="javascript:void(0)" onclick="deselectAll()">Usuń zaznaczenia</a>
                 </div>
                 <div class="text-right">
-                    <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć zaznaczone wydziały?', '{{ route('admin.deletefaculty', ['id' => 0]) }}')">Usuń</a>
+                    @if($active)
+                        <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć zaznaczone wydziały?', '{{ route('admin.deletefaculty', ['id' => 0]) }}')">Usuń</a>
+                    @else
+                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić zaznaczonych studentów?', '{{route('admin.restoreFaculty', ['id' => 0])}}')">Przywróć</a>
+                    @endif
                 </div>
                 {{ csrf_field() }}
             </form>

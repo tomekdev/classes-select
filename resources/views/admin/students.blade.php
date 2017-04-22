@@ -151,7 +151,7 @@
                                         @if ($student->active)
                                             <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć tego studenta?', '{{ route('admin.deletestudent', ['id' => $student->id]) }}')">Usuń</a>
                                         @else
-                                        <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić tego studenta?', '{{route('admin.restorestudent', ['id' => $student->id])}}')">Przywróć</a>
+                                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić tego studenta?', '{{route('admin.restoreStudent', ['id' => $student->id])}}')">Przywróć</a>
                                         @endif
                                         <a href="{{route('admin.savestudent', ['id' => $student->id])}}">Edytuj</a>
                                         <a href="/">Pokaż zapisy</a>
@@ -175,7 +175,11 @@
                     <div class="text-right">
                         <a a href="javascript:void(0)" onclick="changeStudyAll()">Zmień informacje studiowania</a>
                         |
-                        <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz zaznaczonych studentów?', '{{ route('admin.deletestudent', ['id' => 0]) }}')">Usuń</a>
+                        @if ($active)
+                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz zaznaczonych studentów?', '{{ route('admin.deletestudent', ['id' => 0]) }}')">Usuń</a>
+                        @else
+                            <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić zaznaczonych studentów?', '{{route('admin.restoreStudent', ['id' => 0])}}')">Przywróć</a>
+                        @endif
                     </div>
                     <div id="div_study">
 

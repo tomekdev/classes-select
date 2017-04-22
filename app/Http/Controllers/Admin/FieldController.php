@@ -20,6 +20,8 @@ class FieldController extends Controller
         $query = Field::whereHas('faculties', function($q) {
             $q->where('faculties.active', true);
         });
+
+        $active = true;
         
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
@@ -28,6 +30,7 @@ class FieldController extends Controller
                 case 'active':
                     $query->where($key, !!$filter);
                     $filtered = true;
+                    $active = !!$filter;
                     break;
                 case 'faculty':
                     if($filter) {
@@ -52,7 +55,8 @@ class FieldController extends Controller
             'faculties' => $faculties,
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
-            'filtered' => $filtered
+            'filtered' => $filtered,
+            'active' => $active,
         ]);
     }
 
@@ -127,12 +131,28 @@ class FieldController extends Controller
         return redirect()->back();
     }
     
-    public function restoreField($id) {
-
-        $field = Field::find($id);
-        $field->active = true;
-        $field->save();
-        Session::flash('success', 'Przywrócono kierunek '.$field->name.'.');
+    public function restoreField($id = 0, Request $request) {
+        if($id){
+            $field = Field::find($id);
+            $field->active = true;
+            $field->save();
+            Session::flash('success', 'Przywrócono kierunek '.$field->name.'.');
+        }
+        else
+        {
+            $isChecked = false;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $isChecked = true;
+                    $field = Field::find($req['id']);
+                    $field->active = true;
+                    $field->save();
+                }
+            }
+            if($isChecked)
+                Session::flash('success', 'Pomyślnie przywrócono zaznaczone kierunki.');
+            else Session::flash('error', 'Nie zaznaczono żadnego kierunku.');
+        }
         return redirect()->back();
     }
 }

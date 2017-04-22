@@ -16,6 +16,7 @@ class SemesterController extends Controller
         $sortOrder = $request->input('sortOrder')?:'asc';
 
         $query = Semester::where([]);
+        $active = true;
 
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
@@ -24,6 +25,7 @@ class SemesterController extends Controller
                 case 'active':
                     $query->where($key, !!$filter);
                     $filtered = true;
+                    $active = !!$filter;
                     break;
             }
         }
@@ -41,7 +43,8 @@ class SemesterController extends Controller
             'semesters' => $query->get(),
             'sortProperty' => $sortProperty,
             'sortOrder' => $sortOrder,
-            'filtered' => $filtered
+            'filtered' => $filtered,
+            'active' => $active,
         ]);
     }
 
@@ -105,12 +108,30 @@ class SemesterController extends Controller
         return redirect()->route('admin.semesters');
     }
     
-    public function restoreSemester($id) {
+    public function restoreSemester($id = 0, Request $request) {
 
-        $semester = Semester::find($id);
-        $semester->active = true;
-        $semester->save();
-        Session::flash('success', 'Przywrócono semestr '.$semester->name.'.');
+        if($id) {
+            $semester = Semester::find($id);
+            $semester->active = true;
+            $semester->save();
+            Session::flash('success', 'Przywrócono semestr '.$semester->name.'.');
+        }
+        else
+        {
+            $isChecked = false;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $isChecked = true;
+                    $semester = Semester::find($req['id']);
+                    $semester->active = true;
+                    $semester->save();
+                }
+            }
+            if($isChecked)
+                Session::flash('success', 'Pomyślnie przywrócono zaznaczone semestry.');
+            else
+                Session::flash('error', 'Nie zaznaczono żadnego semestru.');
+        }
         return redirect()->back();
     }
 }
