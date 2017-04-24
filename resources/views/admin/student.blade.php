@@ -1,13 +1,15 @@
 @extends('layouts.admin') @section('content')
 
-<div class="container">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>{{$student? 'Edytuj' : 'Dodaj'}} studenta</h3>
-                </div>
-                <form class="form form-horizontal col-lg-8 col-lg-offset-2" method="post" action="{{$student? route('admin.savestudent', ['id' => $student->id]) : route('admin.savestudent')}}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>{{$student? 'Edytuj studenta' : 'Dodaj studenta'}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form form-horizontal" method="post" action="{{$student? route('admin.savestudent', ['id' => $student->id]) : route('admin.savestudent')}}">
+
                     <h4>Dane studenta</h4>
                     <div class="form-group">
                         <label for="name" class="col-md-2 control-label">Imię</label>
@@ -113,6 +115,7 @@
                     {{ csrf_field() }}
                     <button type="submit" class="btn btn-primary btn-raised pull-right">{{$student? 'Zapisz' : 'Dodaj'}} studenta</button>
                 </form>
+                    </div>
             </div>
         </div>
     </div>

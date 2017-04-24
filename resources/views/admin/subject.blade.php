@@ -1,13 +1,14 @@
 @extends('layouts.admin') @section('content')
 
-<div class="container">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <div class="panel-heading">
-                    <h3>{{$subject? 'Edytuj' : 'Dodaj'}} przedmiot wybieralny</h3>
-                </div>
-                <form class="form form-horizontal col-lg-8 col-lg-offset-2" method="post" action="{{$subject? route('admin.saveSubject', ['id' => $subject->id]) : route('admin.saveSubject')}}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>{{$subject? 'Edytuj przedmiot wybieralny' : 'Dodaj przedmiot wybieralny'}}</h3>
+                    </div>
+                    <div class="panel-body">
+                <form class="form form-horizontal" method="post" action="{{$subject? route('admin.saveSubject', ['id' => $subject->id]) : route('admin.saveSubject')}}">
                     <h4>Dane przedmiotu wybieralnego</h4>
                     <div class="form-group">
                         <label for="name" class="col-md-2 control-label">Nazwa</label>
@@ -17,17 +18,17 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="max_person" class="col-md-2 control-label">Max osób</label>
-
-                        <div class="col-md-10">
-                            <input type="text" name="max_person" class="form-control" id="max_person" required value="{{$subject? $subject->max_person : (old('max_person')?: '')}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="min_person" class="col-md-2 control-label">Min osób</label>
 
                         <div class="col-md-10">
                             <input type="text" name="min_person" class="form-control" id="min_person" required value="{{$subject? $subject->min_person : (old('min_person')?: '')}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="max_person" class="col-md-2 control-label">Max osób</label>
+
+                        <div class="col-md-10">
+                            <input type="text" name="max_person" class="form-control" id="max_person" required value="{{$subject? $subject->max_person : (old('max_person')?: '')}}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -89,6 +90,7 @@
                     <button type="submit" class="btn btn-primary btn-raised pull-right">{{$subject? 'Zapisz' : 'Dodaj'}} przedmiot wybieralny</button>
                 </form>
             </div>
+                </div>
         </div>
     </div>
 </div>
