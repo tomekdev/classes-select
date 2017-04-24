@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Degree;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use \Session;
 
 class DegreeController extends Controller
@@ -73,7 +74,7 @@ class DegreeController extends Controller
             return redirect()->back()->withErrors($v->errors());
         }
 
-        $degree = $id? Degree::find($id) : new Faculty();
+        $degree = $id? Degree::find($id) : new Degree();
         $degree->fill($request->all());
         $degree->save();
         Session::flash('success', 'Pomyślnie zapisano stopień.');
