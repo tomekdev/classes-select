@@ -5,7 +5,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <h3>Wydziały</h3>
+                        <h3>Stopnie</h3>
                     </div>
                     <div class="text-right col-md-9">
                         <a href="{{route('admin.getDegree')}}" class="btn btn-primary">Dodaj stopień</a>

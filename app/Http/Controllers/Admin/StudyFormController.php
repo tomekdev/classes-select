@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\StudyForm;
 use \Session;
+use Illuminate\Support\Facades\Validator;
 
 class StudyFormController extends Controller
 {
@@ -59,13 +60,9 @@ class StudyFormController extends Controller
             'name.required' => 'Pole semestr jest wymagane.',
             'name.alpha_spaces' => 'Pole nazwa może zawierać tylko litery i spacje.',
             'name.max' => 'Pole nazwa może zawierać maksymalnie 255 znaków.',
-            'type.required' => 'Pole typ jest wymagane.',
-            'type.alpha_spaces' => 'Pole typ może zawierać tylko litery i spacje.',
-            'type.max' => 'Pole typ może zawierać maksymalnie 255 znaków.',
         );
         $v = Validator::make($request->all(), [
             'name' => 'required|alpha_spaces|max:255',
-            'type' => 'required|alpha_spaces|max:255',
         ], $messages);
 
         if ($v->fails()) {

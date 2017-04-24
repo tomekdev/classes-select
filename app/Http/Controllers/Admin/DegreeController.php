@@ -6,6 +6,7 @@ use App\Degree;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use \Session;
+use Illuminate\Support\Facades\Validator;
 
 class DegreeController extends Controller
 {
