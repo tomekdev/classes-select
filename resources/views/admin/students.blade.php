@@ -121,13 +121,14 @@
                                     </a>
                                 </th>
                                 <th class="text-center">
-                                    <a href="{{{URL::route('admin.students', array('sortProperty' => 'average', 'sortOrder' => $sortProperty === 'average'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Średnia
-                                        @if ($sortProperty === 'average')
-                                            <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
-                                        <span class="caret"></span>
-                                    </span>
-                                        @endif
-                                    </a>
+                                    {{--<a href="{{{URL::route('admin.students', array('sortProperty' => 'average', 'sortOrder' => $sortProperty === 'average'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Średnia--}}
+                                        {{--@if ($sortProperty === 'average')--}}
+                                            {{--<span class="{{$sortOrder === 'asc'?' dropup' : ''}}">--}}
+                                        {{--<span class="caret"></span>--}}
+                                    {{--</span>--}}
+                                        {{--@endif--}}
+                                    {{--</a>--}}
+                                    Średnia(e)
                                 </th>
                                 <th class="text-center">Kierunki</th>
                                 <th class="text-center">Opcje</th>
@@ -141,7 +142,11 @@
                                     <td>{{{$student->index}}}</td>
                                     <td>{{{$student->surname}}} {{{$student->name}}}</td>
                                     <td>{{{$student->email}}}</td>
-                                    <td>{{{$student->average}}}</td>
+                                    <td>
+                                        @foreach($student->getDBStudies() as $study)
+                                            <p>{{ $study->average }}</p>
+                                        @endforeach
+                                    </td>
                                     <td>
                                         @foreach ($student->getStudies() as $study)
                                             <p>{{{$study['field']->name}}}, {{{$study['semester']->number}}} semestr</p>

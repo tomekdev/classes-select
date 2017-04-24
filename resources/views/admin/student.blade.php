@@ -87,6 +87,12 @@
                                         <input type="hidden" name="fields[{{$key}}][id]" value="{{ $study['id'] }}"/>
                                     </div>
                                     <div class="form-group">
+                                            <label for="fields[{{$key}}][average]" class="col-md-2 control-label">Średnia</label>
+                                        <div class="col-md-10">
+                                            <input type="text" name="fields[{{$key}}][average]" class="form-control" required value="{{$study['average']? $study['average'] : ''}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="fields[{{$key}}][degree_id]" class="col-md-2 control-label">Stopień</label>
                                         <div class="col-md-10">
                                             <select name="fields[{{$key}}][degree_id]" class="form-control select">
@@ -154,6 +160,12 @@
                 </select>
             </div>
             <input type="hidden" name="fields[@counter@][id]" value="0"/>
+        </div>
+        <div class="form-group">
+            <label for="fields[@counter@][average]" class="col-md-2 control-label">Średnia</label>
+            <div class="col-md-10">
+                <input type="text" name="fields[@counter@][average]" class="form-control" required />
+            </div>
         </div>
         <div class="form-group">
             <label for="fields[@counter@][degree_id]" class="col-md-2 control-label">Stopień</label>

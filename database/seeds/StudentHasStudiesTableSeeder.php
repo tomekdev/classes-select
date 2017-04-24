@@ -27,6 +27,7 @@ class StudentHasStudiesTableSeeder extends Seeder
                 'semester_id' => 1,
                 'degree_id' => 2,
                 'study_form_id' => 1,
+                'average' => 3.50,
             ),
             1 => 
             array (
@@ -38,6 +39,7 @@ class StudentHasStudiesTableSeeder extends Seeder
                 'semester_id' => 2,
                 'degree_id' => 1,
                 'study_form_id' => 2,
+                'average' => 3.00,
             ),
             2 => 
             array (
@@ -49,6 +51,7 @@ class StudentHasStudiesTableSeeder extends Seeder
                 'semester_id' => 3,
                 'degree_id' => 1,
                 'study_form_id' => 1,
+                'average' => 5.00,
             ),
             3 =>
                 array (
@@ -60,6 +63,7 @@ class StudentHasStudiesTableSeeder extends Seeder
                     'semester_id' => 2,
                     'degree_id' => 2,
                     'study_form_id' => 2,
+                    'average' => 4.50,
                 ),
         ));
         

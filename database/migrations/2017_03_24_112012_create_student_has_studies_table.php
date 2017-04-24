@@ -21,6 +21,7 @@ class CreateStudentHasStudiesTable extends Migration
             $table->integer('semester_id')->unsigned();
             $table->integer('degree_id')->unsigned();
             $table->integer('study_form_id')->unsigned();
+            $table->float('average')->nullable();
             $table->boolean('active')->default(true);
         });
 

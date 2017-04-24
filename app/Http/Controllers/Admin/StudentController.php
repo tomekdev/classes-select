@@ -145,7 +145,10 @@ class StudentController extends Controller
             'index.min' => 'Numer indeksu nie może być mniejszy od 1.',
             'email.required' => 'Pole email jest wymagane.',
             'email.email' => 'Pole email musi być zgodne z konwencją email-a.',
-            'email.max' => 'Pole email może zawierać maksymalnie 255 znaków.'
+            'email.max' => 'Pole email może zawierać maksymalnie 255 znaków.',
+            'average.required' => 'Pole średnia jest wymagane.',
+            'average.between' => 'Pole średnia może zawierać tylko wartości z przedziału 2.00 - 5.00.',
+            'average.numeric' => 'Pole średnia może zawierać tylko cyfry.',
 
         );
         $v = Validator::make($request->all(), [
@@ -175,6 +178,18 @@ class StudentController extends Controller
             $request->flash();
             return redirect()->back();
         }
+
+        foreach ($reqStudies as $field)
+        {
+            $v = Validator::make($field, [
+                'average' => 'required|numeric|between:2.00, 5.00',
+            ], $messages);
+
+            if ($v->fails()) {
+                $request->flash();
+                return redirect()->back()->withErrors($v->errors());
+            }
+        }
         // jeżeli kierunki się powtażają
         if($this->checkRepeatInFields($reqStudies))
         {
@@ -186,11 +201,6 @@ class StudentController extends Controller
         $request['name'] = ucfirst(mb_strtolower($request['name']));
         $request['surname'] = ucfirst(mb_strtolower($request['surname']));
 
-        if (count(Student::where('index',$request['index'])->where('id', '!=', $id)->get()) > 0) {
-            Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
-            $request->flash();
-            return redirect()->back();
-        }
         $student = $id? Student::find($id) : null;
 
         if($student) {
@@ -207,6 +217,7 @@ class StudentController extends Controller
                             $study->field_id = $reqStudy['field_id'];
                             $study->semester_id = $reqStudy['semester_id'];
                             $study->student_id = $student['id'];
+                            $study->average = $reqStudy['average'];
                             $study->degree_id = $reqStudy['degree_id'];
                             $study->study_form_id = $reqStudy['study_form_id'];
                             $study->save();
@@ -220,6 +231,7 @@ class StudentController extends Controller
                     $newStudy->field_id = $reqStudy['field_id'];
                     $newStudy->semester_id = $reqStudy['semester_id'];
                     $newStudy->student_id = $student['id'];
+                    $newStudy->average = $reqStudy['average'];
                     $newStudy->degree_id = $reqStudy['degree_id'];
                     $newStudy->study_form_id = $reqStudy['study_form_id'];
                     $newStudy->save();
@@ -230,6 +242,18 @@ class StudentController extends Controller
         }
         else
         {
+//                if (count(Student::where('index',$request['index'])->where('id', '!=', $id)->get()) > 0) {
+//                    Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
+//                    $request->flash();
+//                    return redirect()->back();
+//                }
+
+            if (count(Student::where('index',$request['index'])) > 0) {
+                Session::flash('error', 'Student o takim numerze indeksu już istnieje.');
+                $request->flash();
+                return redirect()->back();
+            }
+
                 $student = new Student();
                 $student->fill($request->all());
                 $student->password = Hash::make(str_random(8));
@@ -243,6 +267,7 @@ class StudentController extends Controller
                     $newStudy->field_id = $reqStudy['field_id'];
                     $newStudy->semester_id = $reqStudy['semester_id'];
                     $newStudy->student_id = $student->id;
+                    $newStudy->average = $reqStudy['average'];
                     $newStudy->degree_id = $reqStudy['degree_id'];
                     $newStudy->study_form_id = $reqStudy['study_form_id'];
                     $newStudy->save();
