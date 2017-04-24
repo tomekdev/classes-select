@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\StudyForm;
 use \Session;
-use Illuminate\Support\Facades\Validator;
 
 class StudyFormController extends Controller
 {
