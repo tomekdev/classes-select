@@ -42,7 +42,7 @@ class AdminController extends Controller
         else
         {
             Session::flash('error', 'Podany login nie istnieje.');
-            return redirect('/');
+            return redirect('/admin');
         }
     }
 

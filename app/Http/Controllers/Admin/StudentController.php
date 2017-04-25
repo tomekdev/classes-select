@@ -201,6 +201,12 @@ class StudentController extends Controller
         $request['name'] = ucfirst(mb_strtolower($request['name']));
         $request['surname'] = ucfirst(mb_strtolower($request['surname']));
 
+        if (count(Student::where('index',$request['index'])->where('id', '!=', $id)->get()) > 0) {
+            Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
+            $request->flash();
+            return redirect()->back();
+        }
+
         $student = $id? Student::find($id) : null;
 
         if($student) {
@@ -242,22 +248,10 @@ class StudentController extends Controller
         }
         else
         {
-//                if (count(Student::where('index',$request['index'])->where('id', '!=', $id)->get()) > 0) {
-//                    Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
-//                    $request->flash();
-//                    return redirect()->back();
-//                }
-
-            if (count(Student::where('index',$request['index'])) > 0) {
-                Session::flash('error', 'Student o takim numerze indeksu już istnieje.');
-                $request->flash();
-                return redirect()->back();
-            }
 
                 $student = new Student();
                 $student->fill($request->all());
                 $student->password = Hash::make(str_random(8));
-                $student->average = null;
                 $student->study_end = null;
                 $student->save();
 
