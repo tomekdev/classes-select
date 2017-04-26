@@ -68,7 +68,40 @@
         
         $(document).ready(function() {
             $.material.init();
-            $(".select").dropdown({"optionClass": "withripple"});
+            $(".select").dropdown({
+                "optionClass": "withripple",
+                "callback": function($dropdown) {
+                    $dropdown.on("keydown", function(e){
+                        if (e.keyCode === 40 || e.keyCode === 38) {
+                            var $target = $(this).find('li[selected="selected"]');
+                            var dropDownItems = e.keyCode === 40? $target.next() : $target.prev();
+                            var $currentOption = $(this).data("select").find('option[selected]');
+                            var newOption = e.keyCode === 40? $currentOption.next() : $currentOption.prev();
+                            if (dropDownItems.length > 0) {
+                                var $input  = $(this).find("input.fakeinput");
+                                var $select = $dropdown.data("select");
+                                $(this).find('li[selected="selected"]').removeAttr("selected").removeClass("selected");
+                                $(dropDownItems[0]).attr("selected", "selected").addClass("selected");
+                                $currentOption.removeAttr("selected");
+                                newOption.attr("selected", "selected");
+                                $input.val($(dropDownItems[0]).text());
+                            }
+                            e.preventDefault();
+                        }
+                        else if (e.keyCode === 13) {
+                            var $input  = $(this).find("input.fakeinput");
+                            $input.removeClass("focus");
+                            e.preventDefault();
+                        }
+                    });
+                    $dropdown.on("focusin", function() {
+                        $target = $(this);
+                        setTimeout(function(){
+                            $target.find("li").attr("tabindex", -1);    
+                        },100)   
+                    });
+                }
+            });
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('[name="_token"]').val()
