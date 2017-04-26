@@ -6,6 +6,7 @@ use App\Subject;
 use App\Field;
 use App\Faculty;
 use App\Semester;
+use App\SubSubject;
 use App\Degree;
 use App\StudyForm;
 use Illuminate\Http\Request;
@@ -160,6 +161,17 @@ class SubjectController extends Controller
             return redirect()->back();
         }
         
+
+        $subject = $id ? Subject::find($id) : new Subject();
+        $subject->name = $request['name'];
+        $subject->min_person = $request['min_person'];
+        $subject->max_person = $request['max_person'];
+        $subject->field_id = $request['fields']['field_id'];
+        $subject->semester_id = $request['fields']['semester_id'];
+        $subject->degree_id = $request['fields']['degree_id'];
+        $subject->study_form_id = $request['fields']['study_form_id'];
+        $subject->save();
+        
         //waliduje i zapisuje wszystkie zajęcia dla danego przedmiotu
         $subSubjects = $request['subSubjects']?: [];
         foreach ($subSubjects as $subSubject)
@@ -174,21 +186,21 @@ class SubjectController extends Controller
             }
         }
         
+        $modifiedSubSubjects = [];
         foreach ($subSubjects as $subSubject) {
-            $subSubject = $subSubject['id']? SubSubject::find($subSubject['id']) : new SubSubject();
-            $subSubject->fill($subSubject);
+            $modifiedSubSubjects[] = $subSubject['id'];
+            $subSubjectObj = $subSubject['id']? SubSubject::find($subSubject['id']) : new SubSubject();
+            $subSubjectObj->name = $subSubject['name'];
+            $subSubjectObj->subject_id = $subject->id;
+            $subSubjectObj->active = isset($subSubject['active'])? $subSubject['active'] === "on" : false;
+            $subSubjectObj->save();
+        }
+        
+        $subSubjectsToDelete = SubSubject::where('subject_id', $subject->id)->whereNotIn('id', $modifiedSubSubjects)->get();
+        foreach ($subSubjectsToDelete as $subSubject) {
+            $subSubject->active = false;
             $subSubject->save();
         }
-
-        $subject = $id ? Subject::find($id) : new Subject();
-        $subject->name = $request['name'];
-        $subject->min_person = $request['min_person'];
-        $subject->max_person = $request['max_person'];
-        $subject->field_id = $request['fields']['field_id'];
-        $subject->semester_id = $request['fields']['semester_id'];
-        $subject->degree_id = $request['fields']['degree_id'];
-        $subject->study_form_id = $request['fields']['study_form_id'];
-        $subject->save();
 
         if($id)
             Session::flash('success', 'Zmiany zostały pomyślnie zapisane.');

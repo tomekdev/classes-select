@@ -11,6 +11,6 @@ class SubSubject extends Model
     }
     // metoda zwraca przedmiot do jakiego przypisane są dane zajęcia
     public function getFaculty() {
-        return $this->belongsTo(Subject::class)
+        return $this->belongsTo(Subject::class);
     }
 }

@@ -86,6 +86,37 @@
                             </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Zajęcia</h4>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <a href="javascript:void(0)" onclick="addSubSubject()"><h4>Dodaj zajęcia</h4></a>
+                        </div>
+                    </div>
+                    <div id="subSubjects">
+                        @foreach ($subject? $subject->getSubSubjects() : [] as $index => $subSubject)
+                            <div class="panel">
+                                <div class="panel-heading">
+                                  <!--  <a href="javascript:void(0)" onclick="removeSubSubject(this)" class="pull-right">Usuń</a>-->
+                                    <div class="form-group">
+                                        <input id="subSubjects[{{$index}}][id]" name="subSubjects[{{$index}}][id]" type="hidden" value="{{$subSubject->id}}">
+                                        <label for="subSubjects[{{$index}}][name]" class="col-md-2 control-label">Nazwa zajęć</label>
+                                        <div class="col-md-8">
+                                            <input id="subSubjects[{{$index}}][name]" name="subSubjects[{{$index}}][name]" class="form-control select" value="{{$subSubject->name}}" >
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="togglebutton">
+                                                <label for="subSubjects[{{$index}}][active]">Zapisy
+                                                <input id="subSubjects[{{$index}}][active]" name="subSubjects[{{$index}}][active]" type="checkbox" {{$subSubject->active? 'checked' : ''}}>
+                                              </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                     {{ csrf_field() }}
                     <button type="submit" class="btn btn-primary btn-raised pull-right">{{$subject? 'Zapisz' : 'Dodaj'}} przedmiot wybieralny</button>
                 </form>
@@ -94,4 +125,40 @@
         </div>
     </div>
 </div>
+
+
+<div class="panel" id="subSubject-template" style="display:none">
+    <div class="panel-heading">
+<!--        <a href="javascript:void(0)" onclick="removeSubSubject(this)" class="pull-right">Usuń</a>-->
+        <div class="form-group">
+            <input id="subSubjects[@counter@][id]" name="subSubjects[@counter@][id]" type="hidden">
+            <label for="subSubjects[@counter@][name]" class="col-md-2 control-label">Nazwa zajęć</label>
+            <div class="col-md-8">
+                <input id="subSubjects[@counter@][name]" name="subSubjects[@counter@][name]" class="form-control select@counter@" onchange="">
+			</div>
+			<div class="col-md-2">
+                <div class="togglebutton">
+					<label for="subSubjects[@counter@][active]">Zapisy
+					<input name="subSubjects[@counter@][active]" id="subSubjects[@counter@][active]" type="checkbox" checked="">
+              </label>
+            </div>
+			</div>
+		</div>
+	</div>
+</div>	
+       
+<script type="text/javascript">
+    var counter = {{count($subject? $subject->getSubSubjects() : [])}};
+    function removeSubSubject(link) {
+        $(link).closest('.panel').slideUp('normal', function() { $(this).remove(); } );
+    }
+    function addSubSubject() {
+        var template = document.getElementById('subSubject-template').outerHTML;
+        var template = template.replace('id="subSubject-template"', '');
+        var template = template.replace('display:none', '');
+        var template = template.split('@counter@').join(counter);//inna wersja replace, zamienia wszystkie wystąpienia
+        $('#subSubjects').append(template);
+        counter++;
+    }
+</script>
 @endsection
