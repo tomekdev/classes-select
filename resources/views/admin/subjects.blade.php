@@ -111,8 +111,9 @@
                                         @endif
                                     </a>
                                 </th>
-                                <th class="text-center">Wydział, kierunek, semestr</th>
+                                <th class="text-center">Kierunek, semestr</th>
                                 <th class="text-center">Stopień, forma studiów</th>
+                                <th class="text-center">Zajęcia</th>
                                 <th class="text-center">Opcje</th>
                             </tr>
                             </thead>
@@ -123,8 +124,13 @@
                                     <td class="text-center">{{ $subject->name }}</td>
                                     <td class="text-center">{{ $subject->max_person }}</td>
                                     <td class="text-center">{{ $subject->min_person }}</td>
-                                    <td class="text-center">{{ $subject->getFaculty()->name .', ' .$subject->getField()->name .', ' .$subject->getSemester()->name}}</td>
+                                    <td class="text-center">{{ $subject->getField()->name .', ' .$subject->getSemester()->name}}</td>
                                     <td class="text-center">{{ $subject->getDegree()->name .', ' .$subject->getStudyForm()->name}}</td>
+                                    <td>
+                                        @foreach ($subject->getSubSubjects()?: [] as $subSubject)
+                                            <p>{{$subSubject->name}}</p>
+                                        @endforeach
+                                    </td>
                                     <td>
                                         @if($active)
                                             <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć ten przedmiot wybieralny?', '{{ route('admin.deleteSubject', ['id' => $subject->id]) }}')">Usuń</a>
