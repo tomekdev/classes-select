@@ -29,6 +29,11 @@ class Subject extends Model
     {
         return $this->belongsTo(StudyForm::class, 'study_form_id', 'id');
     }
+    
+    public function subSubjects()
+    {
+        return $this->hasMany(SubSubject::class);
+    }
 
     // metoda zwraca wydział jaki został przypisany dla tego przedmiotu wybieralnego
     public function getFaculty()
@@ -66,5 +71,11 @@ class Subject extends Model
     public function getStudyForm()
     {
         return $this->belongsTo(StudyForm::class, 'study_form_id', 'id')->first();
+    }
+    
+    // metoda zwraca wszystkie opcje jakie są przypisane do tego przedmiotu
+    public function getSubSubjects()
+    {
+        return $this->hasMany(SubSubject::class)->get();
     }
 }

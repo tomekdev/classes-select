@@ -107,7 +107,7 @@ class SubjectController extends Controller
             $fields->orWhereIn('fields.id', array_column($subject->getField()->toArray(), "id"));
             $semesters->orWhereIn('semesters.id', array_column($subject->getSemester()->toArray(), "id"));
         }
-
+        
         $faculties = $faculties->get();
         $fields = $fields->get();
         $semesters = $semesters->get()->sortByDesc('id');
@@ -158,6 +158,26 @@ class SubjectController extends Controller
             Session::flash('error', 'Pole "Min osób" nie może mieć większej wartości niż pole "Max osób". Zmiany nie zostały zapisane.');
             $request->flash();
             return redirect()->back();
+        }
+        
+        //waliduje i zapisuje wszystkie zajęcia dla danego przedmiotu
+        $subSubjects = $request['subSubjects']?: [];
+        foreach ($subSubjects as $subSubject)
+        {
+            $v = Validator::make($subSubject, [
+                'name' => 'required|alpha_spaces|max:255',
+            ], $messages);
+
+            if ($v->fails()) {
+                $request->flash();
+                return redirect()->back()->withErrors($v->errors());
+            }
+        }
+        
+        foreach ($subSubjects as $subSubject) {
+            $subSubject = $subSubject['id']? SubSubject::find($subSubject['id']) : new SubSubject();
+            $subSubject->fill($subSubject);
+            $subSubject->save();
         }
 
         $subject = $id ? Subject::find($id) : new Subject();
