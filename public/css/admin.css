@@ -55,3 +55,17 @@ color: #3f51b5;
 .admin-panel :focus{
 outline-color: #3f51b5;
 }
+
+
+.admin-panel .togglebutton label input[type="checkbox"]:checked + .toggle {
+    background-color: #7e8fed;
+}
+
+.admin-panel .togglebutton label input[type="checkbox"]:checked + .toggle::after {
+    background-color: #3f51b5;
+  }
+
+.admin-panel .togglebutton label input[type=checkbox]:checked+.toggle:active:after {
+    -webkit-box-shadow: 0 1px 3px 1px rgba(0,0,0,.4), 0 0 0 15px rgba(126, 143, 237, .2);
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,.4), 0 0 0 15px rgba(126, 143, 237, .2);
+}
