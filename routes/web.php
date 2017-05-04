@@ -305,6 +305,38 @@ Route::group([
             'uses' => 'Admin\SubjectController@restoreSubject',
             'as' => 'admin.restoreSubject'
         ])->where('id', '[0-9]+');
+        
+        /***********Terms***************/
+
+        Route::get('/terms', [
+            'uses' => 'Admin\TermController@index',
+            'as' => 'admin.terms'
+        ]);
+
+        Route::post('/terms', [
+            'uses' => 'Admin\TermController@index',
+            'as' => 'admin.terms'
+        ]);
+
+        Route::get('/term/{id?}', [
+            'uses' => 'Admin\TermController@getTermFrom',
+            'as' => 'admin.getTerm'
+        ])->where('id', '[0-9]+');
+
+        Route::post('/term/{id?}', [
+            'uses' => 'Admin\TermController@saveTerm',
+            'as' => 'admin.saveTerm'
+        ])->where('id', '[0-9]+');
+
+        Route::delete('/term/{id?}', [
+            'uses' => 'Admin\TermController@deleteTerm',
+            'as' => 'admin.deleteTerm'
+        ])->where('id', '[0-9]+');
+
+        Route::delete('/term/{id?}/restore', [
+            'uses' => 'Admin\TermController@restoreTerm',
+            'as' => 'admin.restoreTerm'
+        ])->where('id', '[0-9]+');
     });
 
 // to jest strefa dla Mateusza i Grzesia do testowania pojedynczych widoków. Proszę tu nie grzebać, poza nimi dwoma

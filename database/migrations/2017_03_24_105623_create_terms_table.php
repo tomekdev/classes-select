@@ -17,8 +17,8 @@ class CreateTermsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->float('min_average');
-            $table->date('start_date');
-            $table->date('finish_date');
+            $table->dateTime('start_date');
+            $table->dateTime('finish_date');
             $table->integer('semester_id')->unsigned();
             $table->integer('field_id')->unsigned();
             $table->boolean('active')->default(true);
