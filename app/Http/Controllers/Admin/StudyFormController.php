@@ -17,6 +17,14 @@ class StudyFormController extends Controller
         $query = StudyForm::where([]);
         $active = true;
 
+        if ($request->isMethod('post')) {
+            Session::flash(get_class($this), $request->all());
+        }
+        else if (Session::has(get_class($this))) {
+            $request->request->add(Session::get(get_class($this)));
+            Session::keep(get_class($this));
+        }
+        
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
         foreach ($request->all() as $key => $filter) {

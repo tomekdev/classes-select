@@ -35,6 +35,15 @@ class StudentController extends Controller
                 
         $query = Student::where([]);
         
+        //trzyma dane filtrowania w sesji dokładnie jedno zapytanie
+        if ($request->isMethod('post')) { //jeżeli wysłano filtry
+            Session::flash(get_class($this), $request->all()); //zapisz filtry w sesji pod nazwą kontrolera
+        }
+        else if (Session::has(get_class($this))){ //jeśli nie przesłano filtrów, ale są w sesji
+            $request->request->add(Session::get(get_class($this))); //uzupełnij zapytanie zapisanymi filtrami
+            Session::keep(get_class($this)); //przedłuż przetrzymywanie filtrów na kolejny request
+        }
+        
         $filtered = false;
         //sprawdza czy poprawne i dodaje filtry przychodzące postem
         foreach ($request->all() as $key => $filter) {
