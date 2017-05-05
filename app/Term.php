@@ -3,11 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Term extends Model
 {
     //atrybuty, które mogą być uzupełniane na raz
     protected $fillable = ['field_id', 'semester_id', 'min_average', 'start_date', 'finish_date'];
+    
+    public function fields()
+    {
+        return $this->belongsTo(Field::class, 'field_id', 'id');
+    }
+    
     // metoda zwraca kierunek jakiego dotyczy dany termin
     public function getField()
     {
@@ -18,5 +25,16 @@ class Term extends Model
     public function getSemester()
     {
         return $this->belongsTo(Semester::class, 'semester_id')->first();
+    }
+    
+    //daty w bardziej przyjaznym formacie
+    public function getStartDateAttribute($value) {
+        $value = Carbon::parse($value);
+        return $value->format("Y-m-d H:i");
+    }
+    
+    public function getFinishDateAttribute($value) {
+        $value = Carbon::parse($value);
+        return $value->format("Y-m-d H:i");
     }
 }

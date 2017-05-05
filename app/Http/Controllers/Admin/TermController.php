@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Term;
 use App\Field;
 use App\Faculty;
+use App\Degree;
+use App\StudyForm;
 use App\Semester;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,6 +16,78 @@ use \Session;
 
 class TermController extends Controller
 {
+    public function index($id = null, Request $request) {
+        $sortProperty = $request->input('sortProperty')?:'start_date';
+        $sortOrder = $request->input('sortOrder')?:'desc';
+
+        $faculties = Faculty::where(['active' => true])->get();
+        $fields = Field::where(['active' => true])->get();
+        $semesters = Semester::where(['active' => true])->get();
+        $degrees = Degree::all();
+        $study_forms = StudyForm::all();
+
+        $query = Term::where([]);
+        $active = true;
+
+        if ($request->isMethod('post')) {
+            Session::flash(get_class($this), $request->all());
+        }
+        else if (Session::has(get_class($this))) {
+            $request->request->add(Session::get(get_class($this)));
+            Session::keep(get_class($this));
+        }
+        
+        $filtered = false;
+        //sprawdza czy poprawne i dodaje filtry przychodzące postem
+        foreach ($request->all() as $key => $filter) {
+            switch($key) {
+                case 'field':
+                case 'semester':
+                    if($filter) {
+                        $query->where($key.'_id', $filter);
+                        $filtered = true;
+                    }
+                    break;
+                case 'faculty':
+                    if($filter) {
+                        //skomplikowana relacja zrobiona ręcznie zagnieżdżonym selectem
+                        $query->whereHas('fields', function($q) use ($key, $filter){
+                            $q->whereIn('fields.id',array_column(Faculty::find($filter)->getFields()->toArray(),"id"));
+                        });
+                        $filtered = true;
+                    }
+                    break;
+                case 'active':
+                    $query->where($key, !!$filter);
+                    $filtered = true;
+                    $active = !!$filter;
+                    break;
+            }
+        }
+
+        //ustawia domyślne wartości, jeśli nie filtrowany
+        if (!$filtered) {
+            $query->where('active', true);
+        }
+
+        $query->orderBy($sortProperty, $sortOrder);
+
+        $request->flash();
+
+        return view('admin/terms',[
+            'terms' => $query->get(),
+            'faculties' => $faculties,
+            'fields' => $fields,
+            'semesters' => $semesters,
+            'degrees' => $degrees,
+            'study_forms' => $study_forms,
+            'sortProperty' => $sortProperty,
+            'sortOrder' => $sortOrder,
+            'filtered' => $filtered,
+            'active' => $active,
+        ]);
+    }
+    
     public function getTermFrom($id = null)
     {
         $term = $id ? Term::find($id) : null;
@@ -80,11 +154,55 @@ class TermController extends Controller
         return redirect()->back();
     }
 
-    private function checkIsNull($objects)
+    public function deleteTerm($id = 0, Request $request)
     {
-        foreach ($objects as $object)
-                if($object == null)
-                    return true;
-        return false;
+        if($id) {
+            $term = Term::find($id);
+            $term->active = false;
+            $term->save();
+            Session::flash('success', 'Pomyślnie usunięto termin zapisu.');
+        }
+        else
+        {
+            $isChecked = false;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $isChecked = true;
+                    $term = Term::find($req['id']);
+                    $term->active = false;
+                    $term->save();
+                }
+            }
+            if($isChecked)
+                Session::flash('success', 'Pomyślnie usunięto zaznaczone terminy zapisu.');
+            else Session::flash('error', 'Nie zaznaczono żadnego terminu zapisu.');
+        }
+        return redirect()->back();
+    }
+
+    public function restoreTerm($id = 0, Request $request)
+    {
+        if($id){
+            $term = Term::find($id);
+            $term->active = true;
+            $term->save();
+            Session::flash('success', 'Pomyślnie przywrócono termin zapisu.');
+        }
+        else
+        {
+            $isChecked = false;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $isChecked = true;
+                    $term = Term::find($req['id']);
+                    $term->active = true;
+                    $term->save();
+                }
+            }
+            if($isChecked)
+                Session::flash('success', 'Pomyślnie przywrócono zaznaczone terminy zapisu.');
+            else Session::flash('error', 'Nie zaznaczono żadnego terminu zapisu.');
+        }
+        return redirect()->back();
     }
 }

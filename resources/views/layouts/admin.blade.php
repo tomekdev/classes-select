@@ -29,7 +29,7 @@
         @if (Auth::guard('admin')->check())
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li {{{ (Request::url() === route('student.dashboard')? 'class=active' : '') }}}><a href="{{ route('student.dashboard') }}">Terminy zapisu</a></li>
+                <li {{{ (Request::url() === route('admin.terms')? 'class=active' : '') }}}><a href="{{ route('admin.terms') }}">Terminy zapisu</a></li>
                 <li {{{ (Request::url() === route('admin.students')? 'class=active' : '') }}}><a href="{{ route('admin.students') }}">Studenci</a></li>
                 <li {{{ (Request::url() === route('admin.subjects')? 'class=active' : '') }}}><a href="{{ route('admin.subjects') }}">Przedmioty wybieralne</a></li>
                 <li {{{ (Request::url() === route('admin.faculties')? 'class=active' : '') }}}><a href="{{ route('admin.faculties') }}">Wydziały</a></li>

@@ -115,7 +115,7 @@
             moment.locale("pl");
             $('.datetimepicker').bootstrapMaterialDatePicker({
                 lang: "pl",
-                format: "YYYY-MM-DD HH:mm:ss"
+                format: "YYYY-MM-DD HH:mm"
             });
         });
         

@@ -37,7 +37,7 @@
                                 <select id="semester_id" name="semester_id" class="form-control select" onchange="">
                                     <option value="">-- wybierz --</option>
                                     @foreach ($semesters as $semester)
-                                    <option value="{{$semester->id}}" {{((old('semester_id') && old('semester_id') == $semester->id) || ($term && !old('semester_id') && $semester->id == $term->getSemester()->id))? 'selected' : ''}}>{{$semester->name}}</option>
+                                    <option value="{{$semester->id}}" {{((old('semester_id') && old('semester_id') == $semester->id) || ($term && !old('semester_id') && $semester->id == $term->getSemester()->id))? 'selected' : ''}}>{{$semester->number}}, {{$semester->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
