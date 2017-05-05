@@ -48,14 +48,17 @@
                                 <input type="number" id="min_average" name="min_average" class="form-control" min="2" max="5" step="0.01" value="{{old('min_average')?: ($term? $term->min_average : '')}}" required />
                             </div>
                         </div>
-                        <div class="form-group col-md-6 label-floating">
-                            <label for="start_date" class="control-label">Data rozpoczęcia</label>
-                            <input type="text" class="form-control datetimepicker" name="start_date" id="start_date" value="{{old('start_date')?: ($term? $term->start_date : '')}}" required/>
-                        </div>
-                        <div class="form-group col-md-6 label-floating">
-                            <label for="finish_date" class="control-label">Data zakończenia</label>
-                            <input type="text" class="form-control datetimepicker" name="finish_date" id="finish_date" value="{{old('finish_date')?: ($term? $term->finish_date : '')}}" required/>
-                        </div>
+						<div class="form-group">
+                            <label for="start_date" class="control-label col-md-2">Data rozpoczęcia</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control datetimepicker" name="start_date" id="start_date" value="{{old('start_date')?: ($term? $term->start_date : '')}}" required/>
+							</div>
+							
+							<label for="finish_date" class="control-label col-md-2">Data zakończenia</label>
+							<div class="col-md-4">
+								<input type="text" class="form-control datetimepicker" name="finish_date" id="finish_date" value="{{old('finish_date')?: ($term? $term->finish_date : '')}}" required/>
+							</div>
+						</div>
                         {{ csrf_field() }}
                         <button type="submit" class="btn btn-primary btn-raised pull-right">{{$term? 'Zapisz' : 'Dodaj'}} termin zapisu</button>
                     </form>
