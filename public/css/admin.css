@@ -69,3 +69,31 @@ outline-color: #3f51b5;
     -webkit-box-shadow: 0 1px 3px 1px rgba(0,0,0,.4), 0 0 0 15px rgba(126, 143, 237, .2);
     box-shadow: 0 1px 3px 1px rgba(0,0,0,.4), 0 0 0 15px rgba(126, 143, 237, .2);
 }
+.dtp > .dtp-content > .dtp-date-view > header.dtp-header {
+    background: #36469e;
+}
+
+.dtp div.dtp-date, .dtp div.dtp-time {
+    background: #3f51b5;
+}
+
+.dtp .p10 > a {
+    color: #8395f7;
+}
+.dtp table.dtp-picker-days tr > td > a.selected {
+    background: #8395f7 ;
+}
+circle.dtp-select-hour[fill="#8BC34A"] {
+    fill: rgb(54, 70, 158);
+}
+circle.dtp-select-minute[fill="#8BC34A"] {
+    fill: rgb(54, 70, 158);
+}
+
+line.hour-hand{
+    stroke: rgb(54, 70, 158);
+}
+
+line.minute-hand{
+    stroke: rgb(54, 70, 158);
+}
