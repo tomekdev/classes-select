@@ -20,8 +20,6 @@ class CreateSubjectsTable extends Migration
             $table->integer('degree_id')->unsigned();
             $table->integer('semester_id')->unsigned();;
             $table->integer('field_id')->unsigned();;
-            $table->integer('min_person');
-            $table->integer('max_person');
             $table->string('name');
             $table->boolean('active')->default(true);
         });

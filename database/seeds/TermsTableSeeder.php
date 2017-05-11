@@ -27,6 +27,8 @@ class TermsTableSeeder extends Seeder
                 'finish_date' => '2017-03-31',
                 'semester_id' => 1,
                 'field_id' => 1,
+                'degree_id' => 1,
+                'study_form_id' => 1,
             ),
             1 => 
             array (
@@ -38,6 +40,8 @@ class TermsTableSeeder extends Seeder
                 'finish_date' => '2017-03-31',
                 'semester_id' => 1,
                 'field_id' => 1,
+                'degree_id' => 1,
+                'study_form_id' => 2,
             ),
         ));
         

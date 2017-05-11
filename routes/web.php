@@ -33,7 +33,7 @@ Route::group([
     ]);
 
     Route::get('/dashboard', [
-        'uses' => 'Student\StudentController@dashboard',
+        'uses' => 'Student\SubjectController@index',
         'as' => 'student.dashboard',
     ]);
 });

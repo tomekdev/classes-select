@@ -147,8 +147,6 @@ class SubjectController extends Controller
         );
         $v = Validator::make($request->all(), [
             'name' => 'required|alpha_spaces|max:255',
-            'min_person' => 'required|integer|min:1',
-            'max_person' => 'required|integer|min:1',
         ], $messages);
 
         if ($v->fails()) {
@@ -172,8 +170,6 @@ class SubjectController extends Controller
 
         $subject = $id ? Subject::find($id) : new Subject();
         $subject->name = $request['name'];
-        $subject->min_person = $request['min_person'];
-        $subject->max_person = $request['max_person'];
         $subject->field_id = $request['fields']['field_id'];
         $subject->semester_id = $request['fields']['semester_id'];
         $subject->degree_id = $request['fields']['degree_id'];
@@ -186,6 +182,8 @@ class SubjectController extends Controller
         {
             $v = Validator::make($subSubject, [
                 'name' => 'required|alpha_spaces|max:255',
+                'min_person' => 'required|integer|min:1',
+                'max_person' => 'required|integer|min:1',
             ], $messages);
 
             if ($v->fails()) {
@@ -199,6 +197,8 @@ class SubjectController extends Controller
             $modifiedSubSubjects[] = $subSubject['id'];
             $subSubjectObj = $subSubject['id']? SubSubject::find($subSubject['id']) : new SubSubject();
             $subSubjectObj->name = $subSubject['name'];
+            $subSubjectObj->min_person = $subSubject['min_person'];
+            $subSubjectObj->max_person = $subSubject['max_person'];
             $subSubjectObj->subject_id = $subject->id;
             $subSubjectObj->active = isset($subSubject['active'])? $subSubject['active'] === "on" : false;
             $subSubjectObj->save();

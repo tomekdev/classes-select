@@ -26,8 +26,6 @@ class SubjectsTableSeeder extends Seeder
                 'degree_id' => 2,
                 'semester_id' => 1,
                 'field_id' => 1,
-                'min_person' => 20,
-                'max_person' => 60,
                 'name' => 'Przedmiot Wybieralny I',
             ),
             1 => 
@@ -39,8 +37,6 @@ class SubjectsTableSeeder extends Seeder
                 'degree_id' => 1,
                 'semester_id' => 1,
                 'field_id' => 1,
-                'min_person' => 20,
-                'max_person' => 55,
                 'name' => 'Przedmiot Wybieralny II',
             ),
         ));

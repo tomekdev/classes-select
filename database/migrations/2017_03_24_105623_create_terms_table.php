@@ -21,6 +21,8 @@ class CreateTermsTable extends Migration
             $table->dateTime('finish_date');
             $table->integer('semester_id')->unsigned();
             $table->integer('field_id')->unsigned();
+            $table->integer('degree_id')->unsigned();
+            $table->integer('study_form_id')->unsigned();
             $table->boolean('active')->default(true);
         });
 
@@ -34,6 +36,18 @@ class CreateTermsTable extends Migration
             $table->foreign('field_id')
                 ->references('id')
                 ->on('fields');
+        });
+
+        Schema::table('terms', function (Blueprint $table) {
+            $table->foreign('degree_id')
+                ->references('id')
+                ->on('degrees');
+        });
+
+        Schema::table('terms', function (Blueprint $table) {
+            $table->foreign('study_form_id')
+                ->references('id')
+                ->on('study_forms');
         });
 
 

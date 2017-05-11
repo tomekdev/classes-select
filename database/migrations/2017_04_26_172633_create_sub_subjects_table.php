@@ -18,6 +18,8 @@ class CreateSubSubjectsTable extends Migration
             $table->string('name');
             $table->boolean('active')->default(true);
             $table->integer('subject_id')->unsigned();
+            $table->integer('min_person');
+            $table->integer('max_person');
             $table->timestamps();
 
             $table->foreign('subject_id')

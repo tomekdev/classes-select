@@ -18,20 +18,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="min_person" class="col-md-2 control-label">Min osób</label>
-
-                        <div class="col-md-10">
-                            <input type="text" name="min_person" class="form-control" id="min_person" required value="{{$subject? $subject->min_person : (old('min_person')?: '')}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="max_person" class="col-md-2 control-label">Max osób</label>
-
-                        <div class="col-md-10">
-                            <input type="text" name="max_person" class="form-control" id="max_person" required value="{{$subject? $subject->max_person : (old('max_person')?: '')}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label for="fields[faculty_id]" class="col-md-2 control-label">Wydział</label>
                         <div class="col-md-10">
                             <select id="0" name="fields[faculty_id]" class="form-control select" onchange="ajaxGetFields(this.value, this.id)">
@@ -113,6 +99,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="subSubjects[{{$index}}][min_person]" class="col-md-2 control-label">Min osób</label>
+                                        <div class="col-md-10">
+                                            <input type="text" name="subSubjects[{{$index}}][min_person]" class="form-control" id="subSubjects[{{$index}}][min_person]" required value="{{$subSubject? $subSubject->min_person : (old('min_person')?: '')}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subSubjects[{{$index}}][max_person]" class="col-md-2 control-label">Max osób</label>
+                                        <div class="col-md-10">
+                                            <input type="text" name="subSubjects[{{$index}}][max_person]" class="form-control" id="subSubjects[{{$index}}][max_person]" required value="{{$subSubject? $subSubject->max_person : (old('max_person')?: '')}}">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -139,11 +137,23 @@
 			<div class="col-md-2">
                 <div class="togglebutton">
 					<label for="subSubjects[@counter@][active]">Zapisy
-					<input name="subSubjects[@counter@][active]" id="subSubjects[@counter@][active]" type="checkbox" checked="">
-              </label>
-            </div>
+					    <input name="subSubjects[@counter@][active]" id="subSubjects[@counter@][active]" type="checkbox" checked="">
+                    </label>
+                </div>
 			</div>
 		</div>
+        <div class="form-group">
+            <label for="subSubjects[@counter@][min_person]" class="col-md-2 control-label">Min osób</label>
+            <div class="col-md-10">
+                <input type="text" name="subSubjects[@counter@][min_person]" class="form-control" id="subSubjects[@counter@][min_person]" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="subSubjects[@counter@][max_person]" class="col-md-2 control-label">Max osób</label>
+            <div class="col-md-10">
+                <input type="text" name="subSubjects[@counter@][max_person]" class="form-control" id="subSubjects[@counter@][max_person]" required>
+            </div>
+        </div>
 	</div>
 </div>	
        

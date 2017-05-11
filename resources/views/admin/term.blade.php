@@ -43,6 +43,28 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="degree_id" class="col-md-2 control-label">Stopień</label>
+                            <div class="col-md-10">
+                                <select id="degree_id" name="degree_id" class="form-control select" onchange="">
+                                    <option value="">-- wybierz --</option>
+                                    @foreach ($degrees as $degree)
+                                        <option value="{{$degree->id}}" {{((old('degree_id') && old('degree_id') == $degree->id) || ($term && !old('degree_id') && $degree->id == $term->getDegree()->id))? 'selected' : ''}}>{{$degree->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="study_form_id" class="col-md-2 control-label">Forma studiów</label>
+                            <div class="col-md-10">
+                                <select id="study_form_id" name="study_form_id" class="form-control select" onchange="">
+                                    <option value="">-- wybierz --</option>
+                                    @foreach ($study_forms as $study_form)
+                                        <option value="{{$study_form->id}}" {{((old('study_form_id') && old('study_form_id') == $study_form->id) || ($term && !old('study_form_id') && $study_form->id == $term->getStudyForm()->id))? 'selected' : ''}}>{{$study_form->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="min_average" class="col-md-2 control-label">Minimalna średnia</label>
                             <div class="col-md-10">
                                 <input type="number" id="min_average" name="min_average" class="form-control" min="2" max="5" step="0.01" value="{{old('min_average')?: ($term? $term->min_average : '')}}" required />

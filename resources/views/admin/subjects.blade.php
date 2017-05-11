@@ -93,24 +93,24 @@
                                         @endif
                                     </a>
                                 </th>
-                                <th class="text-center">
-                                    <a href="{{{URL::route('admin.subjects', array('sortProperty' => 'max_person', 'sortOrder' => $sortProperty === 'max_person'? ($sortOrder === 'asc'? 'desc': 'asc'): $sortOrder ))}}}">Max osób
-                                        @if ($sortProperty === 'max_person')
-                                            <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
-                                            <span class="caret"></span>
-                                        </span>
-                                        @endif
-                                    </a>
-                                </th>
-                                <th class="text-center">
-                                    <a href="{{{URL::route('admin.subjects', array('sortProperty' => 'min_person', 'sortOrder' => $sortProperty === 'min_person'? ($sortOrder === 'asc'? 'desc': 'asc'): $sortOrder ))}}}">Min osób
-                                        @if ($sortProperty === 'min_person')
-                                            <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
-                                            <span class="caret"></span>
-                                        </span>
-                                        @endif
-                                    </a>
-                                </th>
+                                {{--<th class="text-center">--}}
+                                    {{--<a href="{{{URL::route('admin.subjects', array('sortProperty' => 'max_person', 'sortOrder' => $sortProperty === 'max_person'? ($sortOrder === 'asc'? 'desc': 'asc'): $sortOrder ))}}}">Max osób--}}
+                                        {{--@if ($sortProperty === 'max_person')--}}
+                                            {{--<span class="{{$sortOrder === 'asc'?' dropup' : ''}}">--}}
+                                            {{--<span class="caret"></span>--}}
+                                        {{--</span>--}}
+                                        {{--@endif--}}
+                                    {{--</a>--}}
+                                {{--</th>--}}
+                                {{--<th class="text-center">--}}
+                                    {{--<a href="{{{URL::route('admin.subjects', array('sortProperty' => 'min_person', 'sortOrder' => $sortProperty === 'min_person'? ($sortOrder === 'asc'? 'desc': 'asc'): $sortOrder ))}}}">Min osób--}}
+                                        {{--@if ($sortProperty === 'min_person')--}}
+                                            {{--<span class="{{$sortOrder === 'asc'?' dropup' : ''}}">--}}
+                                            {{--<span class="caret"></span>--}}
+                                        {{--</span>--}}
+                                        {{--@endif--}}
+                                    {{--</a>--}}
+                                {{--</th>--}}
                                 <th class="text-center">Kierunek, semestr</th>
                                 <th class="text-center">Stopień, forma studiów</th>
                                 <th class="text-center">Zajęcia</th>
@@ -122,8 +122,8 @@
                                 <tr>
                                     <td class="text-center">{{ $index + 1 }}</td>
                                     <td class="text-center">{{ $subject->name }}</td>
-                                    <td class="text-center">{{ $subject->max_person }}</td>
-                                    <td class="text-center">{{ $subject->min_person }}</td>
+                                    {{--<td class="text-center">{{ $subject->max_person }}</td>--}}
+                                    {{--<td class="text-center">{{ $subject->min_person }}</td>--}}
                                     <td class="text-center">{{ $subject->getField()->name .', ' .$subject->getSemester()->name}}</td>
                                     <td class="text-center">{{ $subject->getDegree()->name .', ' .$subject->getStudyForm()->name}}</td>
                                     <td>

@@ -8,7 +8,7 @@ use Carbon\Carbon;
 class Term extends Model
 {
     //atrybuty, które mogą być uzupełniane na raz
-    protected $fillable = ['field_id', 'semester_id', 'min_average', 'start_date', 'finish_date'];
+    protected $fillable = ['field_id', 'semester_id', 'min_average', 'start_date', 'finish_date', 'degree_id', 'study_form_id'];
     
     public function fields()
     {
@@ -25,6 +25,16 @@ class Term extends Model
     public function getSemester()
     {
         return $this->belongsTo(Semester::class, 'semester_id')->first();
+    }
+
+    public function getDegree()
+    {
+        return $this->belongsTo(Semester::class, 'degree_id')->first();
+    }
+
+    public function getStudyForm()
+    {
+        return $this->belongsTo(StudyForm::class, 'study_form_id')->first();
     }
     
     //daty w bardziej przyjaznym formacie

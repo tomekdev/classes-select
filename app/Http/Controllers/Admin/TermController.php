@@ -94,6 +94,8 @@ class TermController extends Controller
         $faculties = Faculty::where(['active' => true]);
         $fields = Field::where(['active' => true]);
         $semesters = Semester::where(['active' => true]);
+        $degrees = Degree::all();
+        $study_forms = StudyForm::all();
 
         if ($term) {
             $faculties->orWhereHas('fields', function ($q) use ($term) {
@@ -111,7 +113,9 @@ class TermController extends Controller
             'term' => $term,
             'faculties' => $faculties,
             'fields' => $fields,
-            'semesters' => $semesters
+            'semesters' => $semesters,
+            'degrees' => $degrees,
+            'study_forms' => $study_forms,
         ]);
     }
 
@@ -132,6 +136,7 @@ class TermController extends Controller
             'finish_date.required' => 'Pole data zakończenia jest wymagane.',
             'finish_date.date' => 'Pole data zakończenia musi mieć prawidłowy format daty.',
             'finish_date.after' => 'Pole data zakończenia musi mieć wartość późniejszą niż data rozpoczęcia.',
+
         );
         $v = Validator::make($request->all(), [
             'field_id' => 'required|exists:fields,id',
@@ -147,7 +152,7 @@ class TermController extends Controller
         }        
 
         $term = $id ? Term::find($id) : new Term();
-        $term->fill($request->except('faculty_id'));
+        $term->fill($request->except('faculty_id', 'degree_id', 'study_form_id'));
         $term->save();
 
         Session::flash('success', $id? 'Zmiany zostały pomyślnie zapisane' : 'Pomyślnie dodano nowy termin zapisu.');
