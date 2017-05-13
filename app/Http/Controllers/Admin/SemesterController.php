@@ -87,7 +87,7 @@ class SemesterController extends Controller
         $semester->fill($request->all());
         $semester->save();
         Session::flash('success', 'Pomyślnie zapisano semestr.');
-        return redirect()->route('admin.semesters');
+        return redirect()->back();
     }
 
     public function deleteSemester($id = null, Request $request) {

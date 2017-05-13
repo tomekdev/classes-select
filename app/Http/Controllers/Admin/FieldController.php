@@ -109,7 +109,7 @@ class FieldController extends Controller
         $field->fill($request->all());
         $field->save();
         Session::flash('success', 'Kierunek został pomyślnie zapisany.');
-        return redirect()->route('admin.getfield');
+        return redirect()->back();
     }
 
     public function deleteField($id, Request $request)

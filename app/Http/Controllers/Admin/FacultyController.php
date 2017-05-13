@@ -88,7 +88,7 @@ class FacultyController extends Controller
         $faculty->fill($request->all());
         $faculty->save();
         Session::flash('success', 'Pomyślnie zapisano wydział.');
-        return redirect()->route('admin.faculties');
+        return redirect()->back();
     }
     
     public function deleteFaculty($id = null, Request $request) {

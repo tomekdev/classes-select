@@ -32,6 +32,6 @@ class SubjectController extends Controller
         }
         print_r($subjects);
         die;
-
     }
+
 }

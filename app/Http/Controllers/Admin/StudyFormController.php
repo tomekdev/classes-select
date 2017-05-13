@@ -82,7 +82,7 @@ class StudyFormController extends Controller
         $studyForm->fill($request->all());
         $studyForm->save();
         Session::flash('success', 'Pomyślnie zapisano fromę studiów.');
-        return redirect()->route('admin.studyForms');
+        return redirect()->back();
     }
 
     public function deleteStudyForm($id = null, Request $request) {

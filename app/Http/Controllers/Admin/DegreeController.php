@@ -85,7 +85,7 @@ class DegreeController extends Controller
         $degree->fill($request->all());
         $degree->save();
         Session::flash('success', 'Pomyślnie zapisano stopień.');
-        return redirect()->route('admin.degrees');
+        return redirect()->back();
     }
 
     public function deleteDegree($id = null, Request $request) {

@@ -152,7 +152,7 @@ class TermController extends Controller
         }        
 
         $term = $id ? Term::find($id) : new Term();
-        $term->fill($request->except('faculty_id', 'degree_id', 'study_form_id'));
+//        $term->fill($request->all()); //except('faculty_id', 'degree_id', 'study_form_id')
         $term->save();
 
         Session::flash('success', $id? 'Zmiany zostały pomyślnie zapisane' : 'Pomyślnie dodano nowy termin zapisu.');
