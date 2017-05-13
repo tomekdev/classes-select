@@ -126,6 +126,10 @@ class TermController extends Controller
             'field_id.exists' => 'Podany kierunek nie istnieje.',
             'semester_id.required' => 'Pole semestr jest wymagane.',
             'semester_id.exists' => 'Podany semestr nie istnieje.',
+            'degree_id.required' => 'Pole stopień jest wymagane.',
+            'degree_id.exists' => 'Podany stopień nie istnieje.',
+            'study_form_id.required' => 'Pole forma studiów jest wymagane.',
+            'study_form_id.exists' => 'Podany forma studiów nie istnieje.',
             'min_average.required' => 'Pole minimalna średnia jest wymagane.',
             'min_average.numeric' => 'Pole minimalna średnia musi być liczbą.',
             'min_average.min' => 'Pole minimalna średnia nie może być mniejsze od 2.',
@@ -141,6 +145,8 @@ class TermController extends Controller
         $v = Validator::make($request->all(), [
             'field_id' => 'required|exists:fields,id',
             'semester_id' => 'required|exists:semesters,id',
+            'degree_id' => 'required|exists:degrees,id',
+            'study_form_id' => 'required|exists:study_forms,id',
             'min_average' => 'required|numeric|min:2|max:5',
             'start_date' => 'required|date|after_or_equal:now',
             'finish_date' => 'required|date|after:start_date',
@@ -152,7 +158,7 @@ class TermController extends Controller
         }        
 
         $term = $id ? Term::find($id) : new Term();
-        $term->fill($request->all()); //except('faculty_id', 'degree_id', 'study_form_id')
+        $term->fill($request->except('faculty_id'));
         $term->save();
 
         Session::flash('success', $id? 'Zmiany zostały pomyślnie zapisane' : 'Pomyślnie dodano nowy termin zapisu.');
