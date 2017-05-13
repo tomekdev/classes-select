@@ -36,6 +36,11 @@ Route::group([
         'uses' => 'Student\SubjectController@index',
         'as' => 'student.dashboard',
     ]);
+
+    Route::post('/save/subject', [
+        'uses' => 'Student\SubjectController@saveSubjects',
+        'as' => 'student.saveSubjects'
+    ]);
 });
 
 /************* ADMIN ROUTES ************/

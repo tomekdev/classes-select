@@ -1,80 +1,44 @@
-@extends('layouts.student')
+@extends('layouts.student') @section('content')
 
-@section('content')
-
-<div class="container">
-	<div class="row">
-		 <div class="col-md-6 col-md-offset-3">
-            <div class="card">
-				<ul class="nav nav-tabs" role="tablist">
-					<li role="presentation" class="active"><a href="#faculty1" aria-controls="faculty1" role="tab" data-toggle="tab">Informatyka</a></li>
-					 <li role="presentation"><a href="#faculty2" aria-controls="faculty2" role="tab" data-toggle="tab">Ekonomia</a></li>
-				</ul>
-				<div class="tab-content">
-					<div role="tabpanel" class="tab-pane active id="faculty1">
-						<div class="panel-heading">
-							<a href="javascript:void(0)" onclick="removeField(this)" class="pull-right">Usuń</a>
-								<div class="form-group">
-									<div class="card  panel">
-											<div class="info panel-heading">Semestr VI zimowy (2017/2018)</div>
-												<div class="form-group">
-													<label for="selectsub" class="col-md-2 control-label">PW X</label>
-														<div class="col-md-10">
-															<select name="selectsub" class="form-control select">
-																<option value="">-- wybierz --</option>
-																	<option value="PWX">Technologia</option>
-																	<option value="PWX">Nietechnologia</option>
-															</select>
-														</div>
-												</div>
-
-												<div class="form-group">
-													<label for="selectsub" class="col-md-2 control-label">PW X</label>
-														<div class="col-md-10">
-															<select name="selectsub" class="form-control select">
-																<option value="">-- wybierz --</option>
-																	<option value="PWX">Technologia</option>
-																	<option value="PWX">Nietechnologia</option>
-															</select>
-														</div>
-												</div>
-									</div>
-								</div>
-
-								<div class="form-group">
-									<div class="card  panel">
-										<div class="info panel-heading">Semestr VII letni (2018/2019)</div>
-										<div class="form-group">
-											<label for="selectsub" class="col-md-2 control-label">PW X</label>
-												<div class="col-md-10">
-													<select name="selectsub" class="form-control select">
-														<option value="">-- wybierz --</option>
-															<option value="PWX">Technologia</option>
-															<option value="PWX">Nietechnologia</option>
-													</select>
-												</div>
-										</div>
-										<div class="form-group">
-											<label for="selectsub" class="col-md-2 control-label">PW X</label>
-												<div class="col-md-10">
-													<select name="selectsub" class="form-control select">
-														<option value="">-- wybierz --</option>
-															<option value="PWX">Technologia</option>
-															<option value="PWX">Nietechnologia</option>
-													</select>
-												</div>
-										</div>
-									</div>
-								</div>
-						</div>															
-						<center>						
-						  <button type="submit" class="btn btn-primary btn-raised"> Zapisz</button>          
-						</center>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3>Przedmioty wybieralne</h3>
 					</div>
-					
-			</div>				 
-        </div>
-    </div>
-</div>
-
+					<div class="panel-body">
+						<form action="{{ $subjects ? route('student.saveSubjects') : route('student.dashboard') }}" method="post">
+							<div id="subjects">
+								@foreach ($subjects? $subjects : [] as $key => $subject)
+									<div class="panel-heading">
+										<div class="form-group">
+											<label for="subjects[{{$key}}][subject_id]" class="col-md-2 control-label">Wydział</label>
+											<div class="col-md-10">
+												<input type="text" class="form-control select" disabled
+												value="{{ $subject['subject']->name }}, {{ $subject['subject']->getField()->name }}, {{$subject['subject']->getSemester()->number . '-' .$subject['subject']->getSemester()->name}}">
+												<input type="hidden" value="{{ $subject['subject']->id }}" name="subjects[{{$key}}][subject_id]"/>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="subjects[{{$key}}][subSubject_id]" class="col-md-2 control-label">Nazwa zajęć</label>
+											<div class="col-md-10">
+												<select id="{{$key}}" name="subjects[{{$key}}][subSubject_id]" class="form-control select" onchange="">
+													<option value="">-- wybierz --</option>
+													@foreach ($subject['subSubjects'] as $subSubject)
+														<option value="{{$subSubject->id}}">{{$subSubject->name}}</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
+									</div>
+								@endforeach
+							{{ csrf_field() }}
+						</div>
+							<button type="submit" class="btn btn-primary btn-raised pull-right">Zapisz</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 @endsection

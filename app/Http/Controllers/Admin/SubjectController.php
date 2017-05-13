@@ -160,7 +160,8 @@ class SubjectController extends Controller
             return redirect()->back();
         }
 
-        if($this->checkRepeatInSubSubjects($request['subSubjects']))
+
+        if($request['subSubjects'] && $this->checkRepeatInSubSubjects($request['subSubjects']))
         {
             Session::flash('error', 'Nie może być dwóch i więcej zajęć o tej samej nazwie w jednym przedmiocie wybieralnym. Zmiany nie zostały zapisane.');
             $request->flash();
@@ -286,10 +287,10 @@ class SubjectController extends Controller
 
     private function checkRepeatInSubSubjects($objects)
     {
-        foreach ($objects as $key1 => $object1)
-            foreach ($objects as $key2 => $object2)
-            if($object1['name'] == $object2['name'] && $key1 != $key2)
-                return true;
+            foreach ($objects as $key1 => $object1)
+                foreach ($objects as $key2 => $object2)
+                if($object1['name'] == $object2['name'] && $key1 != $key2)
+                    return true;
         return false;
     }
 }

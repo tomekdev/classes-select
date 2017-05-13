@@ -17,7 +17,7 @@ class CreateStudentHasSubjectsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->integer('student_id')->unsigned();
-            $table->integer('activity_id')->unsigned();
+            $table->integer('subSubject_id')->unsigned();
             $table->boolean('active')->default(true);
         });
 
@@ -28,9 +28,9 @@ class CreateStudentHasSubjectsTable extends Migration
         });
 
         Schema::table('student_has_subjects', function (Blueprint $table) {
-            $table->foreign('activity_id')
+            $table->foreign('subSubject_id')
                 ->references('id')
-                ->on('activities');
+                ->on('sub_subjects');
         });
     }
 

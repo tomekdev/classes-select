@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ActivitiesTableSeeder extends Seeder
+class SubSubjectsTableSeeder extends Seeder
 {
 
     /**
@@ -14,15 +14,17 @@ class ActivitiesTableSeeder extends Seeder
     {
         
 
-        \DB::table('activities')->delete();
+        \DB::table('sub_subjects')->delete();
         
-        \DB::table('activities')->insert(array (
+        \DB::table('sub_subjects')->insert(array (
             0 => 
             array (
                 'id' => 1,
                 'created_at' => NULL,
                 'updated_at' => NULL,
                 'name' => 'Teleinformatyka',
+                'min_person' => 10,
+                'max_person' => 25,
                 'subject_id' => 1,
             ),
             1 => 
@@ -31,6 +33,8 @@ class ActivitiesTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
                 'name' => 'Mikroprocesory',
+                'min_person' => 15,
+                'max_person' => 20,
                 'subject_id' => 1,
             ),
         ));

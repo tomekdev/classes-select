@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActivitiesTable extends Migration
+class CreateSubSubjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,17 @@ class CreateActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('activities', function (Blueprint $table) {
+        Schema::create('sub_subjects', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
             $table->string('name');
-            $table->integer('subject_id')->unsigned();
             $table->boolean('active')->default(true);
+            $table->integer('subject_id')->unsigned();
+            $table->integer('min_person');
+            $table->integer('max_person');
+            $table->timestamps();
         });
 
-        Schema::table('activities', function (Blueprint $table) {
+        Schema::table('sub_subjects', function (Blueprint $table) {
             $table->foreign('subject_id')
                 ->references('id')
                 ->on('subjects');
@@ -35,6 +37,6 @@ class CreateActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities');
+        Schema::dropIfExists('sub_subjects');
     }
 }
