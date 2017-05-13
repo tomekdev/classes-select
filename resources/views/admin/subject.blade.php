@@ -127,7 +127,7 @@
 
 <div class="panel" id="subSubject-template" style="display:none">
     <div class="panel-heading">
-<!--        <a href="javascript:void(0)" onclick="removeSubSubject(this)" class="pull-right">Usuń</a>-->
+       <a href="javascript:void(0)" onclick="removeSubSubject(this)" class="pull-right">Usuń</a>
         <div class="form-group">
             <input id="subSubjects[@counter@][id]" name="subSubjects[@counter@][id]" type="hidden">
             <label for="subSubjects[@counter@][name]" class="col-md-2 control-label">Nazwa zajęć</label>

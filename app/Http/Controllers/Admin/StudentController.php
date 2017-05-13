@@ -207,8 +207,8 @@ class StudentController extends Controller
             return redirect()->back();
         }
 
-        $request['name'] = ucfirst(mb_strtolower($request['name']));
-        $request['surname'] = ucfirst(mb_strtolower($request['surname']));
+        $request['name'] = $this->ucfirstUtf8($request['name']);
+        $request['surname'] = $this->ucfirstUtf8($request['surname']);
 
 //        if (count(Student::where('index',$request['index'])->where('id', '!=', $id)->get()) > 0) {
 //            Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
@@ -426,5 +426,14 @@ class StudentController extends Controller
                 Session::flash('error', 'Nie zaznaczono żadnego studenta.');
         }
         return redirect()->back();
+    }
+
+    private function ucfirstUtf8($str) {
+        if (mb_check_encoding($str, 'UTF-8')) {
+            $first = mb_substr(mb_strtoupper($str, 'UTF-8'), 0, 1, 'UTF-8');
+            return $first . mb_substr(mb_strtolower($str, 'UTF-8'), 1, mb_strlen($str), 'UTF-8');
+        } else {
+            return $str;
+        }
     }
 }

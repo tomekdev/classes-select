@@ -41,7 +41,7 @@
                                     <select id="semester" name="semester" class="form-control select">
                                         <option value="">-- wybierz --</option>
                                         @foreach ($semesters as $semester)
-                                            <option value="{{$semester->id}}" {{old('semester') == $semester->id? 'selected' : ''}}>{{$semester->number}} semestr</option>
+                                            <option value="{{$semester->id}}" {{old('semester') == $semester->id? 'selected' : ''}}>{{$semester->number}}, {{$semester->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
