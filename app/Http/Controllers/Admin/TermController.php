@@ -159,6 +159,14 @@ class TermController extends Controller
 
         $term = $id ? Term::find($id) : new Term();
         $term->fill($request->except('faculty_id'));
+        $exist = Term::where('active', true);
+        if($exist->where(['start_date' => $term->start_date, 'finish_date' => $term->finish_date, 'min_average' => $term->min_average,
+        'field_id' => $term->field_id, 'semester_id' => $term->semester_id, 'degree_id' => $term->degree_id, 'study_form_id' => $term->study_form_id])->first() && !$id)
+        {
+            Session::flash('error', 'Termin o podanych parametrach już istnieje. Zmiany nie zostały zapisane.');
+            $request->flash();
+            return redirect()->back();
+        }
         $term->save();
 
         Session::flash('success', $id? 'Zmiany zostały pomyślnie zapisane' : 'Pomyślnie dodano nowy termin zapisu.');
