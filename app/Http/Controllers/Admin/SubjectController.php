@@ -160,6 +160,13 @@ class SubjectController extends Controller
             return redirect()->back();
         }
 
+        if($this->checkRepeatInSubSubjects($request['subSubjects']))
+        {
+            Session::flash('error', 'Nie może być dwóch i więcej zajęć o tej samej nazwie w jednym przedmiocie wybieralnym. Zmiany nie zostały zapisane.');
+            $request->flash();
+            return redirect()->back();
+        }
+
         if(intval($request['min_person']) > intval($request['max_person']))
         {
             Session::flash('error', 'Pole "Min osób" nie może mieć większej wartości niż pole "Max osób". Zmiany nie zostały zapisane.');
@@ -193,7 +200,7 @@ class SubjectController extends Controller
         }
         
         $modifiedSubSubjects = [];
-        foreach ($subSubjects as $subSubject) {
+        foreach ($subSubjects as $key => $subSubject) {
             $modifiedSubSubjects[] = $subSubject['id'];
             $subSubjectObj = $subSubject['id']? SubSubject::find($subSubject['id']) : new SubSubject();
             $subSubjectObj->name = $subSubject['name'];
@@ -274,6 +281,15 @@ class SubjectController extends Controller
         foreach ($objects as $object)
                 if($object == null)
                     return true;
+        return false;
+    }
+
+    private function checkRepeatInSubSubjects($objects)
+    {
+        foreach ($objects as $key1 => $object1)
+            foreach ($objects as $key2 => $object2)
+            if($object1['name'] == $object2['name'] && $key1 != $key2)
+                return true;
         return false;
     }
 }
