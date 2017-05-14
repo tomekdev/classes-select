@@ -23,8 +23,8 @@ class TermsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
                 'min_average' => 4.9000000000000004,
-                'start_date' => '2017-03-08',
-                'finish_date' => '2017-03-31',
+                'start_date' => '2017-07-08',
+                'finish_date' => '2017-07-31',
                 'semester_id' => 1,
                 'field_id' => 1,
                 'degree_id' => 1,
@@ -36,13 +36,14 @@ class TermsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
                 'min_average' => 4.5,
-                'start_date' => '2017-03-04',
-                'finish_date' => '2017-03-31',
+                'start_date' => '2017-07-04',
+                'finish_date' => '2017-07-31',
                 'semester_id' => 1,
-                'field_id' => 1,
-                'degree_id' => 1,
+                'field_id' => 3,
+                'degree_id' => 2,
                 'study_form_id' => 2,
             ),
+
         ));
         
         

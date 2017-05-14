@@ -55,12 +55,6 @@ class Subject extends Model
         return $this->belongsTo(Semester::class, 'semester_id', 'id')->first();
     }
 
-    // metoda zwraca aktywności (zajęcia) jakie zostały przypisane do tego przedmiotu wybieralnego
-    public function getActivities()
-    {
-        return $this->hasMany(Activity::class)->get();
-    }
-
     // metoda zwraca stopień studiów przypisany do tego przedmiotu wybieralnego
     public function getDegree()
     {

@@ -27,6 +27,13 @@ Route::group([
     'middleware' => ['student'],
 ], function()
 {
+    /************AJAX********************/
+
+    Route::post('/save/subject', [
+        'uses' => 'Student\AjaxController@saveSubject',
+        'as' => 'student.ajaxSaveSubject'
+    ]);
+
     Route::post('/logout', [
         'uses' => 'Student\StudentController@logout',
         'as' => 'student.logout'
@@ -35,11 +42,6 @@ Route::group([
     Route::get('/dashboard', [
         'uses' => 'Student\SubjectController@index',
         'as' => 'student.dashboard',
-    ]);
-
-    Route::post('/save/subject', [
-        'uses' => 'Student\SubjectController@saveSubjects',
-        'as' => 'student.saveSubjects'
     ]);
 });
 

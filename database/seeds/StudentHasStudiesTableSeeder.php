@@ -60,10 +60,22 @@ class StudentHasStudiesTableSeeder extends Seeder
                     'updated_at' => NULL,
                     'student_id' => 2,
                     'field_id' => 3,
-                    'semester_id' => 2,
+                    'semester_id' => 1,
                     'degree_id' => 2,
                     'study_form_id' => 2,
-                    'average' => 4.50,
+                    'average' => 4.90,
+                ),
+            4 =>
+                array (
+                    'id' => 5,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'student_id' => 2,
+                    'field_id' => 1,
+                    'semester_id' => 1,
+                    'degree_id' => 1,
+                    'study_form_id' => 1,
+                    'average' => 4.90,
                 ),
         ));
         

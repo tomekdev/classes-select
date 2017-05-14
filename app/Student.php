@@ -94,20 +94,21 @@ class Student extends Model implements Authenticatable
     }
 
     // metoda zwraca wybrane przez studenta aktywności (zajęcia)
-    public function getSelectedActivities()
+    public function getSelectedSubSubjects()
     {
-        return $this->belongsToMany(Activity::class, 'student_has_subjects')->get();
+        return $this->belongsToMany(SubSubject::class, 'student_has_subjects', 'student_id', 'subSubject_id')->get();
     }
 
     // metoda zwraca przedmioty wybieralne danego studenta na podstawie wybranych aktywności (zajęć)
     public function getSelectedSubjects()
     {
-        $activities = $this->getSelectedActivities();
+        $subSubjects = $this->getSelectedSubSubjects();
         $subjects = [];
         $i = 0;
-        foreach ($activities as $activity)
+        foreach ($subSubjects as $subSubject)
         {
-            $subjects[$i] = $activity->getSubject();
+            $subjects[$i]['subject'] = $subSubject->getSubject();
+            $subjects[$i]['subSubject'] = $subSubject->name;
             ++$i;
         }
 

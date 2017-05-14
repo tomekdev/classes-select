@@ -22,9 +22,12 @@
 <body>
 
     @yield('navbar')
-    
+
     <div class="container-fluid">
         <div class="row">
+            <div id="ajaxMessages">
+
+            </div>
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <ul>
@@ -138,6 +141,48 @@
                 data: {},
                 success: function (data) {
                     $('#select-field'+id).html(data);
+                }
+            });
+        }
+
+        function ajaxSaveSubject(id) {
+            subSubject_id = $('#select' + id).val();
+            student_id = $('#student_id').val();
+            $.ajax({
+                url: "{{ route('student.ajaxSaveSubject') }}",
+                method: "post",
+                data: {student_id:student_id,subSubject_id:subSubject_id},
+                success: function (receivedMessage) {
+                    if(receivedMessage) {
+                        if(receivedMessage != 'hakier') {
+                            subSubjectInput = '<input type="text" value="' + receivedMessage + '" class="form-control select" disabled/>';
+                            $('#select' + id).parent().html(subSubjectInput);
+                            buttonWhenChosed = '<button type="button" class="btn pull-right" disabled>Zapisano</button>';
+                            $('#' + id).parent().html(buttonWhenChosed);
+                            message = '<div class="alert alert-dismissible alert-success">' +
+                                '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                                '<strong>Pomyślnie zapisano na ' + receivedMessage + '.</strong>' +
+                                '</div>';
+                            $('#ajaxMessages').html(message);
+                        }
+                        else
+                        {
+                            message = '<div class="alert alert-dismissible alert-warning">' +
+                                '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                                '<strong>hehe Janusz Hakier mode on. Pieseł Wardeł strzeże P.</strong>' +
+                                '</div>';
+                            $('#ajaxMessages').html(message);
+                        }
+                    }
+                    else
+                    {
+
+                        message = '<div class="alert alert-dismissible alert-danger">'+
+                            '<button type="button" class="close" data-dismiss="alert">×</button>'+
+                            '<strong>Aby się zapisać należy wybrać przedmiot.</strong>' +
+                            '</div>';
+                        $('#ajaxMessages').html(message);
+                    }
                 }
             });
         }

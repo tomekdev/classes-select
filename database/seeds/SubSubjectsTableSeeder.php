@@ -37,6 +37,26 @@ class SubSubjectsTableSeeder extends Seeder
                 'max_person' => 20,
                 'subject_id' => 1,
             ),
+            2 =>
+                array (
+                    'id' => 3,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'name' => 'Biochemia',
+                    'min_person' => 15,
+                    'max_person' => 20,
+                    'subject_id' => 2,
+                ),
+            4 =>
+                array (
+                    'id' => 4,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'name' => 'Biomechanika',
+                    'min_person' => 15,
+                    'max_person' => 20,
+                    'subject_id' => 2,
+                ),
         ));
         
         

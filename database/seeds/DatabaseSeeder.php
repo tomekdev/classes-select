@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(SemestersTableSeeder::class);
         $this->call(FieldsTableSeeder::class);
         $this->call(SubjectsTableSeeder::class);
-        $this->call(StudentHasStudiesTableSeeder::class);
         $this->call(SubSubjectsTableSeeder::class);
+        $this->call(StudentHasStudiesTableSeeder::class);
         $this->call(QuestionsTableSeeder::class);
         $this->call(SecurityQuestionsTableSeeder::class);
         $this->call(StudentHasSubjectsTableSeeder::class);

@@ -22,7 +22,7 @@ class StudentHasSubjectsTableSeeder extends Seeder
                 'id' => 1,
                 'created_at' => NULL,
                 'updated_at' => NULL,
-                'student_id' => 1,
+                'student_id' => 2,
                 'subSubject_id' => 1,
             ),
             1 => 
@@ -30,8 +30,8 @@ class StudentHasSubjectsTableSeeder extends Seeder
                 'id' => 2,
                 'created_at' => NULL,
                 'updated_at' => NULL,
-                'student_id' => 3,
-                'subSubject_id' => 2,
+                'student_id' => 2,
+                'subSubject_id' => 3,
             ),
         ));
         
