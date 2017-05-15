@@ -2,13 +2,7 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\StudentHasStudy;
-use App\StudentHasSubject;
-use App\Subject;
-use App\SubSubject;
-use App\Term;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,51 +11,46 @@ class SubjectController extends Controller
     public function index()
     {
         $student = Auth::guard('student')->user();
-        $studies = $student->getDBStudies();
-        $selectedSubjects = $student->getSelectedSubjects();
-
         $subjects = [];
-        $terms = [];
-        $actuallyDateTime = Carbon::now();
+        $currentDate = Carbon::now();
+        $studentTerms = $student->getConnectedTerms();
+        $studentTermsCount = count($studentTerms);
 
-//        foreach ($selectedSubjects as $sSubject)
-//        {
-//            print_r($sSubject->name);
-//            echo '<br>';
-//        }
-//        die;
-        foreach ($studies as $key => $study)
-        {
-            $terms[$key] = Term::where(['field_id' => $study->field_id, 'semester_id' => $study->semester_id, 'degree_id' => $study->degree_id, 'study_form_id' => $study->study_form_id])
-                ->where('start_date', '<', $actuallyDateTime)
-                ->where('min_average', '<=', $study->average)->get();
-            if($terms[$key] != null) {
-                $subjects[$key]['subject'] = Subject::where(['field_id' => $study->field_id, 'semester_id' => $study->semester_id,
-                    'degree_id' => $study->degree_id, 'study_form_id' => $study->study_form_id])->first();
-                $subjects[$key]['selected'] = false;
-                foreach ($selectedSubjects as $selectedSubject)
-                    if($subjects[$key]['subject']->id == $selectedSubject['subject']->id) {
-                        $subjects[$key]['selected'] = $selectedSubject['subSubject'];
+        foreach ($studentTerms as $key => $term) {
+
+            $termSubjects = $student->getSubjectFromTerm($term);
+            foreach ($termSubjects as $key1 => $termSubject) {
+                $i = $key * $studentTermsCount + $key1;
+                $subjects[$i]['subject']['selected'] = false;
+                $subjects[$i]['subject']['selectable'] = true;
+                $subjects[$i]['subject']['id'] = $termSubject->id;
+                $subjects[$i]['subject']['name'] = $termSubject->name;
+                $subjects[$i]['subject']['faculty'] = $termSubject->getFaculty()->name;
+                $subjects[$i]['subject']['field'] = $termSubject->getField()->name;
+                $subjects[$i]['subject']['semester'] = $termSubject->getSemester()->name;
+                $subjects[$i]['subject']['degree'] = $termSubject->getDegree()->name;
+                $subjects[$i]['subject']['study_form'] = $termSubject->getStudyForm()->name;
+
+                foreach ($student->getSelectedSubjects() as $selectedSubject)
+                    if ($selectedSubject['subject']->id == $termSubject->id) {
+                        $subjects[$i]['subject']['selected'] = true;
+                        $subjects[$i]['subSubject']['id'] = $selectedSubject['subSubject']->id;
+                        $subjects[$i]['subSubject']['name'] = $selectedSubject['subSubject']->name;
                         break;
                     }
-                $subjects[$key]['subSubjects'] = SubSubject::where('subject_id', $subjects[$key]['subject']->id)->get();
+
+                if ($term->finish_date < $currentDate)
+                    $subjects[$i]['subject']['selectable'] = false;
+
+                if ($subjects[$i]['subject']['selectable']) {
+                    foreach ($termSubject->getSubSubjects() as $key2 => $subSubject) {
+                        $subjects[$i]['subSubjects'][$key2]['name'] = $subSubject->name;
+                        $subjects[$i]['subSubjects'][$key2]['id'] = $subSubject->id;
+                        $subjects[$i]['subSubjects'][$key2]['active'] = $subSubject->active;
+                    }
+                }
             }
         }
         return view('student.selectableSubject')->with(['subjects' => $subjects, 'student_id' => $student->id]);
     }
-
-    public function saveSubjects(Request $request)
-    {
-        if($request['subjects'] != null)
-            foreach ($request['subjects'] as $subject)
-            {
-                $student_has_subjects = new StudentHasSubject();
-                $student_has_subjects->student_id = $request['student_id'];
-                $student_has_subjects->subSubject_id = $subject['subSubject_id'];
-                $student_has_subjects->save();
-            }
-
-
-    }
-
 }

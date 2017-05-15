@@ -146,7 +146,7 @@ class SubjectController extends Controller
 
         );
         $v = Validator::make($request->all(), [
-            'name' => 'required|alpha_spaces|max:255',
+            'name' => 'required|alpha_spaces|max:255|'
         ], $messages);
 
         if ($v->fails()) {

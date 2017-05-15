@@ -108,11 +108,53 @@ class Student extends Model implements Authenticatable
         foreach ($subSubjects as $subSubject)
         {
             $subjects[$i]['subject'] = $subSubject->getSubject();
-            $subjects[$i]['subSubject'] = $subSubject->name;
+            $subjects[$i]['subSubject'] = $subSubject;
             ++$i;
         }
 
         return $subjects;
+    }
+
+    public function getConnectedTerms()
+    {
+        $studies = $this->getDBStudies();
+        $terms = [];
+        foreach ($studies as $key => $study) {
+            $term = Term::where(['field_id' => $study->field_id, 'semester_id' => $study->semester_id, 'degree_id' => $study->degree_id, 'study_form_id' => $study->study_form_id])
+                ->where('min_average', '<=', $study->average)->first();
+            if($term)
+                $terms[$key] = $term;
+        }
+        return $terms;
+    }
+
+    public function getSubjectsToTerms()
+    {
+        $subjects = [];
+        foreach ($this->getConnectedTerms() as $key => $term) {
+            $subjects[$key] = Subject::where(['field_id' => $term->field_id, 'semester_id' => $term->semester_id,
+                'degree_id' => $term->degree_id, 'study_form_id' => $term->study_form_id])->get();
+        }
+        return $subjects;
+    }
+
+    public function getSubjectFromTerm(Term $term)
+    {
+        return Subject::where(['field_id' => $term->field_id, 'semester_id' => $term->semester_id,
+            'degree_id' => $term->degree_id, 'study_form_id' => $term->study_form_id])->get();
+    }
+
+    public function getTermFromSubject(Subject $subject)
+    {
+        foreach ($this->getConnectedTerms() as $term)
+        {
+            $tempSubjects = $this->getSubjectFromTerm($term);
+            foreach ($tempSubjects as $tempSubject)
+                if($tempSubject == $subject) {
+                   return $term;
+                }
+        }
+        return false;
     }
     
     public function getRememberToken()

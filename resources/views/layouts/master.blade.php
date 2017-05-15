@@ -26,7 +26,6 @@
     <div class="container-fluid">
         <div class="row">
             <div id="ajaxMessages">
-
             </div>
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
@@ -145,43 +144,40 @@
             });
         }
 
-        function ajaxSaveSubject(id) {
+        function ajaxSaveSubject(id, selectable, selected, subject_id) {
             subSubject_id = $('#select' + id).val();
-            student_id = $('#student_id').val();
             $.ajax({
                 url: "{{ route('student.ajaxSaveSubject') }}",
                 method: "post",
-                data: {student_id:student_id,subSubject_id:subSubject_id},
-                success: function (receivedMessage) {
-                    if(receivedMessage) {
-                        if(receivedMessage != 'hakier') {
-                            subSubjectInput = '<input type="text" value="' + receivedMessage + '" class="form-control select" disabled/>';
-                            $('#select' + id).parent().html(subSubjectInput);
-                            buttonWhenChosed = '<button type="button" class="btn pull-right" disabled>Zapisano</button>';
-                            $('#' + id).parent().html(buttonWhenChosed);
+                data: {
+                        selectable:selectable,
+                        selected:selected,
+                        subject_id:subject_id,
+                        selectedSubSubject:subSubject_id, },
+                success: function (data) {
+                    error = data.substr(0, 3);
+                    switch (error)
+                    {
+                        case 'WoW':
+                            $('#select' + id).html(data);
                             message = '<div class="alert alert-dismissible alert-success">' +
                                 '<button type="button" class="close" data-dismiss="alert">×</button>' +
-                                '<strong>Pomyślnie zapisano na ' + receivedMessage + '.</strong>' +
+                                '<strong>Pomyślnie zapisano na przedmiot.</strong>' +
                                 '</div>';
                             $('#ajaxMessages').html(message);
-                        }
-                        else
-                        {
+                            break;
+                        case 'err':
+                            message = '<div class="alert alert-dismissible alert-danger">'+
+                                '<button type="button" class="close" data-dismiss="alert">×</button>'+
+                                '<strong>Aby się zapisać należy wybrać przedmiot.</strong>' +
+                                '</div>';
+                            break;
+                        case 'hak':
                             message = '<div class="alert alert-dismissible alert-warning">' +
                                 '<button type="button" class="close" data-dismiss="alert">×</button>' +
                                 '<strong>hehe Janusz Hakier mode on. Pieseł Wardeł strzeże P.</strong>' +
                                 '</div>';
-                            $('#ajaxMessages').html(message);
-                        }
-                    }
-                    else
-                    {
-
-                        message = '<div class="alert alert-dismissible alert-danger">'+
-                            '<button type="button" class="close" data-dismiss="alert">×</button>'+
-                            '<strong>Aby się zapisać należy wybrać przedmiot.</strong>' +
-                            '</div>';
-                        $('#ajaxMessages').html(message);
+                            break;
                     }
                 }
             });
