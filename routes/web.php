@@ -75,11 +75,21 @@ Route::group([
             'as' => 'admin.ajaxGetFields',
         ])->where('id', '[0-9]+');
 
-        /***********Logging***************/
+        /*******User related actions**********/
 
         Route::post('/logout', [
             'uses' => 'Admin\AdminController@logout',
             'as' => 'admin.logout'
+        ]);
+        
+        Route::get('/configuration', [
+            'uses' => 'Admin\AdminController@getConfiguration',
+            'as' => 'admin.configuration'
+        ]);
+        
+        Route::post('/configuration', [
+            'uses' => 'Admin\AdminController@saveConfiguration',
+            'as' => 'admin.configuration'
         ]);
 
         /***********Students***************/
