@@ -39,11 +39,11 @@
 															<option value="">-- wybierz --</option>
 															@if($subject['subject']['selected'])
 																@foreach ($subject['subSubjects'] as $subSubject)
-																	<option value="{{$subSubject['id']}}" {{ $subSubject['active'] ? $subject['subSubject']['id'] == $subSubject['id'] ? ' selected' : '' : ' disabled' }}>{{$subSubject['name']}}</option>
+																	<option value="{{$subSubject['id']}}" {{ $subSubject['active'] ? $subject['subSubject']['id'] == $subSubject['id'] ? ' selected' : '' : ' disabled' }}>{{$subSubject['name']}}{{' ('.$subSubject['selectedCount'].'/'.$subSubject['max_person'].')'}}</option>
 																@endforeach
 															@else
 																@foreach ($subject['subSubjects'] as $subSubject)
-																	<option value="{{$subSubject['id']}}" {{ $subSubject['active'] ? ' ' : ' disabled' }}>{{$subSubject['name']}}</option>
+																	<option value="{{$subSubject['id']}}" {{ $subSubject['active'] ? ' ' : ' disabled' }}>{{$subSubject['name']}}{{' ('.$subSubject['selectedCount'].'/'.$subSubject['max_person'].')'}}</option>
 																@endforeach
 															@endif
 														</select>

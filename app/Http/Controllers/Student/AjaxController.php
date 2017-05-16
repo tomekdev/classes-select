@@ -37,6 +37,7 @@ class AjaxController extends Controller
                 return 'hakCoś kombinujesz, podany przemiot jest niezgodny z tym wybranym. Pieseł czuwa xd';
         } else return 'errAby się zapisać musisz wybrać jedną z opcji.';
 
+
         $selectedSubject = '';
         foreach ($subSubjects as $subSubject)
         {
@@ -52,9 +53,12 @@ class AjaxController extends Controller
         $message = 'WoW<option  value="">-- wybierz --</option>';
         foreach ($subSubjects as $subSubject)
         {
+            $numberOfChoosedSubSubject = count(StudentHasSubject::where('subSubject_id', $subSubject->id)->get());
+
             $value = $subSubject->id;
-            $selected = $subSubject->active ? $subSubject->id == $selectedSubSubject ? ' selected' : '' : ' disabled';
-            $name = $subSubject->name;
+            $active = $numberOfChoosedSubSubject >= $subSubject->max_person ? false : true;
+            $selected = $active ? $subSubject->id == $selectedSubSubject ? ' selected' : '' : ' disabled';
+            $name = $subSubject->name .' (' .$numberOfChoosedSubSubject .'/'.$subSubject->max_person.')';
             $message .= '<option value="' .$value .'" ' . $selected .'>' .$name .'</option>';
         }
 
