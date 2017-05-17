@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\StudentHasSubject;
+use App\SubSubject;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +48,7 @@ class SubjectController extends Controller
 
                     if ($subjects[$i]['subject']['selectable']) {
                         foreach ($termSubject->getSubSubjects() as $key2 => $subSubject) {
-                            $numberOfChoosedSubSubject = count(StudentHasSubject::where('subSubject_id', $subSubject->id)->get());
+                            $numberOfChoosedSubSubject = $subSubject->current_person;
                             $subjects[$i]['subSubjects'][$key2]['name'] = $subSubject->name;
                             $subjects[$i]['subSubjects'][$key2]['id'] = $subSubject->id;
                             $subjects[$i]['subSubjects'][$key2]['active'] = $numberOfChoosedSubSubject >= $subSubject->max_person ? false : true;

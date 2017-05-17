@@ -36,7 +36,7 @@
 												<div class="col-md-10">
 														@if($subject['subject']['selectable'])
 														<select id="{{'select'.$key}}" name="subjects[{{$key}}][subSubject_id]" class="form-control select">
-															<option value="">-- wybierz --</option>
+															<option value="0">-- wybierz --</option>
 															@if($subject['subject']['selected'])
 																@foreach ($subject['subSubjects'] as $subSubject)
 																	<option value="{{$subSubject['id']}}" {{ $subSubject['active'] ? $subject['subSubject']['id'] == $subSubject['id'] ? ' selected' : '' : ' disabled' }}>{{$subSubject['name']}}{{' ('.$subSubject['selectedCount'].'/'.$subSubject['max_person'].')'}}</option>

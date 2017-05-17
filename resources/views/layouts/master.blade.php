@@ -153,13 +153,15 @@
                         selectable:selectable,
                         selected:selected,
                         subject_id:subject_id,
-                        selectedSubSubject:subSubject_id, },
+                        selectedSubSubject:subSubject_id,
+                },
                 success: function (data) {
                     error = data.substr(0, 3);
+                    selectData = data.substr(3);
                     switch (error)
                     {
                         case 'WoW':
-                            $('#select' + id).html(data);
+                            $('#select' + id).html(selectData);
                             message = '<div class="alert alert-dismissible alert-success">' +
                                 '<button type="button" class="close" data-dismiss="alert">×</button>' +
                                 '<strong>Pomyślnie zapisano na przedmiot.</strong>' +

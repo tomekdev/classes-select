@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\Student;
 use App\StudentHasSubject;
 use App\Subject;
 use App\SubSubject;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -30,8 +30,8 @@ class AjaxController extends Controller
         $selectedSubSubject = $request['selectedSubSubject'];
         if($selectedSubSubject) {
             $isValid = false;
-            foreach ($subSubjects as $subject)
-                if ($subject->id == $selectedSubSubject)
+            foreach ($subSubjects as $subSubject)
+                if ($subSubject->id == $selectedSubSubject)
                     $isValid = true;
             if(!$isValid)
                 return 'hakCoś kombinujesz, podany przemiot jest niezgodny z tym wybranym. Pieseł czuwa xd';
@@ -48,17 +48,27 @@ class AjaxController extends Controller
         $studentHasSubject = $selectedSubject ? $selectedSubject : new StudentHasSubject();
         $studentHasSubject->student_id = $student->id;
         $studentHasSubject->subSubject_id = $selectedSubSubject;
-        $studentHasSubject->save();
 
-        $message = 'WoW<option  value="">-- wybierz --</option>';
+        try {
+            $studentHasSubject->save();
+            $subSubjects = $subject->getSubSubjects();
+        }
+        catch (QueryException $ex)
+        {
+            echo $ex->getMessage();
+            die;
+        }
+
+
+        $message = 'WoW<option  value="0">-- wybierz --</option>';
         foreach ($subSubjects as $subSubject)
         {
-            $numberOfChoosedSubSubject = count(StudentHasSubject::where('subSubject_id', $subSubject->id)->get());
+
 
             $value = $subSubject->id;
-            $active = $numberOfChoosedSubSubject >= $subSubject->max_person ? false : true;
+            $active = $subSubject->current_person >= $subSubject->max_person ? false : true;
             $selected = $active ? $subSubject->id == $selectedSubSubject ? ' selected' : '' : ' disabled';
-            $name = $subSubject->name .' (' .$numberOfChoosedSubSubject .'/'.$subSubject->max_person.')';
+            $name = $subSubject->name .' (' .$subSubject->current_person .'/'.$subSubject->max_person.')';
             $message .= '<option value="' .$value .'" ' . $selected .'>' .$name .'</option>';
         }
 

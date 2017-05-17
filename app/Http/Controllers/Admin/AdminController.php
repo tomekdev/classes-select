@@ -65,7 +65,7 @@ class AdminController extends Controller
             'configuration' => Configuration::get()->first()
         ]);
     }
-    
+
     function saveConfiguration(Request $request) {
         $messages = array (
             'mail_host.regex' => 'Pole host musi być prawidłowym adresem URL.',
@@ -90,7 +90,7 @@ class AdminController extends Controller
             $request->flash();
             return redirect()->back()->withErrors($v->errors());
         }
-        
+
         $existingConfiguration = Configuration::get()->first();
         $configuration = count($existingConfiguration) > 0? $existingConfiguration : new Configuration();
         $configuration->fill($request->all());
@@ -105,7 +105,7 @@ class AdminController extends Controller
         app()['config']['mail'] = $mailConfig;
         Artisan::call('cache:clear');
         Session::flash('success', 'Pomyślnie zapisano ustawienia aplikacji.');
-        
+
         //wysyłanie przykładowego maila
         Mail::send('emails.termRemind', [
             'dateString' => 'someFancyDate',

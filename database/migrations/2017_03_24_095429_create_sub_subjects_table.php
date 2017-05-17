@@ -20,6 +20,7 @@ class CreateSubSubjectsTable extends Migration
             $table->integer('subject_id')->unsigned();
             $table->integer('min_person');
             $table->integer('max_person');
+            $table->integer('current_person')->nullable()->default(0);
             $table->timestamps();
         });
 
