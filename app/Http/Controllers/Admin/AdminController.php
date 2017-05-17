@@ -7,11 +7,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Admin;
 use App\Configuration;
+use App\Email;
 
 class AdminController extends Controller
 {
@@ -95,24 +95,18 @@ class AdminController extends Controller
         $configuration = count($existingConfiguration) > 0? $existingConfiguration : new Configuration();
         $configuration->fill($request->all());
         $configuration->save();
-        $mailConfig = app()['config']['mail'];
-        $mailConfig['host'] = $configuration->mail_host;
-        $mailConfig['port'] = $configuration->mail_port;
-        $mailConfig['username'] = $configuration->mail_username;
-        $mailConfig['password'] = $configuration->mail_password;
-        $mailConfig['from']['address'] = $configuration->mail_from_address;
-        $mailConfig['from']['name'] = $configuration->mail_from_name;
-        app()['config']['mail'] = $mailConfig;
-        Artisan::call('cache:clear');
+        Email::setConfig($configuration);
         Session::flash('success', 'Pomyślnie zapisano ustawienia aplikacji.');
 
         //wysyłanie przykładowego maila
-        Mail::send('emails.termRemind', [
+        $mail = new Email('emails.termRemind');
+        $mail->to = 'kokodzambo2014@gmail.com';
+        $mail->title = 'TestMail';
+        $mail->data = [
             'dateString' => 'someFancyDate',
             'url' => 'http://www.google.com'
-        ], function($message){
-            $message->to('kokodzambo2014@gmail.com');
-        });
+        ];
+        $mail->commit();
         return redirect()->route('admin.configuration');
     }
 }
