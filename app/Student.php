@@ -32,6 +32,11 @@ class Student extends Model implements Authenticatable
         return $this->belongsToMany(StudyForm::class, 'student_has_studies');
     }
     
+    public function student_has_studies()
+    {
+        return $this->hasOne(StudentHasStudies::class);
+    }
+    
     // metoda zwraca niezależnie wszystkie kierunki na jakich studiuje student
     public function getFields()
     {

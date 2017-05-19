@@ -116,6 +116,7 @@
                                             <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz przywrócić ten termin?', '{{ route('admin.restoreTerm', ['id' => $term->id]) }}')">Przywróć</a>
                                         @endif
                                         <a href="{{route('admin.getTerm', ['id' => $term->id])}}">Edytuj</a>
+                                        <a href="{{ route('admin.sendTermReminders', ['id' => $term->id]) }}" onclick="return confirm('Czy na pewno chcesz wysłać powiadomienia mailowe do wszystkich studentów objętych terminem? {{$term->last_remind_date? '\n\nDla tego terminu wysłano już przypomnienia, ostatnie '.$term->last_remind_date.'.' : ''}} \n\nUWAGA: Proces wysyłania może trwać do kilku minut!')">Przypomnij</a>
                                     </td>
                                     <td class="text-right">
                                         <label for="checkboxes[{{$index}}][checkbox]"></label>

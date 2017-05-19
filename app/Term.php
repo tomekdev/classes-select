@@ -37,6 +37,17 @@ class Term extends Model
         return $this->belongsTo(StudyForm::class, 'study_form_id')->first();
     }
     
+    public function getStudents() {
+        return Student::where("active", true)
+            ->whereHas('student_has_studies', function($q){
+                $q->where('student_has_studies.field_id', $this->field_id);
+                $q->where('student_has_studies.semester_id', $this->semester_id);
+                $q->where('student_has_studies.degree_id', $this->degree_id);
+                $q->where('student_has_studies.study_form_id', $this->study_form_id);
+                $q->where('student_has_studies.average', '>=', $this->min_average);
+        })->get();
+    }
+    
     //daty w bardziej przyjaznym formacie
     public function getStartDateAttribute($value) {
         $value = Carbon::parse($value);

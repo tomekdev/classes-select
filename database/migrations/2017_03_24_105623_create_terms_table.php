@@ -23,6 +23,7 @@ class CreateTermsTable extends Migration
             $table->integer('field_id')->unsigned();
             $table->integer('degree_id')->unsigned();
             $table->integer('study_form_id')->unsigned();
+            $table->date('last_remind_date')->nullable();
             $table->boolean('active')->default(true);
         });
 

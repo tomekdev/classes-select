@@ -354,6 +354,11 @@ Route::group([
             'uses' => 'Admin\TermController@restoreTerm',
             'as' => 'admin.restoreTerm'
         ])->where('id', '[0-9]+');
+        
+        Route::get('/term/{id}/remind', [
+            'uses' => 'Admin\TermController@sendTermReminders',
+            'as' => 'admin.sendTermReminders'
+        ])->where('id', '[0-9]+');
     });
 
 // to jest strefa dla Mateusza i Grzesia do testowania pojedynczych widoków. Proszę tu nie grzebać, poza nimi dwoma

@@ -97,16 +97,6 @@ class AdminController extends Controller
         $configuration->save();
         Email::setConfig($configuration);
         Session::flash('success', 'Pomyślnie zapisano ustawienia aplikacji.');
-
-        //wysyłanie przykładowego maila
-        $mail = new Email('emails.termRemind');
-        $mail->to = 'kokodzambo2014@gmail.com';
-        $mail->title = 'TestMail';
-        $mail->data = [
-            'dateString' => 'someFancyDate',
-            'url' => 'http://www.google.com'
-        ];
-        $mail->commit();
         return redirect()->route('admin.configuration');
     }
 }

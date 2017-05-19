@@ -118,16 +118,16 @@
 					<div class="panel-body">
 						<form action="" method="post">
 							<div class="form-group">
-								<h3>\\Imię!</h3>
+								<h3>Witaj {{$name}}!</h3>
 								<br>
-								 <p>Dnia //data mija termin zapisów na Twoje przedmioty wybieralne! Kliknij w przycisk poniżej, aby przekierować się na stronę dotyczącą zapisów!
+								 <p>Dnia {{\Carbon\Carbon::parse($date)->format("Y-m-d")}} o godzinie {{\Carbon\Carbon::parse($date)->format("H:i")}} rozpoczyna się termin zapisów na Twoje przedmioty wybieralne! Kliknij w przycisk poniżej, aby przekierować się na stronę dotyczącą zapisów!
 							</div>
-								<a href="url" class="btn btn-primary btn-raised">Zapisz się!</a>
+								<a href="{{$url}}" class="btn btn-primary btn-raised">Zapisz się!</a>
 							<div class="form-group">
 								 <p>W przypadku braku reakcji przycisku, kliknij link poniżej:</p>
 							</div>
 							<div class="form-group text-center">
-								<a href="url">Zapisy na przedmioty wybieralne</a>
+								<a href="{{$url}}">Zapisy na przedmioty wybieralne</a>
 							</div>
 							<input type="hidden" name="_token" value=""/>
 							<div class="form-group">

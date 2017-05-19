@@ -7,11 +7,13 @@ use App\Field;
 use App\Faculty;
 use App\Degree;
 use App\StudyForm;
+use App\Email;
 use App\Semester;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use \Session;
+use Carbon\Carbon;
 
 
 class TermController extends Controller
@@ -222,6 +224,34 @@ class TermController extends Controller
                 Session::flash('success', 'Pomyślnie przywrócono zaznaczone terminy zapisu.');
             else Session::flash('error', 'Nie zaznaczono żadnego terminu zapisu.');
         }
+        return redirect()->back();
+    }
+    
+    public function sendTermReminders($id = 0, Request $request)
+    {
+        $term = Term::find($id);
+        $students = $term->getStudents();
+        foreach($students as $student) {
+            Email::send('emails.termRemind', $student->email, 'Przypomnienie', [
+            'name' => $student->name,
+            'date' => $term->start_date,
+            'url' => route('student.welcome')
+        ]);
+        }
+        $term->last_remind_date = Carbon::now();
+        $term->save();
+        switch (count($students)) {
+            case 0:
+                Session::flash('error', 'Nie znaleziono studentów objętych terminem.');
+                break;
+            case 1:
+                Session::flash('success', 'Pomyślnie wysłano powiadomienia dla '.count($students).' studenta.');
+                break;
+            default:
+                Session::flash('success', 'Pomyślnie wysłano powiadomienia dla '.count($students).' studentów.');
+                break;
+        }
+      
         return redirect()->back();
     }
 }
