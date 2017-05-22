@@ -229,26 +229,41 @@ class TermController extends Controller
     
     public function sendTermReminders($id = 0, Request $request)
     {
-        $term = Term::find($id);
-        $students = $term->getStudents();
-        foreach($students as $student) {
-            Email::send('emails.termRemind', $student->email, 'Przypomnienie', [
-            'name' => $student->name,
-            'date' => $term->start_date,
-            'url' => route('student.welcome')
-        ]);
+        function sendReminders($id) {
+            $term = Term::find($id);
+            $students = $term->getStudents();
+            foreach($students as $student) {
+                Email::send('emails.termRemind', $student->email, 'Przypomnienie', [
+                'name' => $student->name,
+                'date' => $term->start_date,
+                'url' => route('student.welcome')
+            ]);
+            }
+            $term->last_remind_date = Carbon::now();
+            $term->save();
+            return count($students);
         }
-        $term->last_remind_date = Carbon::now();
-        $term->save();
-        switch (count($students)) {
+        
+        if($id) {
+            $studentsCount = sendReminders($id);
+        }
+        else {
+            $studentsCount = 0;
+            foreach ($request['checkboxes'] as $req) {
+                if(count($req) > 1) {
+                    $studentsCount += sendReminders($req['id']);
+                }
+            }
+        }
+        switch ($studentsCount) {
             case 0:
                 Session::flash('error', 'Nie znaleziono studentów objętych terminem.');
                 break;
             case 1:
-                Session::flash('success', 'Pomyślnie wysłano powiadomienia dla '.count($students).' studenta.');
+                Session::flash('success', 'Pomyślnie wysłano powiadomienia dla '.$studentsCount.' studenta.');
                 break;
             default:
-                Session::flash('success', 'Pomyślnie wysłano powiadomienia dla '.count($students).' studentów.');
+                Session::flash('success', 'Pomyślnie wysłano powiadomienia dla '.$studentsCount.' studentów.');
                 break;
         }
       

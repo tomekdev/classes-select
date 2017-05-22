@@ -355,7 +355,7 @@ Route::group([
             'as' => 'admin.restoreTerm'
         ])->where('id', '[0-9]+');
         
-        Route::get('/term/{id}/remind', [
+        Route::any('/term/{id}/remind', [
             'uses' => 'Admin\TermController@sendTermReminders',
             'as' => 'admin.sendTermReminders'
         ])->where('id', '[0-9]+');
