@@ -62,7 +62,8 @@ class AdminController extends Controller
     
     function getConfiguration() {
         return view('admin.configuration',[
-            'configuration' => Configuration::get()->first()
+            'configuration' => Configuration::get()->first(),
+            'encryptions' => ['tls', 'ssl']
         ]);
     }
 
@@ -74,16 +75,16 @@ class AdminController extends Controller
             'mail_port.max' => 'Pole port musi mieć wartość mniejszą, lub równą 65535.',
             'mail_username.string' => 'Pole nazwa użytkownika jest nieprawdiłowe.',
             'mail_password.string' => 'Pole hasło jest nieprawidłowe.',
-            'mail_from_address.email' => 'Pole adres nadawcy musi być prawidłowym adresem e-mail.',
             'mail_from_name.string' => 'Pole nadawca jest nieprawidłowe.',
+            'mail_encryption.in' => 'Pole tryb zapezpieczeń musi być jednym z trybów: tls, ssl.',
         );
         $v = Validator::make($request->all(), [
             'mail_host' => 'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/', //regex ze stacka, bo zwykły url nie waliduje adresów bez http
             'mail_port' => 'numeric|min:1|max:65535',
             'mail_username' => 'string',
             'mail_password' => 'string',
-            'mail_from_address' => 'email',
             'mail_from_name' => 'string',
+            'mail_encryption' => 'in:tls,ssl',
         ], $messages);
 
         if ($v->fails()) {

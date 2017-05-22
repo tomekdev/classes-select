@@ -70,7 +70,7 @@ class Email
             $mailConfig['port'] = $configuration->mail_port;
             $mailConfig['username'] = $configuration->mail_username;
             $mailConfig['password'] = $configuration->mail_password;
-            $mailConfig['from']['address'] = $configuration->mail_from_address;
+            $mailConfig['encryption'] = $configuration->mail_encryption;
             $mailConfig['from']['name'] = $configuration->mail_from_name;
             app()['config']['mail'] = $mailConfig;
        }

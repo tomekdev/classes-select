@@ -37,9 +37,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="mail_from_address" class="col-md-2 control-label">Adres nadawcy</label>
+                            <label for="mail_encryption" class="col-md-2 control-label">Tryb zabezpieczenia</label>
                             <div class="col-md-10">
-                                <input type="text" name="mail_from_address" class="form-control" id="mail_from_address" value="{{old('mail_from_address')?: ($configuration? $configuration->mail_from_address : '')}}">
+                                <select class="form-control select" name="mail_encryption" required>
+                                <option value="">-- wybierz --</option>
+                                @foreach($encryptions as $mail_encryption)
+                                    <option value="{{ $mail_encryption }}" {{ (($configuration && $configuration->mail_encryption == $mail_encryption) || old('mail_encryption') == $mail_encryption)? 'selected' : '' }}>{{ $mail_encryption }}</option>
+                                @endforeach
+                            </select>
                             </div>
                         </div>
                         <div class="form-group">

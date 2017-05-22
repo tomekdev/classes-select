@@ -23,7 +23,7 @@ class ConfigurationsTableSeeder extends Seeder
                         'mail_port' => 587,
                         'mail_username' => 'kokodzambo2014@gmail.com',
                         'mail_password' => 'informatyka2014',
-                        'mail_from_address' => 'piesel@wow.com',
+                        'mail_encryption' => 'tls',
                         'mail_from_name' => 'Pieseł'
                     )
             ));
