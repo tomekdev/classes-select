@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
 use App\Configuration;
 
 class Email
@@ -45,6 +46,7 @@ class Email
     /*
      * Alternatywna statyczna metoda wysyłania
      *
+     *
      * Przykład użycia:
      * Email::send('emails.termRemind', 'kokodzambo2014@gmail.com', 'TestMail', [
      *      'dateString' => 'someFancyDate',
@@ -69,7 +71,7 @@ class Email
             $mailConfig['host'] = $configuration->mail_host;
             $mailConfig['port'] = $configuration->mail_port;
             $mailConfig['username'] = $configuration->mail_username;
-            $mailConfig['password'] = $configuration->mail_password;
+            $mailConfig['password'] = Crypt::decrypt($configuration->mail_password);
             $mailConfig['encryption'] = $configuration->mail_encryption;
             $mailConfig['from']['name'] = $configuration->mail_from_name;
             app()['config']['mail'] = $mailConfig;

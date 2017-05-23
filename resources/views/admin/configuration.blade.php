@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <label for="mail_password" class="col-md-2 control-label">Hasło</label>
                             <div class="col-md-10">
-                                <input type="password" name="mail_password" class="form-control" id="mail_password" value="{{old('mail_password')?: ($configuration? $configuration->mail_password : '')}}">
+                                <input type="password" name="mail_password" class="form-control" id="mail_password">
                             </div>
                         </div>
                         <div class="form-group">

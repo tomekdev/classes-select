@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -95,6 +95,7 @@ class AdminController extends Controller
         $existingConfiguration = Configuration::get()->first();
         $configuration = count($existingConfiguration) > 0? $existingConfiguration : new Configuration();
         $configuration->fill($request->all());
+        $configuration->mail_password = Crypt::encrypt($request['mail_password']);
         $configuration->save();
         Email::setConfig($configuration);
         Session::flash('success', 'Pomyślnie zapisano ustawienia aplikacji.');
