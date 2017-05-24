@@ -21,6 +21,8 @@ class CreateStudentsTable extends Migration
             $table->string('name');
             $table->string('surname');
             $table->string('password');
+            $table->string('password_reset_token')->nullable();
+            $table->string('password_reset_expiry')->nullable();
             $table->integer('study_end')->nullable();
             $table->boolean('active')->default(true);
         });

@@ -23,6 +23,25 @@ Route::post('/login', [
     'as' => 'student.login'
 ]);
 
+Route::get('/resetpassword/{token}', [
+    'uses' => 'Student\StudentController@resetPassword',
+    'as' => 'student.resetPassword'
+]);
+
+Route::post('/resetpassword/{token}', [
+    'uses' => 'Student\StudentController@resetPassword',
+    'as' => 'student.resetPassword'
+]);
+
+Route::get('/resetpassword', function(){
+    return view('student.resetPassword');
+});
+
+Route::post('/sendresettoken', [
+    'uses' => 'Student\StudentController@sendResetToken',
+    'as' => 'student.sendToken'
+]);
+
 Route::group([
     'middleware' => ['student'],
 ], function()

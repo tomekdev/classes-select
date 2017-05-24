@@ -234,10 +234,10 @@ class TermController extends Controller
             $students = $term->getStudents();
             foreach($students as $student) {
                 Email::send('emails.termRemind', $student->email, 'Przypomnienie', [
-                'name' => $student->name,
-                'date' => $term->start_date,
-                'url' => route('student.welcome')
-            ]);
+                    'name' => $student->name,
+                    'date' => $term->start_date,
+                    'url' => route('student.welcome')
+                ]);
             }
             $term->last_remind_date = Carbon::now();
             $term->save();
