@@ -129,4 +129,30 @@ class StudentController extends Controller
             return redirect()->route('student.welcome');
         }
     }
+    
+    public function changePassword(Request $request)
+    {
+        $student = Auth::guard('student')->user();
+        if (!Hash::check($request->old_password, $student->password)) {
+            Session::flash('error', 'Podane aktualne hasło jest nieprawidłowe.');
+            return redirect()->back();
+        }
+        $messages = array (
+            'password.string' => 'Pole hasło jest nieprawidłowe.',
+            'password_repeat.same' => 'Podane hasła nie są takie same.',
+        );
+        $v = Validator::make($request->all(), [
+            'password' => 'string',
+            'password_repeat' => 'same:password',
+        ], $messages);
+
+        if ($v->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($v->errors());
+        }
+        $student->password = Hash::make($request->password);
+        $student->save();
+        Session::flash('success', 'Hasło zostało zmienione.');
+        return redirect()->route('student.dashboard');
+    }
 }

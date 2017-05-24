@@ -1,4 +1,4 @@
-@extends('layouts.student')
+@extends('layouts.admin')
 
 @section('content')
 
@@ -12,12 +12,16 @@
                 <div class="panel-body">
                     <form method="post">
                         <div class="form-group label-floating">
+                            <input type="password" class="form-control" id="old_password" name="old_password">
+                            <label for="old_password" class="control-label">Aktualne hasło</label>
+                        </div>
+                        <div class="form-group label-floating">
                             <input type="password" class="form-control" id="password" name="password">
                             <label for="password" class="control-label">Nowe hasło</label>
                         </div>
                         <div class="form-group label-floating">
                             <input type="password" class="form-control" id="password_repeat" name="password_repeat">
-                            <label for="password_repeat" class="control-label">Powtórz nowe hasło</label>
+                            <label for="password_repeat" class="control-label">Powtórz nowehasło</label>
                         </div>
                         <div class="pull-right">
                             <button type="submit" class="btn btn-primary btn-raised">Zapisz</button>

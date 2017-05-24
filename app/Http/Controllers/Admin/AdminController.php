@@ -101,4 +101,30 @@ class AdminController extends Controller
         Session::flash('success', 'Pomyślnie zapisano ustawienia aplikacji.');
         return redirect()->route('admin.configuration');
     }
+    
+    public function changePassword(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+        if (!Hash::check($request->old_password, $admin->password)) {
+            Session::flash('error', 'Podane aktualne hasło jest nieprawidłowe.');
+            return redirect()->back();
+        }
+        $messages = array (
+            'password.string' => 'Pole hasło jest nieprawidłowe.',
+            'password_repeat.same' => 'Podane hasła nie są takie same.',
+        );
+        $v = Validator::make($request->all(), [
+            'password' => 'string',
+            'password_repeat' => 'same:password',
+        ], $messages);
+
+        if ($v->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($v->errors());
+        }
+        $admin->password = Hash::make($request->password);
+        $admin->save();
+        Session::flash('success', 'Hasło zostało zmienione.');
+        return redirect()->back();
+    }
 }

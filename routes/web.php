@@ -62,6 +62,15 @@ Route::group([
         'uses' => 'Student\SubjectController@index',
         'as' => 'student.dashboard',
     ]);
+    
+    Route::get('/changepassword', function(){
+        return view('student.changePassword');
+    });
+
+    Route::post('/changepassword', [
+        'uses' => 'Student\StudentController@changePassword',
+        'as' => 'student.changePassword'
+    ]);
 });
 
 /************* ADMIN ROUTES ************/
@@ -99,6 +108,15 @@ Route::group([
         Route::post('/logout', [
             'uses' => 'Admin\AdminController@logout',
             'as' => 'admin.logout'
+        ]);
+        
+        Route::get('/changepassword', function(){
+            return view('admin.changePassword');
+        });
+
+        Route::post('/changepassword', [
+            'uses' => 'Admin\AdminController@changePassword',
+            'as' => 'admin.changePassword'
         ]);
         
         Route::get('/configuration', [
