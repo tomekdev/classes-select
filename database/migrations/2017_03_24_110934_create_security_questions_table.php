@@ -13,26 +13,26 @@ class CreateSecurityQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('security_questions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-            $table->integer('question_id')->unsigned();
-            $table->string('answer');
-            $table->integer('student_id')->unsigned();
-            $table->boolean('active')->default(true);
-        });
-
-        Schema::table('security_questions', function (Blueprint $table) {
-            $table->foreign('student_id')
-                ->references('id')
-                ->on('students');
-        });
-
-        Schema::table('security_questions', function (Blueprint $table) {
-            $table->foreign('question_id')
-                ->references('id')
-                ->on('questions');
-        });
+//        Schema::create('security_questions', function (Blueprint $table) {
+//            $table->increments('id');
+//            $table->timestamps();
+//            $table->integer('question_id')->unsigned();
+//            $table->string('answer');
+//            $table->integer('student_id')->unsigned();
+//            $table->boolean('active')->default(true);
+//        });
+//
+//        Schema::table('security_questions', function (Blueprint $table) {
+//            $table->foreign('student_id')
+//                ->references('id')
+//                ->on('students');
+//        });
+//
+//        Schema::table('security_questions', function (Blueprint $table) {
+//            $table->foreign('question_id')
+//                ->references('id')
+//                ->on('questions');
+//        });
     }
 
     /**

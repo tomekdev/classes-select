@@ -35,7 +35,7 @@ Route::post('/resetpassword/{token}', [
 
 Route::get('/resetpassword', function(){
     return view('student.resetPassword');
-});
+})->name('student.showResetPasswordForm');
 
 Route::post('/sendresettoken', [
     'uses' => 'Student\StudentController@sendResetToken',

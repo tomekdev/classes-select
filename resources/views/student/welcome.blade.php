@@ -21,7 +21,7 @@
                             <label for="password" class="control-label">Hasło</label>
                         </div>
                         <div class="pull-right">
-                            <button class="btn btn-raised">Zapomniałem hasła</button>
+                            <a href="{{route('student.showResetPasswordForm')}}" class="btn btn-raised">Zapomniałem hasła</a>
                             <button type="submit" class="btn btn-primary btn-raised">Zaloguj</button>
                         </div>
                         <input type="hidden" name="_token" value="{{ Session::token() }}"/>

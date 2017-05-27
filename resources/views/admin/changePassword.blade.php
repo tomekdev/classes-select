@@ -21,7 +21,7 @@
                         </div>
                         <div class="form-group label-floating">
                             <input type="password" class="form-control" id="password_repeat" name="password_repeat">
-                            <label for="password_repeat" class="control-label">Powtórz nowehasło</label>
+                            <label for="password_repeat" class="control-label">Powtórz nowe hasło</label>
                         </div>
                         <div class="pull-right">
                             <button type="submit" class="btn btn-primary btn-raised">Zapisz</button>
