@@ -37,7 +37,7 @@
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{{Auth::guard('student')->user()->name}}} {{{Auth::guard('student')->user()->surname}}}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ route('student.changePassword') }}">Zmień hasło</a></li>
-                        <li><a href="nieistniejącametoda">Zmień pytania zabezpieczające</a></li>
+<!--                        <li><a href="nieistniejącametoda">Zmień pytania zabezpieczające</a></li>-->
                         <li class="divider"></li>
                         <li>
                             <a href="{{ route('student.logout') }}"
