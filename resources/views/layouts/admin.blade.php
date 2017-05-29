@@ -57,7 +57,7 @@
                 <li class="dropdown">
                     <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{{Auth::guard('admin')->user()->name}}} {{{Auth::guard('admin')->user()->surname}}}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="nieistniejącametoda">Zmień hasło</a></li>
+                        <li><a href="{{ route('admin.changePassword') }}">Zmień hasło</a></li>
                         <li><a href="{{ route('admin.configuration') }}">Ustawienia</a></li>
                         <li class="divider"></li>
                         <li>

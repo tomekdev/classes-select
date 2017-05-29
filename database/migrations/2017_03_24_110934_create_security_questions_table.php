@@ -33,6 +33,7 @@ class CreateSecurityQuestionsTable extends Migration
                 ->references('id')
                 ->on('questions')->onDelete('cascade');;
         });
+
     }
 
     /**

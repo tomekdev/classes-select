@@ -13,12 +13,12 @@ class CreateQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-            $table->string('question');
-            $table->boolean('active')->default(true);
-        });
+//        Schema::create('questions', function (Blueprint $table) {
+//            $table->increments('id');
+//            $table->timestamps();
+//            $table->string('question');
+//            $table->boolean('active')->default(true);
+//        });
     }
 
     /**

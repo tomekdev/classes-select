@@ -20,7 +20,7 @@ class CreateConfigurationsTable extends Migration
             $table->integer("mail_port");
             $table->string("mail_username");
             $table->string("mail_password");
-            $table->string("mail_from_address");
+            $table->string("mail_encryption");
             $table->string("mail_from_name");
         });
     }

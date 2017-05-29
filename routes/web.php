@@ -23,6 +23,25 @@ Route::post('/login', [
     'as' => 'student.login'
 ]);
 
+Route::get('/resetpassword/{token}', [
+    'uses' => 'Student\StudentController@resetPassword',
+    'as' => 'student.resetPassword'
+]);
+
+Route::post('/resetpassword/{token}', [
+    'uses' => 'Student\StudentController@resetPassword',
+    'as' => 'student.resetPassword'
+]);
+
+Route::get('/resetpassword', function(){
+    return view('student.resetPassword');
+})->name('student.showResetPasswordForm');
+
+Route::post('/sendresettoken', [
+    'uses' => 'Student\StudentController@sendResetToken',
+    'as' => 'student.sendToken'
+]);
+
 Route::group([
     'middleware' => ['student'],
 ], function()
@@ -42,6 +61,15 @@ Route::group([
     Route::get('/dashboard', [
         'uses' => 'Student\SubjectController@index',
         'as' => 'student.dashboard',
+    ]);
+    
+    Route::get('/changepassword', function(){
+        return view('student.changePassword');
+    });
+
+    Route::post('/changepassword', [
+        'uses' => 'Student\StudentController@changePassword',
+        'as' => 'student.changePassword'
     ]);
 });
 
@@ -80,6 +108,15 @@ Route::group([
         Route::post('/logout', [
             'uses' => 'Admin\AdminController@logout',
             'as' => 'admin.logout'
+        ]);
+        
+        Route::get('/changepassword', function(){
+            return view('admin.changePassword');
+        });
+
+        Route::post('/changepassword', [
+            'uses' => 'Admin\AdminController@changePassword',
+            'as' => 'admin.changePassword'
         ]);
         
         Route::get('/configuration', [
@@ -369,7 +406,7 @@ Route::group([
             'as' => 'admin.restoreTerm'
         ])->where('id', '[0-9]+');
         
-        Route::get('/term/{id}/remind', [
+        Route::any('/term/{id}/remind', [
             'uses' => 'Admin\TermController@sendTermReminders',
             'as' => 'admin.sendTermReminders'
         ])->where('id', '[0-9]+');

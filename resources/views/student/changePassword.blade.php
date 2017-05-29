@@ -7,22 +7,24 @@
         <div class="col-lg-6 col-lg-offset-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3>Logowanie</h3>
+                    <h3>Nowe hasło</h3>
                 </div>
                 <div class="panel-body">
-                    <form action="{{ route('student.login') }}" method="post">
+                    <form method="post">
                         <div class="form-group label-floating">
-                            <label for="login" class="control-label">Login</label>
-                            <input type="text" class="form-control" id="login" name="login" value="{{{ old('login') }}}" autofocus>
-                            <span class="help-block">Jako login może posłużyć numer indeksu, lub mail przypisany do konta</span>
+                            <input type="password" class="form-control" id="old_password" name="old_password">
+                            <label for="old_password" class="control-label">Aktualne hasło</label>
                         </div>
                         <div class="form-group label-floating">
                             <input type="password" class="form-control" id="password" name="password">
-                            <label for="password" class="control-label">Hasło</label>
+                            <label for="password" class="control-label">Nowe hasło</label>
+                        </div>
+                        <div class="form-group label-floating">
+                            <input type="password" class="form-control" id="password_repeat" name="password_repeat">
+                            <label for="password_repeat" class="control-label">Powtórz nowe hasło</label>
                         </div>
                         <div class="pull-right">
-                            <a href="{{route('student.showResetPasswordForm')}}" class="btn btn-raised">Zapomniałem hasła</a>
-                            <button type="submit" class="btn btn-primary btn-raised">Zaloguj</button>
+                            <button type="submit" class="btn btn-primary btn-raised">Zapisz</button>
                         </div>
                         <input type="hidden" name="_token" value="{{ Session::token() }}"/>
                     </form>

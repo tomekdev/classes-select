@@ -135,6 +135,7 @@
                         <a href="javascript:void(0)" onclick="deselectAll()">Usuń zaznaczenia</a>
                     </div>
                     <div class="text-right">
+                        <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz wysłać powiadomienia mailowe do wszystkich studentów objętych terminami? \n\nUWAGA: Proces wysyłania może trwać do kilku minut!', '{{ route('admin.sendTermReminders', ['id' => 0]) }}')">Przypomnij</a>
                         @if($active)
                             <a a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć zaznaczone terminy?', '{{ route('admin.deleteTerm', ['id' => 0]) }}')">Usuń</a>
                         @else
