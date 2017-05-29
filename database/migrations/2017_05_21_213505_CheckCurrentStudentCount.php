@@ -50,10 +50,10 @@ class CheckCurrentStudentCount extends Migration
                 SIGNAL SQLSTATE \'10000\' SET MESSAGE_TEXT = \'brak miejsc\';
             ELSE
                 set @current_person = @current_person + 1;
-                update sub_subjects set current_person=@current_person where 			id=new.subSubject_id;
+                update sub_subjects set current_person=@current_person where id=new.subSubject_id;
                 set @old_current_person = (select current_person from sub_subjects where id=old.subSubject_id);
                 set @old_current_person = @old_current_person - 1;
-               update sub_subjects set current_person=@old_current_person where 			id=old.subSubject_id;
+               update sub_subjects set current_person=@old_current_person where id=old.subSubject_id;
             end if;
                end if;
         end

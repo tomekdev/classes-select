@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use \Session;
 use App\StudentHasStudy;
@@ -16,6 +17,7 @@ use App\Semester;
 use App\Degree;
 use App\StudyForm;
 use Input;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -428,6 +430,53 @@ class StudentController extends Controller
         return redirect()->back();
     }
 
+    public function importStudents(Request $request, $page = 0)
+    {
+        if($request->hasFile('csvFile'))
+        {
+            $file = $request->file('csvFile');
+            $data = $this->csvToArray($file);
+//            $dataCount = count($data);
+//            $pages = ceil($dataCount / 6);
+
+            return view('admin.importstudents')->with(['students' => $data, 'page'  => $page]);
+        }
+        else echo 'brak pliku';
+        die;
+    }
+
+    public function getStudentsFromPage($page)
+    {
+
+    }
+
+    public function appendStudents(Request $request)
+    {
+        foreach ($request['students'] as $student)
+        {
+            $studentDB = new Student();
+            $studentDB->fill($student);
+            $studentDB->save();
+        }
+        Session::flash('success', 'Pomyślnie dodano nowych studentów');
+        return redirect()->route('admin.students');
+    }
+
+    public function overwriteStudents(Request $request)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Student::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        foreach ($request['students'] as $student)
+        {
+            $studentDB = new Student();
+            $studentDB->fill($student);
+            $studentDB->save();
+        }
+        Session::flash('success', 'Pomyślnie nadpisano wszystkich studentów');
+        return redirect()->route('admin.students');
+    }
+
     private function ucfirstUtf8($str) {
         if (mb_check_encoding($str, 'UTF-8')) {
             $first = mb_substr(mb_strtoupper($str, 'UTF-8'), 0, 1, 'UTF-8');
@@ -435,5 +484,27 @@ class StudentController extends Controller
         } else {
             return $str;
         }
+    }
+
+    function csvToArray($filename = '', $delimiter = ',')
+    {
+        if (!file_exists($filename) || !is_readable($filename))
+            return false;
+
+        $header = null;
+        $data = array();
+        if (($handle = fopen($filename, 'r')) !== false)
+        {
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+            {
+                if (!$header)
+                    $header = $row;
+                else
+                    $data[] = array_combine($header, $row);
+            }
+            fclose($handle);
+        }
+
+        return $data;
     }
 }

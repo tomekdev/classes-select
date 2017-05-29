@@ -93,6 +93,20 @@ Route::group([
         ]);
 
         /***********Students***************/
+        Route::post('/import/students/', [
+           'uses' => 'Admin\StudentController@importStudents',
+            'as' => 'admin.importStudents'
+        ]);
+
+        Route::post('/import/append/students/', [
+            'uses' => 'Admin\StudentController@appendStudents',
+            'as' => 'admin.appendStudents'
+        ]);
+
+        Route::post('/import/overwrite/students/', [
+            'uses' => 'Admin\StudentController@overwriteStudents',
+            'as' => 'admin.overwriteStudents'
+        ]);
 
         Route::get('/students', [
             'uses' => 'Admin\StudentController@index',

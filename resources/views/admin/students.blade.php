@@ -1,6 +1,6 @@
 @extends('layouts.admin') @section('content')
 
-    <div class="container">
+    <div class="container" xmlns="http://www.w3.org/1999/html">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="row">
@@ -9,7 +9,16 @@
                     </div>
                     <div class="text-right col-md-9">
                         <a href="{{route('admin.getstudent')}}" class="btn btn-primary">Dodaj studenta</a>
-                        <a class="btn btn-primary">Importuj studentów</a>
+                        <form action="{{ route('admin.importStudents') }}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                                <div class="col-md-8">
+                                    <input type="file" id="csvFile" name="csvFile" multiple="">
+                                    <input type="text" readonly="" class="form-control" placeholder="Wybierz plik CSV z komputera...">
+                                </div>
+                        </div>
+                            <button type="submit" class="btn btn-primary">Zaimportuj</button>
+                            {{ csrf_field() }}
+                        </form>
                     </div>
                 </div>
                 <div class="panel panel-default">

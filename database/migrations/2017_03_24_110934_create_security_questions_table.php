@@ -25,13 +25,13 @@ class CreateSecurityQuestionsTable extends Migration
         Schema::table('security_questions', function (Blueprint $table) {
             $table->foreign('student_id')
                 ->references('id')
-                ->on('students');
+                ->on('students')->onDelete('cascade');
         });
 
         Schema::table('security_questions', function (Blueprint $table) {
             $table->foreign('question_id')
                 ->references('id')
-                ->on('questions');
+                ->on('questions')->onDelete('cascade');;
         });
     }
 

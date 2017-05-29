@@ -20,7 +20,7 @@ class CreateStudentsTable extends Migration
             $table->string('email');
             $table->string('name');
             $table->string('surname');
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->integer('study_end')->nullable();
             $table->boolean('active')->default(true);
         });
