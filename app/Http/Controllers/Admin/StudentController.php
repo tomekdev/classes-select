@@ -212,11 +212,11 @@ class StudentController extends Controller
         $request['name'] = $this->ucfirstUtf8($request['name']);
         $request['surname'] = $this->ucfirstUtf8($request['surname']);
 
-//        if (count(Student::where('index',$request['index'])->where('id', '!=', $id)->get()) > 0) {
-//            Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
-//            $request->flash();
-//            return redirect()->back();
-//        }
+        if (count(Student::where('index',$request['index'])->where('id', '!=', $id)->get()) > 0) {
+            Session::flash('error', 'Student o takim numerze indeksu już istnieje w bazie.');
+            $request->flash();
+            return redirect()->back();
+        }
 
         $student = $id? Student::find($id) : null;
 
@@ -283,24 +283,27 @@ class StudentController extends Controller
     }
 
     // Metoda do usuwania studiów na których student już nie studiuje
-    private function deleteEndedStudies($actuallyStudies, $newStudies)
+    private function deleteEndedStudies($DBStudies, $reqStudies)
     {
-        foreach ($actuallyStudies as $index => $actuallyStudy)
+        foreach ($DBStudies as $index => $actuallyStudy)
         {
             $isFounded = false;
-            foreach ($newStudies as $newStudy)
+            foreach ($reqStudies as $newStudy)
             {
-                if ($actuallyStudies[$index]['id'] == $newStudy['id'])
+                if ($DBStudies[$index]['id'] == $newStudy['id'])
                 {
                     $isFounded = true;
                     break;
                 }
             }
-            if(!$isFounded)
+            if(!$isFounded) {
                 // smienione z delete na sctive
-                $actuallyStudies[$index]->active = false;
+                $DBStudies[$index]->delete();
+                unset($DBStudies[$index]);
+            }
+
         }
-        return $actuallyStudies;
+        return $DBStudies;
     }
 
     // metoda do sprawdzania czy dany obiekt się powtarza
