@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
+use App\StudentHasSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -433,7 +434,7 @@ class StudentController extends Controller
         return redirect()->back();
     }
 
-    public function importStudents(Request $request, $page = 0)
+    public function importStudents(Request $request)
     {
         if($request->hasFile('csvFile'))
         {
@@ -444,12 +445,9 @@ class StudentController extends Controller
             $semesters = Semester::where(['active' => true])->get();
             $degrees = Degree::all();
             $study_forms = StudyForm::all();
-//            $dataCount = count($data);
-//            $pages = ceil($dataCount / 6);
 
             return view('admin.importstudents')->with([
                 'students' => $data,
-                'page'  => $page,
                 'faculties' => $faculties,
                 'semesters' => $semesters,
                 'fields' => $fields,
@@ -483,8 +481,11 @@ class StudentController extends Controller
     public function overwriteStudents(Request $request)
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        StudentHasSubject::truncate();
+        StudentHasStudy::truncate();
         Student::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        
         foreach ($request['students'] as $student)
         {
             $studentDB = new Student();
