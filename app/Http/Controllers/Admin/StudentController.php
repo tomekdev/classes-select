@@ -439,13 +439,28 @@ class StudentController extends Controller
         {
             $file = $request->file('csvFile');
             $data = $this->csvToArray($file);
+            $faculties = Faculty::where(['active' => true])->get();
+            $fields = Field::where(['active' => true])->get();
+            $semesters = Semester::where(['active' => true])->get();
+            $degrees = Degree::all();
+            $study_forms = StudyForm::all();
 //            $dataCount = count($data);
 //            $pages = ceil($dataCount / 6);
 
-            return view('admin.importstudents')->with(['students' => $data, 'page'  => $page]);
+            return view('admin.importstudents')->with([
+                'students' => $data,
+                'page'  => $page,
+                'faculties' => $faculties,
+                'semesters' => $semesters,
+                'fields' => $fields,
+                'degrees' => $degrees,
+                'study_forms' => $study_forms,
+            ]);
         }
-        else echo 'brak pliku';
-        die;
+        else {
+            Session::flash('error', 'Nie wybrano pliku CSV');
+            return redirect()->back();
+        }
     }
 
     public function getStudentsFromPage($page)
