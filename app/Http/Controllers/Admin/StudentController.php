@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\StudentHasSubject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -14,6 +15,7 @@ use App\StudentHasStudy;
 use App\Student;
 use App\Field;
 use App\Faculty;
+use App\Email;
 use App\Semester;
 use App\Degree;
 use App\StudyForm;
@@ -266,6 +268,9 @@ class StudentController extends Controller
                 $student->password = Hash::make(str_random(8));
                 $student->study_end = null;
                 $student->save();
+                $token = Crypt::encrypt($student->id);
+                $student->password_reset_token = Hash::make($token);
+                $student->save();
 
                 foreach ($reqStudies as $reqStudy)
                 {
@@ -278,7 +283,16 @@ class StudentController extends Controller
                     $newStudy->study_form_id = $reqStudy['study_form_id'];
                     $newStudy->save();
                 }
-                Session::flash('success', 'Pomyślnie dodano studenta.');
+            
+                //wyślij maila powitalnego
+                Email::send('emails.setPassword', $student->email, 'Witamy!', [
+                    'name' => $student->name,
+                    'index' => $student->index,
+                    'url' => route('student.resetPassword',[
+                        'token' => $token
+                    ])
+                ]);
+                Session::flash('success', 'Pomyślnie dodano studenta. Wiadomość z dalszymi instrukcjami została wysłana do studenta.');
                 return redirect()->back();
         }
     }
@@ -473,8 +487,18 @@ class StudentController extends Controller
             $studentDB = new Student();
             $studentDB->fill($student);
             $studentDB->save();
+            $token = Crypt::encrypt($studentDB->id);
+            $studentDB->password_reset_token = Hash::make($token);
+            $studentDB->save();
+            Email::send('emails.setPassword', $studentDB->email, 'Witamy!', [
+                'name' => $studentDB->name,
+                'index' => $studentDB->index,
+                'url' => route('student.resetPassword',[
+                    'token' => $token
+                ])
+            ]);
         }
-        Session::flash('success', 'Pomyślnie dodano nowych studentów');
+        Session::flash('success', 'Pomyślnie dodano nowych studentów. Wiadomości z instrukcjami zostały wysłane do studentów.');
         return redirect()->route('admin.students');
     }
 
@@ -491,8 +515,18 @@ class StudentController extends Controller
             $studentDB = new Student();
             $studentDB->fill($student);
             $studentDB->save();
+            $token = Crypt::encrypt($studentDB->id);
+            $studentDB->password_reset_token = Hash::make($token);
+            $studentDB->save();
+            Email::send('emails.setPassword', $studentDB->email, 'Witamy!', [
+                'name' => $studentDB->name,
+                'index' => $studentDB->index,
+                'url' => route('student.resetPassword',[
+                    'token' => $token
+                ])
+            ]);
         }
-        Session::flash('success', 'Pomyślnie nadpisano wszystkich studentów');
+        Session::flash('success', 'Pomyślnie nadpisano wszystkich studentów. Wiadomości z instrukcjami zostały wysłane do studentów.');
         return redirect()->route('admin.students');
     }
 
