@@ -180,6 +180,12 @@
                                 '<strong>hehe Janusz Hakier mode on. Pieseł Wardeł strzeże P.</strong>' +
                                 '</div>';
                             break;
+                        case '100':
+                            message = '<div class="alert alert-dismissible alert-warning">' +
+                                '<button type="button" class="close" data-dismiss="alert">×</button>' +
+                                '<strong>Niestety nie możesz się już zapisać, ponieważ nie ma już wolnych miejsc na tym przedmiocie</strong>' +
+                                '</div>';
+                            break;
                     }
                 }
             });

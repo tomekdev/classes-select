@@ -55,8 +55,9 @@ class AjaxController extends Controller
         }
         catch (QueryException $ex)
         {
-            echo $ex->getMessage();
-            die;
+            if($ex->getCode() == 10000) {
+                return '10000';
+            }
         }
 
 
