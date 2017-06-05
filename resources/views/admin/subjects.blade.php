@@ -41,7 +41,7 @@
                                     <select id="semesters" name="semesters" class="form-control select">
                                         <option value="">-- wybierz --</option>
                                         @foreach ($semesters as $semester)
-                                            <option value="{{$semester->id}}" {{old('semesters') == $semester->id? 'selected' : ''}}>{{$semester->number}}, {{$semester->name}}</option>
+                                            <option value="{{$semester->id}}" {{old('semesters') == $semester->id? 'selected' : ''}}>{{$semester->number .' - ' .$semester->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -50,7 +50,7 @@
                                     <select id="degrees" name="degrees" class="form-control select">
                                         <option value="">-- wybierz --</option>
                                         @foreach ($degrees as $degree)
-                                            <option value="{{$degree->id}}" {{old('degrees') == $degree->id? 'selected' : ''}}>{{$degree->name}}</option>
+                                            <option value="{{$degree->id}}" {{old('degrees') == $degree->id? 'selected' : ''}}>{{$degree->name .' - ' .$degree->type}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -124,7 +124,7 @@
                                     <td class="text-center">{{ $subject->name }}</td>
                                     {{--<td class="text-center">{{ $subject->max_person }}</td>--}}
                                     {{--<td class="text-center">{{ $subject->min_person }}</td>--}}
-                                    <td class="text-center">{{ $subject->getField()->name .', ' .$subject->getSemester()->name}}</td>
+                                    <td class="text-center">{{ $subject->getField()->name .' - ' .$subject->getSemester()->name}}</td>
                                     <td class="text-center">{{ $subject->getDegree()->name .', ' .$subject->getStudyForm()->name}}</td>
                                     <td>
                                         @foreach ($subject->getSubSubjects()?: [] as $subSubject)

@@ -45,7 +45,7 @@
                             <select name="fields[semester_id]" class="form-control select">
                                 <option value="">-- wybierz --</option>
                                 @foreach($semesters as $sem)
-                                    <option value="{{$sem->id}}" {{ $subject ? $sem->id == $subject->getSemester()->id ? 'selected' : '' : '' }}>{{ $sem->number . ', ' . $sem->name }}</option>
+                                    <option value="{{$sem->id}}" {{ $subject ? $sem->id == $subject->getSemester()->id ? 'selected' : '' : '' }}>{{ $sem->number . ' - ' . $sem->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -56,7 +56,7 @@
                             <select name="fields[degree_id]" class="form-control select">
                                 <option value="">-- wybierz --</option>
                                 @foreach ($degrees as $degree)
-                                    <option value="{{$degree->id}}" {{ $subject ? $degree->id == $subject->getDegree()->id ? 'selected' : '' : '' }}>{{$degree->name}}</option>
+                                    <option value="{{$degree->id}}" {{ $subject ? $degree->id == $subject->getDegree()->id ? 'selected' : '' : '' }}>{{$degree->name .' - ' .$degree->type}}</option>
                                 @endforeach
                             </select>
                         </div>

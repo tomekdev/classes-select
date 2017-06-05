@@ -37,7 +37,7 @@
                                 <select id="semester_id" name="semester_id" class="form-control select" onchange="">
                                     <option value="">-- wybierz --</option>
                                     @foreach ($semesters as $semester)
-                                    <option value="{{$semester->id}}" {{((old('semester_id') && old('semester_id') == $semester->id) || ($term && !old('semester_id') && $semester->id == $term->getSemester()->id))? 'selected' : ''}}>{{$semester->number}}, {{$semester->name}}</option>
+                                    <option value="{{$semester->id}}" {{((old('semester_id') && old('semester_id') == $semester->id) || ($term && !old('semester_id') && $semester->id == $term->getSemester()->id))? 'selected' : ''}}>{{$semester->number .' - ' .$semester->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -48,7 +48,7 @@
                                 <select id="degree_id" name="degree_id" class="form-control select" onchange="">
                                     <option value="">-- wybierz --</option>
                                     @foreach ($degrees as $degree)
-                                        <option value="{{$degree->id}}" {{((old('degree_id') && old('degree_id') == $degree->id) || ($term && !old('degree_id') && $degree->id == $term->getDegree()->id))? 'selected' : ''}}>{{$degree->name}}</option>
+                                        <option value="{{$degree->id}}" {{((old('degree_id') && old('degree_id') == $degree->id) || ($term && !old('degree_id') && $degree->id == $term->getDegree()->id))? 'selected' : ''}}>{{$degree->name .' - ' .$degree->type}}</option>
                                     @endforeach
                                 </select>
                             </div>

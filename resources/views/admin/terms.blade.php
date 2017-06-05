@@ -41,7 +41,7 @@
                                     <select id="semester" name="semester" class="form-control select">
                                         <option value="">-- wybierz --</option>
                                         @foreach ($semesters as $semester)
-                                            <option value="{{$semester->id}}" {{old('semester') == $semester->id? 'selected' : ''}}>{{$semester->number}}, {{$semester->name}}</option>
+                                            <option value="{{$semester->id}}" {{old('semester') == $semester->id? 'selected' : ''}}>{{$semester->number .' - ' .$semester->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -108,7 +108,7 @@
                                     <td class="text-center">{{ $term->min_average}}</td>
                                     <td class="text-center">{{ $term->getField()->getFaculty()->name}}</td>
                                     <td class="text-center">{{ $term->getField()->name}}</td>
-                                    <td class="text-center">{{ $term->getSemester()->number}}, {{ $term->getSemester()->name}}</td>
+                                    <td class="text-center">{{ $term->getSemester()->number .' - ' .$term->getSemester()->name}}</td>
                                     <td>
                                         @if($term->active)
                                             <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć ten termin?', '{{ route('admin.deleteTerm', ['id' => $term->id]) }}')">Usuń</a>
