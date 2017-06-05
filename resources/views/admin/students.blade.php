@@ -21,6 +21,24 @@
                         </form>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="text-right col-md-12">
+                        <a data-toggle="collapse" href="#csvHint" class="btn btn-primary">Przykładowy plik CSV</a>
+                    </div>
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel-body collapse text-center" id="csvHint">
+                            <p><strong>Przykład poprawnego formatu pliku CSV</strong></p>
+                            <p><strong>Tak powinna wyglądać zawartość poprawnego pliku CSV z danymi studentów</strong></p>
+                            <p><strong>======================================================================</strong></p>
+                            <p><strong>index,name,surname,email,password</strong></p>
+                            <p><strong>89546,Jan,Kowalski,s89546@student.po.edu.pl,</strong></p>
+                            <p><strong>89545,Jan,Nowak,s89545@student.po.edu.pl,</strong></p>
+                            <p><strong>89543,Zenon,Nowak,s89543@student.po.edu.pl,</strong></p>
+                            <p><strong>89557,Paweł,Burak,s89557@student.po.edu.pl,</strong></p>
+                            <p><strong>=======================================================================</strong></p>
+                        </div>
+                    </div>
+                </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
