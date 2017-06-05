@@ -22,7 +22,7 @@ class SubjectsTableSeeder extends Seeder
                 'id' => 1,
                 'created_at' => NULL,
                 'updated_at' => NULL,
-                'study_form_id' => 2,
+                'study_form_id' => 1,
                 'degree_id' => 1,
                 'semester_id' => 1,
                 'field_id' => 9,

@@ -47,7 +47,7 @@ class SubSubjectsTableSeeder extends Seeder
                     'max_person' => 20,
                     'subject_id' => 2,
                 ),
-            4 =>
+            3 =>
                 array (
                     'id' => 4,
                     'created_at' => NULL,
@@ -56,6 +56,46 @@ class SubSubjectsTableSeeder extends Seeder
                     'min_person' => 15,
                     'max_person' => 20,
                     'subject_id' => 2,
+                ),
+            4 =>
+                array (
+                    'id' => 5,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'name' => 'opcja 1',
+                    'min_person' => 15,
+                    'max_person' => 20,
+                    'subject_id' => 3,
+                ),
+            5 =>
+                array (
+                    'id' => 6,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'name' => 'opcja 2',
+                    'min_person' => 15,
+                    'max_person' => 20,
+                    'subject_id' => 3,
+                ),
+            6 =>
+                array (
+                    'id' => 7,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'name' => 'zajecia 1',
+                    'min_person' => 15,
+                    'max_person' => 20,
+                    'subject_id' => 4,
+                ),
+            7 =>
+                array (
+                    'id' => 8,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'name' => 'zajecia 2',
+                    'min_person' => 15,
+                    'max_person' => 20,
+                    'subject_id' => 4,
                 ),
         ));
 
