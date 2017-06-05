@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -124,13 +125,20 @@ class Student extends Model implements Authenticatable
     {
         $studies = $this->getDBStudies();
         $terms = [];
+        $currentTime = Carbon::now();
         foreach ($studies as $key => $study) {
 //            $term = Term::where(['field_id' => $study->field_id, 'semester_id' => $study->semester_id, 'degree_id' => $study->degree_id, 'study_form_id' => $study->study_form_id])
 //                ->where('min_average', '<=', $study->average)->first();
-                        $term = Term::where(['field_id' => $study->field_id, 'degree_id' => $study->degree_id, 'study_form_id' => $study->study_form_id])
-                ->where('min_average', '<=', $study->average)->first();
-            if($term)
+                        $term = Term::where(['field_id' => $study->field_id, 'degree_id' => $study->degree_id, 'study_form_id' => $study->study_form_id, 'active' => true])
+                ->where('min_average', '<=', $study->average)
+                ->where('finish_date', '>=', $currentTime)->first();
+            if($term) {
                 $terms[$key] = $term;
+            }
+            else {
+                $terms[$key] = Term::where(['field_id' => $study->field_id, 'degree_id' => $study->degree_id, 'study_form_id' => $study->study_form_id, 'active' => true])
+                        ->where('min_average', '<=', $study->average)->first();
+            }
         }
         return $terms;
     }
