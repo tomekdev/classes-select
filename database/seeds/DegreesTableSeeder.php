@@ -27,9 +27,25 @@ class DegreesTableSeeder extends Seeder
                     'id' => 2,
                     'created_at' => NULL,
                     'updated_at' => NULL,
-                    'name' => 'Drugi',
-                    'type' => 'Magister',
+                    'name' => 'Pierwszy',
+                    'type' => 'Licencjat',
                 ),
+            2 =>
+                array (
+                        'id' => 3,
+                        'created_at' => NULL,
+                        'updated_at' => NULL,
+                        'name' => 'Drugi',
+                        'type' => 'Magister',
+                ),
+                3 =>
+                    array (
+                            'id' => 4,
+                            'created_at' => NULL,
+                            'updated_at' => NULL,
+                            'name' => 'Trzeci',
+                            'type' => 'Doktor',
+                    ),
         ));
     }
 }
