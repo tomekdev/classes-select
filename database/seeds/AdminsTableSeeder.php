@@ -13,7 +13,7 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('admins')->delete();
 
@@ -23,24 +23,14 @@ class AdminsTableSeeder extends Seeder
                         'id' => 1,
                         'created_at' => NULL,
                         'updated_at' => NULL,
-                        'name' => 'patryk',
-                        'surname' => 'trompeta',
-                        'login' => 'p.trompeta',
-                        'password' => Hash::make('zaq12wsx'),
-                    ),
-                1 =>
-                    array (
-                        'id' => 2,
-                        'created_at' => NULL,
-                        'updated_at' => NULL,
-                        'name' => 'tomek',
-                        'surname' => 'wacławek',
-                        'login' => 't.waclawek',
+                        'name' => 'imie',
+                        'surname' => 'nazwisko',
+                        'login' => 'admin',
                         'password' => Hash::make('zaq12wsx'),
                     ),
             ));
-        
-        
-        
+
+
+
     }
 }

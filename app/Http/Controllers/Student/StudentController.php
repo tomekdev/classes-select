@@ -97,14 +97,13 @@ class StudentController extends Controller
     {
         $studentId = Crypt::decrypt($token);
         $student = Student::find($studentId);
-        if ($student->password_reset_token && Carbon::parse($student->password_reset_expiry) >= Carbon::now() && Hash::check($token, $student->password_reset_token)) {
+        if ($student->password_reset_token && (Carbon::parse($student->password_reset_expiry) >= Carbon::now() || !$student->password_reset_expiry) && Hash::check($token, $student->password_reset_token)) {
             if ($request->password) {
                 $messages = array (
                     'password.string' => 'Pole hasło jest nieprawidłowe.',
                     'password_repeat.same' => 'Podane hasła nie są takie same.',
                 );
                 $v = Validator::make($request->all(), [
-                    'mail_host' => 'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/', //regex ze stacka, bo zwykły url nie waliduje adresów bez http
                     'password' => 'string',
                     'password_repeat' => 'same:password',
                 ], $messages);
