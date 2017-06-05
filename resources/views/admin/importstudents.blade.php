@@ -32,7 +32,7 @@
                                 <select id="select-field0" name="fields[field_id]" class="form-control select">
                                     <option value="0">-- bez zmian --</option>
                                     @foreach ($fields as $field)
-                                        <option value="{{$field->id}}" {{old('fields') == $field->id? 'selected' : ''}}>{{$field->name}}</option>
+                                        <option value="{{$field->id}}">{{$field->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -94,16 +94,50 @@
                             <tr>
                                 <td>{{$index+1}}</td>
                                 <td>
-                                    <input type="text" name="students[{{$index}}][index]" class="form-control" value="{{$student['index']}}"/>
+                                    @if(isset($student['exist']))
+                                        <input type="text" name="students[{{$index}}][index]" class="form-control student-exist" value="{{$student['index']}}"/>
+                                        <div class="alert alert-danger">
+                                            <strong>{{$student['exist']['index']}}</strong>
+                                            <input type="hidden" name="students[{{$index}}][exist][index]" value="{{$student['exist']['index']}}"/>
+                                        </div>
+                                        <strong>Student już istnieje w bazie</strong>
+                                    @else
+                                        <input type="text" name="students[{{$index}}][index]" class="form-control" value="{{$student['index']}}"/>
+                                    @endif
                                 </td>
                                 <td>
-                                    <input type="text" name="students[{{$index}}][name]" class="form-control" value="{{$student['name']}}"/>
+                                    @if(isset($student['exist']))
+                                        <input type="text" name="students[{{$index}}][name]" class="form-control student-exist" value="{{$student['name']}}"/>
+                                        <div class="alert alert-danger">
+                                            <strong>{{$student['exist']['name']}}</strong>
+                                        </div>
+                                        <input type="hidden" name="students[{{$index}}][exist][name]" value="{{$student['exist']['name']}}"/>
+                                    @else
+                                        <input type="text" name="students[{{$index}}][name]" class="form-control" value="{{$student['name']}}"/>
+                                    @endif
+
                                 </td>
                                 <td>
-                                    <input type="text" name="students[{{$index}}][surname]" class="form-control" value="{{$student['surname']}}"/>
+                                    @if(isset($student['exist']))
+                                        <input type="text" name="students[{{$index}}][surname]" class="form-control student-exist" value="{{$student['surname']}}"/>
+                                        <div class="alert alert-danger">
+                                            <strong>{{$student['exist']['surname']}}</strong>
+                                        </div>
+                                        <input type="hidden" name="students[{{$index}}][exist][surname]" value="{{$student['exist']['surname']}}"/>
+                                    @else
+                                        <input type="text" name="students[{{$index}}][surname]" class="form-control" value="{{$student['surname']}}"/>
+                                    @endif
                                 </td>
                                 <td>
-                                    <input type="text" name="students[{{$index}}][email]" class="form-control" value="{{$student['email']}}"/>
+                                    @if(isset($student['exist']))
+                                        <input type="text" name="students[{{$index}}][email]" class="form-control student-exist" value="{{$student['email']}}"/>
+                                        <div class="alert alert-danger">
+                                            <strong>{{$student['exist']['email']}}</strong>
+                                        </div>
+                                        <input type="hidden" name="students[{{$index}}][exist][email]" value="{{$student['exist']['email']}}"/>
+                                    @else
+                                        <input type="text" name="students[{{$index}}][email]" class="form-control" value="{{$student['email']}}"/>
+                                    @endif
                                 </td>
                                 <td>
                                     <input type="text" name="students[{{$index}}][password]" class="form-control" value="{{$student['password']}}"/>

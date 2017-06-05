@@ -158,7 +158,7 @@
                                     </td>
                                     <td>
                                         @foreach ($student->getStudies() as $study)
-                                            <p>{{{$study['field']->name}}}, {{{$study['semester']->number}}} semestr</p>
+                                            <p>{{{$study['field']->name}}}, {{$study['semester']->number .', ' .$study['semester']->name }}</p>
                                         @endforeach
                                     </td>
                                     <td>

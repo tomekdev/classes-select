@@ -49,7 +49,18 @@ class SemestersTableSeeder extends Seeder
                 'name' => 'Zimowy 2018/2019',
                 'number' => 4,
             ),
+            4 =>
+                array (
+                    'id' => 5,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'name' => 'Brak semestru',
+                    'number' => 0,
+                ),
         ));
+        $semester = \App\Semester::find(5);
+        $semester->id = 0;
+        $semester->save();
         
         
     }

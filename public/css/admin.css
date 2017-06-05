@@ -97,3 +97,7 @@ line.hour-hand{
 line.minute-hand{
     stroke: rgb(54, 70, 158);
 }
+
+.student-exist {
+    border: 3px solid dimgrey;
+}

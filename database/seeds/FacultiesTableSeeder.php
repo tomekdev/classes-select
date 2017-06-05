@@ -31,7 +31,18 @@ class FacultiesTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'name' => 'Wydział Fizjoterapii',
             ),
+
+            2 =>
+                array (
+                    'id' => 3,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'name' => 'Brak wydziału',
+                ),
         ));
+        $faculty = \App\Faculty::find(3);
+        $faculty->id = 0;
+        $faculty->save();
         
         
     }

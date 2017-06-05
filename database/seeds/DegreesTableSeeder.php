@@ -30,6 +30,17 @@ class DegreesTableSeeder extends Seeder
                     'name' => 'Drugi',
                     'type' => 'Magister',
                 ),
+            2 =>
+                array (
+                    'id' => 3,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'name' => 'Brak stopnia',
+                    'type' => '',
+                ),
         ));
+        $degree = \App\Degree::find(3);
+        $degree->id = 0;
+        $degree->save();
     }
 }

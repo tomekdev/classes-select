@@ -41,7 +41,18 @@ class FieldsTableSeeder extends Seeder
                 'name' => 'Biologia',
                 'faculty_id' => 2,
             ),
+            3 =>
+                array (
+                    'id' => 4,
+                    'created_at' => NULL,
+                    'updated_at' => NULL,
+                    'name' => 'Brak kierunku',
+                    'faculty_id' => 0,
+                ),
         ));
+        $field = \App\Field::find(4);
+        $field->id = 0;
+        $field->save();
         
         
     }
