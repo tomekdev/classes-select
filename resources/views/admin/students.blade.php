@@ -60,7 +60,7 @@
                                     <select id="degrees" name="degrees" class="form-control select">
                                         <option value="">-- wybierz --</option>
                                         @foreach ($degrees as $degree)
-                                            <option value="{{$degree->id}}" {{old('degrees') == $degree->id? 'selected' : ''}}>{{$degree->name}}</option>
+                                            <option value="{{$degree->id}}" {{old('degrees') == $degree->id? 'selected' : ''}}>{{$degree->name .', ' .$degree->type}}</option>
                                         @endforeach
                                     </select>
                                 </div>
