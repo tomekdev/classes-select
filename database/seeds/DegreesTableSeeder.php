@@ -41,7 +41,7 @@ class DegreesTableSeeder extends Seeder
 
             3 =>
                 array (
-                    'id' => 3,
+                    'id' => 5,
                     'created_at' => NULL,
                     'updated_at' => NULL,
                     'name' => 'Brak stopnia',
@@ -56,7 +56,7 @@ class DegreesTableSeeder extends Seeder
                         'type' => 'Doktor',
                 ),
         ));
-        $degree = \App\Degree::find(3);
+        $degree = \App\Degree::find(5);
         $degree->id = 0;
         $degree->save();
     }
