@@ -573,6 +573,10 @@ class StudentController extends Controller
             $token = Crypt::encrypt($studentsDB[$key]['student']->id);
             $studentDB['student']->password_reset_token = Hash::make($token);
             $studentDB['student']->save();
+            if(isset($studentDB['study'])) {
+                $studentDB['study']->student_id = $studentDB['student']->id;
+                $studentDB['study']->save();
+            }
             Email::send('emails.setPassword', $studentDB['student']->email, 'Witamy!', [
                 'name' => $studentDB['student']->name,
                 'index' => $studentDB['student']->index,
@@ -580,10 +584,6 @@ class StudentController extends Controller
                     'token' => $token
                 ])
             ]);
-            if(isset($studentDB['study'])) {
-                $studentDB['study']->student_id = $studentDB['student']->id;
-                $studentDB['study']->save();
-            }
         }
         Session::flash('success', 'Pomyślnie dodano nowych studentów. Wiadomości z instrukcjami zostały wysłane do studentów.');
         return redirect()->route('admin.students');
@@ -591,6 +591,46 @@ class StudentController extends Controller
 
     public function overwriteStudents(Request $request)
     {
+        $messages = array (
+            'name.required' => 'Pole imię jest wymagane.',
+            'name.alpha_spaces' => 'Pole imię może zawierać tylko litery i spacje.',
+            'name.max' => 'Pole imię może zawierać maksymalnie 255 znaków.',
+            'surname.required' => 'Pole nazwisko jest wymagane.',
+            'surname.alpha_spaces' => 'Pole nazwisko może zawierać tylko litery i spacje.',
+            'surname.max' => 'Pole nazwisko może zawierać maksymalnie 255 znaków.',
+            'index.required' => 'Numer indeksu jest wymagany.',
+            'index.integer' => 'Numer indeksu może zawierać tylko cyfry.',
+            'index.min' => 'Numer indeksu nie może być mniejszy od 1.',
+            'email.required' => 'Pole email jest wymagane.',
+            'email.email' => 'Pole email musi być zgodne z konwencją email-a.',
+            'email.max' => 'Pole email może zawierać maksymalnie 255 znaków.',
+        );
+
+        $faculties = Faculty::where(['active' => true])->get();
+        $fields = Field::where(['active' => true])->get();
+        $semesters = Semester::where(['active' => true])->get();
+        $degrees = Degree::all();
+        $study_forms = StudyForm::all();
+        foreach ($request['students'] as $student) {
+            $v = Validator::make($student, [
+                'name' => 'required|alpha_spaces|max:255',
+                'surname' => 'required|alpha_spaces|max:255',
+                'index' => 'required|integer|min:1',
+                'email' => 'required|email|max:255',
+            ], $messages);
+
+            if ($v->fails()) {
+                return view('admin.importStudents', [
+                    'students' => $request['students'],
+                    'faculties' => $faculties,
+                    'semesters' => $semesters,
+                    'fields' => $fields,
+                    'degrees' => $degrees,
+                    'study_forms' => $study_forms,
+                ])->withErrors($v->errors());
+            }
+        }
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         StudentHasSubject::truncate();
         StudentHasStudy::truncate();
@@ -605,6 +645,9 @@ class StudentController extends Controller
             $token = Crypt::encrypt($studentDB->id);
             $studentDB->password_reset_token = Hash::make($token);
             $studentDB->save();
+            $studentHasStudy = new StudentHasStudy();
+            $studentHasStudy->fill($request['fields']);
+            $studentHasStudy->save();
             Email::send('emails.setPassword', $studentDB->email, 'Witamy!', [
                 'name' => $studentDB->name,
                 'index' => $studentDB->index,
