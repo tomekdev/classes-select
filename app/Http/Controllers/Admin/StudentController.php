@@ -228,12 +228,12 @@ class StudentController extends Controller
             $student->fill($request->all());
 
                 $studies = $this->deleteEndedStudies($studies, $reqStudies);
-                foreach ($reqStudies as $reqStudy)
-                {
-                    $isFounded = false;
+
+                foreach ($reqStudies as $reqStudy) {
+                    $isFound = false;
+
                     foreach ($studies as $study)
-                        if ($reqStudy['id'] == $study->id)
-                        {
+                        if ($reqStudy['id'] == $study->id) {
                             $study->field_id = $reqStudy['field_id'];
                             $study->semester_id = $reqStudy['semester_id'];
                             $study->student_id = $student['id'];
@@ -241,21 +241,22 @@ class StudentController extends Controller
                             $study->degree_id = $reqStudy['degree_id'];
                             $study->study_form_id = $reqStudy['study_form_id'];
                             $study->save();
-                            $isFounded = true;
+                            $isFound = true;
                             break;
                         }
+
+                    if (!$isFound) {
+                        $newStudy = new StudentHasStudy();
+                        $newStudy->field_id = $reqStudy['field_id'];
+                        $newStudy->semester_id = $reqStudy['semester_id'];
+                        $newStudy->student_id = $student['id'];
+                        $newStudy->average = $reqStudy['average'];
+                        $newStudy->degree_id = $reqStudy['degree_id'];
+                        $newStudy->study_form_id = $reqStudy['study_form_id'];
+                        $newStudy->save();
+                    }
                 }
-                if(!$isFounded)
-                {
-                    $newStudy = new StudentHasStudy();
-                    $newStudy->field_id = $reqStudy['field_id'];
-                    $newStudy->semester_id = $reqStudy['semester_id'];
-                    $newStudy->student_id = $student['id'];
-                    $newStudy->average = $reqStudy['average'];
-                    $newStudy->degree_id = $reqStudy['degree_id'];
-                    $newStudy->study_form_id = $reqStudy['study_form_id'];
-                    $newStudy->save();
-                }
+
                 $student->save();
                 Session::flash('success', 'Zmiany zostały pomyślnie zapisane.');
                 return redirect()->back();

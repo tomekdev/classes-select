@@ -155,7 +155,7 @@
                 <select name="fields[@counter@][semester_id]" class="form-control select@counter@">
                     <option value="">-- wybierz --</option>
                     @foreach($semesters as $sem)
-                        <option value="{{$sem->id}}">{{ $sem->number . ', ' . $sem->name }}</option>
+                        <option value="{{$sem->id}}">{{ $sem->number . ' - ' . $sem->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -173,7 +173,7 @@
                 <select name="fields[@counter@][degree_id]" class="form-control select@counter@">
                     <option value="">-- wybierz --</option>
                     @foreach ($degrees as $degree)
-                        <option value="{{$degree->id}}">{{$degree->name}}</option>
+                        <option value="{{$degree->id}}">{{$degree->name .' - ' .$degree->type}}</option>
                     @endforeach
                 </select>
             </div>
