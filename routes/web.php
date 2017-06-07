@@ -34,10 +34,14 @@ Route::post('/resetpassword/{token}', [
 ]);
 
 Route::get('/resetpassword', function(){
-    return view('student.resetPassword');
+    return view('student.resetPassword',['firstTime' => false]);
 })->name('student.showResetPasswordForm');
 
-Route::post('/sendresettoken', [
+Route::get('/welcome', function(){
+    return view('student.resetPassword',['firstTime' => true]);
+})->name('student.firstTimeLogin');
+
+Route::post('/sendresettoken{firstTime?}', [
     'uses' => 'Student\StudentController@sendResetToken',
     'as' => 'student.sendToken'
 ]);

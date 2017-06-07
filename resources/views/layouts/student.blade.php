@@ -1,4 +1,10 @@
-@extends('layouts.master') @section('navbar')
+@extends('layouts.master') 
+
+@section('head')
+    <link rel="stylesheet" href="{{ URL::asset('css/student.css') }}" />
+@endsection
+
+@section('navbar')
 
 <div class="navbar navbar-default">
     <div class="container-fluid">

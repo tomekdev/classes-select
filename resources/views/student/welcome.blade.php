@@ -22,10 +22,17 @@
                         </div>
                         <div class="pull-right">
                             <a href="{{route('student.showResetPasswordForm')}}" class="btn btn-raised">Zapomniałem hasła</a>
-                            <button type="submit" class="btn btn-primary btn-raised">Zaloguj</button>
+                            <button type="submit" class="btn btn-primary btn-raised" style="margin-left:1rem">Zaloguj</button>
                         </div>
                         <input type="hidden" name="_token" value="{{ Session::token() }}"/>
                     </form>
+                    <div class="clearfix"></div>
+                    <div class="strike">
+                        <span>lub</span>
+                    </div>
+                    <div class="text-center">
+                        <a href="{{route('student.firstTimeLogin')}}" class="btn btn-active btn-raised">Pierwsze logowanie</a>
+                    </div>
                 </div>
             </div>
         </div>

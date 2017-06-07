@@ -269,9 +269,11 @@ class StudentController extends Controller
                 $student->password = Hash::make(str_random(8));
                 $student->study_end = null;
                 $student->save();
-                $token = Crypt::encrypt($student->id);
-                $student->password_reset_token = Hash::make($token);
-                $student->save();
+//                $token = Crypt::encrypt($student->id);
+//                $student->password_reset_token = Hash::make($token);
+//                $student->save();:encrypt($student->id);
+//                $student->password_reset_token = Hash::make($token);
+//                $student->save();
 
                 foreach ($reqStudies as $reqStudy)
                 {
@@ -286,13 +288,13 @@ class StudentController extends Controller
                 }
             
                 //wyślij maila powitalnego
-                Email::send('emails.setPassword', $student->email, 'Witamy!', [
-                    'name' => $student->name,
-                    'index' => $student->index,
-                    'url' => route('student.resetPassword',[
-                        'token' => $token
-                    ])
-                ]);
+//                Email::send('emails.setPassword', $student->email, 'Witamy!', [
+//                    'name' => $student->name,
+//                    'index' => $student->index,
+//                    'url' => route('student.resetPassword',[
+//                        'token' => $token
+//                    ])
+//                ]);
                 Session::flash('success', 'Pomyślnie dodano studenta. Wiadomość z dalszymi instrukcjami została wysłana do studenta.');
                 return redirect()->back();
         }
@@ -570,20 +572,20 @@ class StudentController extends Controller
 
         foreach ($studentsDB as $studentDB) {
             $studentDB['student']->save();
-            $token = Crypt::encrypt($studentsDB[$key]['student']->id);
-            $studentDB['student']->password_reset_token = Hash::make($token);
-            $studentDB['student']->save();
+//            $token = Crypt::encrypt($studentsDB[$key]['student']->id);
+//            $studentDB['student']->password_reset_token = Hash::make($token);
+//            $studentDB['student']->save();
             if(isset($studentDB['study'])) {
                 $studentDB['study']->student_id = $studentDB['student']->id;
                 $studentDB['study']->save();
             }
-            Email::send('emails.setPassword', $studentDB['student']->email, 'Witamy!', [
-                'name' => $studentDB['student']->name,
-                'index' => $studentDB['student']->index,
-                'url' => route('student.resetPassword',[
-                    'token' => $token
-                ])
-            ]);
+//            Email::send('emails.setPassword', $studentDB['student']->email, 'Witamy!', [
+//                'name' => $studentDB['student']->name,
+//                'index' => $studentDB['student']->index,
+//                'url' => route('student.resetPassword',[
+//                    'token' => $token
+//                ])
+//            ]);
         }
         Session::flash('success', 'Pomyślnie dodano nowych studentów. Wiadomości z instrukcjami zostały wysłane do studentów.');
         return redirect()->route('admin.students');
@@ -642,19 +644,19 @@ class StudentController extends Controller
             $studentDB = new Student();
             $studentDB->fill($student);
             $studentDB->save();
-            $token = Crypt::encrypt($studentDB->id);
-            $studentDB->password_reset_token = Hash::make($token);
-            $studentDB->save();
+//            $token = Crypt::encrypt($studentDB->id);
+//            $studentDB->password_reset_token = Hash::make($token);
+//            $studentDB->save();
             $studentHasStudy = new StudentHasStudy();
             $studentHasStudy->fill($request['fields']);
             $studentHasStudy->save();
-            Email::send('emails.setPassword', $studentDB->email, 'Witamy!', [
-                'name' => $studentDB->name,
-                'index' => $studentDB->index,
-                'url' => route('student.resetPassword',[
-                    'token' => $token
-                ])
-            ]);
+//            Email::send('emails.setPassword', $studentDB->email, 'Witamy!', [
+//                'name' => $studentDB->name,
+//                'index' => $studentDB->index,
+//                'url' => route('student.resetPassword',[
+//                    'token' => $token
+//                ])
+//            ]);
         }
         Session::flash('success', 'Pomyślnie nadpisano wszystkich studentów. Wiadomości z instrukcjami zostały wysłane do studentów.');
         return redirect()->route('admin.students');

@@ -58,7 +58,7 @@ class StudentController extends Controller
         return redirect('/');
     }
     
-    public function sendResetToken(Request $request)
+    public function sendResetToken(Request $request, $firstTime = false)
     {
         $messages = array (
             'email.required' => 'Pole email jest wymagane.',
@@ -78,9 +78,9 @@ class StudentController extends Controller
         if ($student) {
             $token = Crypt::encrypt($student->id);
             $student->password_reset_token = Hash::make($token);
-            $student->password_reset_expiry = Carbon::now()->addMinutes(30);
+            $student->password_reset_expiry = Carbon::now()->addMinutes(60);
             $student->save();
-            Email::send('emails.resetPassword', $student->email, 'Zmiana hasła', [
+            Email::send($firstTime? 'emails.welcomeMail':'emails.resetPassword', $student->email, $firstTime? 'Aktywacja konta' : 'Zmiana hasła', [
                 'name' => $student->name,
                 'index' => $student->index,
                 'url' => route('student.resetPassword',[
@@ -89,8 +89,8 @@ class StudentController extends Controller
             ]);
         }
         
-        Session::flash('success', 'Na podany adres email został wysłany link resetujący hasło.');
-        return redirect()->back();
+        Session::flash('success', $firstTime? 'Na podany adres email wysłano dalsze instrukcje.' :'Na podany adres email został wysłany link resetujący hasło.');
+        return redirect()->route('student.welcome');
     }
     
     public function resetPassword($token, Request $request)
