@@ -125,20 +125,9 @@ class Student extends Model implements Authenticatable
     {
         $studies = $this->getDBStudies();
         $terms = [];
-        $currentTime = Carbon::now();
         foreach ($studies as $key => $study) {
-//            $term = Term::where(['field_id' => $study->field_id, 'semester_id' => $study->semester_id, 'degree_id' => $study->degree_id, 'study_form_id' => $study->study_form_id])
-//                ->where('min_average', '<=', $study->average)->first();
-                        $term = Term::where(['field_id' => $study->field_id, 'degree_id' => $study->degree_id, 'study_form_id' => $study->study_form_id, 'active' => true])
-                ->where('min_average', '<=', $study->average)
-                ->where('finish_date', '>=', $currentTime)->first();
-            if($term) {
-                $terms[$key] = $term;
-            }
-            else {
                 $terms[$key] = Term::where(['field_id' => $study->field_id, 'degree_id' => $study->degree_id, 'study_form_id' => $study->study_form_id, 'active' => true])
-                        ->where('min_average', '<=', $study->average)->first();
-            }
+                        ->where('min_average', '<=', $study->average)->orderBy('start_date')->get();
         }
         return $terms;
     }
@@ -166,13 +155,15 @@ class Student extends Model implements Authenticatable
 
     public function getTermFromSubject(Subject $subject)
     {
-        foreach ($this->getConnectedTerms() as $term)
+        foreach ($this->getConnectedTerms() as $terms)
         {
-            $tempSubjects = $this->getSubjectFromTerm($term);
-            foreach ($tempSubjects as $tempSubject)
-                if($tempSubject == $subject) {
-                   return $term;
-                }
+            foreach( $terms as $term) {
+                $tempSubjects = $this->getSubjectFromTerm($term);
+                foreach ($tempSubjects as $tempSubject)
+                    if($tempSubject == $subject) {
+                       return $term;
+                    }
+            }
         }
         return false;
     }

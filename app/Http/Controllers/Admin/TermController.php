@@ -229,7 +229,7 @@ class TermController extends Controller
     
     public function sendTermReminders($id = 0, Request $request)
     {
-        function sendReminders($id) {
+       /* function sendReminders($id) {
             $term = Term::find($id);
             $students = $term->getStudents();
             foreach($students as $student) {
@@ -266,7 +266,7 @@ class TermController extends Controller
                 Session::flash('success', 'Pomyślnie wysłano powiadomienia dla '.$studentsCount.' studentów.');
                 break;
         }
-      
+      */
         return redirect()->back();
     }
 }
