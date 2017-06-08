@@ -53,6 +53,13 @@
                                 <input type="text" name="mail_from_name" class="form-control" id="mail_from_name" value="{{old('mail_from_name')?: ($configuration? $configuration->mail_from_name : '')}}">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="mail_from_address" class="col-md-2 control-label">Adres nadawcy</label>
+                            <div class="col-md-10">
+                                <input type="text" name="mail_from_address" class="form-control" id="mail_from_address" value="{{old('mail_from_address')?: ($configuration? $configuration->mail_from_address : '')}}">
+                                <span class="help-block">Pole powinno być uzupełnione faktycznym adresem email, z którego bedą wysyłane wiadomości. W przeciwnym razie niektóre serwery mogą odrzucać wiadomości z systemu.</span>
+                            </div>
+                        </div>
                         {{ csrf_field() }}
                         <button type="submit" class="btn btn-primary btn-raised pull-right">Zapisz</button>
                     </form>

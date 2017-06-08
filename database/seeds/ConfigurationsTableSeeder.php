@@ -26,7 +26,8 @@ class ConfigurationsTableSeeder extends Seeder
                         'mail_username' => 'kokodzambo2014@gmail.com',
                         'mail_password' => Crypt::encrypt('informatyka2014'),
                         'mail_encryption' => 'tls',
-                        'mail_from_name' => 'Pieseł'
+                        'mail_from_name' => 'Pieseł',
+                        'mail_from_address' => 'kokodzambo2014@gmail.com'
                     )
             ));
     }

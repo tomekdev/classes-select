@@ -76,6 +76,7 @@ class AdminController extends Controller
             'mail_username.string' => 'Pole nazwa użytkownika jest nieprawdiłowe.',
             'mail_password.string' => 'Pole hasło jest nieprawidłowe.',
             'mail_from_name.string' => 'Pole nadawca jest nieprawidłowe.',
+            'mail_from_address.string' => 'Pole mail jest nieprawidłowe.',
             'mail_encryption.in' => 'Pole tryb zapezpieczeń musi być jednym z trybów: tls, ssl.',
         );
         $v = Validator::make($request->all(), [
@@ -84,6 +85,7 @@ class AdminController extends Controller
             'mail_username' => 'string',
             'mail_password' => 'string',
             'mail_from_name' => 'string',
+            'mail_from_address' => 'email',
             'mail_encryption' => 'in:tls,ssl',
         ], $messages);
 

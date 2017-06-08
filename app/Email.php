@@ -73,6 +73,7 @@ class Email
             $mailConfig['username'] = $configuration->mail_username;
             $mailConfig['password'] = Crypt::decrypt($configuration->mail_password);
             $mailConfig['encryption'] = $configuration->mail_encryption;
+            $mailConfig['from']['address'] = $configuration->mail_from_address;
             $mailConfig['from']['name'] = $configuration->mail_from_name;
             app()['config']['mail'] = $mailConfig;
        }
