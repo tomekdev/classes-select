@@ -66,6 +66,13 @@ class Subject extends Model
     {
         return $this->belongsTo(StudyForm::class, 'study_form_id', 'id')->first();
     }
+
+    public function getTerms()
+    {
+        $terms = Term::where(['field_id' => $this->field_id,
+            'degree_id' => $this->degree_id, 'study_form_id' => $this->study_form_id])->get();
+        return $terms;
+    }
     
     // metoda zwraca wszystkie opcje jakie są przypisane do tego przedmiotu
     public function getSubSubjects()

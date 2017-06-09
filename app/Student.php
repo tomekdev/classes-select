@@ -157,7 +157,7 @@ class Student extends Model implements Authenticatable
     {
         foreach ($this->getConnectedTerms() as $terms)
         {
-            foreach( $terms as $term) {
+            foreach($terms as $term) {
                 $tempSubjects = $this->getSubjectFromTerm($term);
                 foreach ($tempSubjects as $tempSubject)
                     if($tempSubject == $subject) {

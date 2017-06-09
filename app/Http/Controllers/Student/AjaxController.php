@@ -24,8 +24,15 @@ class AjaxController extends Controller
             return 'hakPieseł ostrzega, modyfikowanie kodu jest nielegalne.';
         if(!$term = $student->getTermFromSubject($subject))
             return 'hakPieseł wywęszył jakąś kombinacje z przedmiotem wybieralnym. Niestety to nie przejdzie.';
-        if($term->finish_date < Carbon::now())
-            return 'hakHehe Janusz hakier mode on. Pieseł Wardeł strzeże xd';
+        $date = Carbon::now();
+        $canSave = false;
+        foreach ($subject->getTerms() as $term) {
+            if ($term->start_date < $date && $term->finish_date > $date) {
+                $canSave = true;
+            }
+        }
+        if(!$canSave)
+           return 'hakHehe Janusz hakier mode on. Pieseł Wardeł strzeże xd';
         $subSubjects = $subject->getSubSubjects();
         $selectedSubSubject = $request['selectedSubSubject'];
         if($selectedSubSubject) {
@@ -36,6 +43,7 @@ class AjaxController extends Controller
             if(!$isValid)
                 return 'hakCoś kombinujesz, podany przemiot jest niezgodny z tym wybranym. Pieseł czuwa xd';
         } else return 'errAby się zapisać musisz wybrać jedną z opcji.';
+
 
 
         $selectedSubject = '';

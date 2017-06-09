@@ -145,6 +145,7 @@
         }
 
         function ajaxSaveSubject(id, selectable, selected, subject_id) {
+
             subSubject_id = $('#select' + id).val();
             $.ajax({
                 url: "{{ route('student.ajaxSaveSubject') }}",
@@ -158,6 +159,7 @@
                 success: function (data) {
                     error = data.substr(0, 3);
                     selectData = data.substr(3);
+                    message = '';
                     switch (error)
                     {
                         case 'WoW':
@@ -166,7 +168,6 @@
                                 '<button type="button" class="close" data-dismiss="alert">×</button>' +
                                 '<strong>Pomyślnie zapisano na przedmiot.</strong>' +
                                 '</div>';
-                            $('#ajaxMessages').html(message);
                             break;
                         case 'err':
                             message = '<div class="alert alert-dismissible alert-danger">'+
@@ -187,6 +188,7 @@
                                 '</div>';
                             break;
                     }
+                    $('#ajaxMessages').html(message);
                 }
             });
         }
