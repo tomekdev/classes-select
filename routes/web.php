@@ -139,6 +139,7 @@ Route::group([
             'as' => 'admin.importStudents'
         ]);
 
+
         Route::post('/import/append/students/', [
             'uses' => 'Admin\StudentController@appendStudents',
             'as' => 'admin.appendStudents'
@@ -147,6 +148,16 @@ Route::group([
         Route::post('/import/overwrite/students/', [
             'uses' => 'Admin\StudentController@overwriteStudents',
             'as' => 'admin.overwriteStudents'
+        ]);
+
+        Route::post('/import/averages/', [
+            'uses' => 'Admin\StudentController@importAverages',
+            'as' => 'admin.importAverages'
+        ]);
+
+        Route::post('/import/append/averages/', [
+            'uses' => 'Admin\StudentController@appendAverages',
+            'as' => 'admin.appendAverages'
         ]);
 
         Route::get('/students', [

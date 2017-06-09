@@ -13,7 +13,7 @@
                         <div class="form-group">
                                 <div class="col-md-8">
                                     <input type="file" id="csvFile" name="csvFile" multiple="">
-                                    <input type="text" readonly="" class="form-control" placeholder="Wybierz plik CSV z komputera...">
+                                    <input type="text" readonly="" class="form-control" placeholder="Wybierz plik CSV (Studenci) z komputera...">
                                 </div>
                         </div>
                             <button type="submit" class="btn btn-primary">Zaimportuj</button>
@@ -23,10 +23,10 @@
                 </div>
                 <div class="row">
                     <div class="text-right col-md-12">
-                        <a data-toggle="collapse" href="#csvHint" class="btn btn-primary">Przykładowy plik CSV</a>
+                        <a data-toggle="collapse" href="#csvHintStudents" class="btn btn-primary">Przykładowy plik CSV (Studenci)</a>
                     </div>
                     <div class="col-md-8 col-md-offset-2">
-                        <div class="panel-body collapse text-center" id="csvHint">
+                        <div class="panel-body collapse text-center" id="csvHintStudents">
                             <p><strong>Przykład poprawnego formatu pliku CSV</strong></p>
                             <p><strong>Tak powinna wyglądać zawartość poprawnego pliku CSV z danymi studentów</strong></p>
                             <p><strong>======================================================================</strong></p>
@@ -35,6 +35,38 @@
                             <p><strong>89545,Jan,Nowak,s89545@student.po.edu.pl,</strong></p>
                             <p><strong>89543,Zenon,Nowak,s89543@student.po.edu.pl,</strong></p>
                             <p><strong>89557,Paweł,Burak,s89557@student.po.edu.pl,</strong></p>
+                            <p><strong>=======================================================================</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-right col-md-9 col-md-offset-3">
+                        <form action="{{ route('admin.importAverages') }}" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <div class="col-md-8">
+                                    <input type="file" id="csvFile" name="csvFile" multiple="">
+                                    <input type="text" readonly="" class="form-control" placeholder="Wybierz plik CSV (Średnie studentów) z komputera...">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Zaimportuj</button>
+                            {{ csrf_field() }}
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="text-right col-md-12">
+                        <a data-toggle="collapse" href="#csvHintAvg" class="btn btn-primary">Przykładowy plik CSV (Średnie studentów)</a>
+                    </div>
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="panel-body collapse text-center" id="csvHintAvg">
+                            <p><strong>Przykład poprawnego formatu pliku CSV</strong></p>
+                            <p><strong>Tak powinna wyglądać zawartość poprawnego pliku CSV ze średnimi studentów</strong></p>
+                            <p><strong>======================================================================</strong></p>
+                            <p><strong>index,average</strong></p>
+                            <p><strong>89546,4.5</strong></p>
+                            <p><strong>89545,3.55</strong></p>
+                            <p><strong>89543,5</strong></p>
+                            <p><strong>89557,4.12</strong></p>
                             <p><strong>=======================================================================</strong></p>
                         </div>
                     </div>

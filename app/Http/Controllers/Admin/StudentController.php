@@ -161,7 +161,7 @@ class StudentController extends Controller
             'email.email' => 'Pole email musi być zgodne z konwencją email-a.',
             'email.max' => 'Pole email może zawierać maksymalnie 255 znaków.',
             'average.required' => 'Pole średnia jest wymagane.',
-            'average.between' => 'Pole średnia może zawierać tylko wartości z przedziału 2.00 - 5.00.',
+            'average.between' => 'Pole średnia może zawierać tylko wartości z przedziału 2.00 - 7.00.',
             'average.numeric' => 'Pole średnia może zawierać tylko cyfry.',
 
         );
@@ -196,7 +196,7 @@ class StudentController extends Controller
         foreach ($reqStudies as $field)
         {
             $v = Validator::make($field, [
-                'average' => 'required|numeric|between:2.00, 5.00',
+                'average' => 'required|numeric|between:2.00, 7.00',
             ], $messages);
 
             if ($v->fails()) {
@@ -456,7 +456,7 @@ class StudentController extends Controller
         if($request->hasFile('csvFile'))
         {
             $file = $request->file('csvFile');
-            $data = $this->csvToArray($file);
+            $data = $this->csvStudentsToArray($file);
             if(isset($data['line'])){
                 Session::flash('error', $data['msg'] .'. Błąd w lini: ' . $data['line']);
                 return redirect()->back();
@@ -497,6 +497,8 @@ class StudentController extends Controller
             return redirect()->back();
         }
     }
+
+
 
     public function appendStudents(Request $request)
     {
@@ -592,7 +594,7 @@ class StudentController extends Controller
 //                ])
 //            ]);
         }
-        Session::flash('success', 'Pomyślnie dodano nowych studentów. Wiadomości z instrukcjami zostały wysłane do studentów.');
+        Session::flash('success', 'Pomyślnie dodano nowych studentów.');
         return redirect()->route('admin.students');
     }
 
@@ -663,7 +665,137 @@ class StudentController extends Controller
 //                ])
 //            ]);
         }
-        Session::flash('success', 'Pomyślnie nadpisano wszystkich studentów. Wiadomości z instrukcjami zostały wysłane do studentów.');
+        Session::flash('success', 'Pomyślnie nadpisano wszystkich studentów.');
+        return redirect()->route('admin.students');
+    }
+
+    public function importAverages(Request $request)
+    {
+        if($request->hasFile('csvFile'))
+        {
+            $file = $request->file('csvFile');
+            $data = $this->csvAveragesToArray($file);
+            if(isset($data['line'])){
+                Session::flash('error', $data['msg'] .'. Błąd w lini: ' . $data['line']);
+                return redirect()->back();
+            }
+
+            $faculties = Faculty::where(['active' => true])->get();
+            $fields = Field::where(['active' => true])->get();
+            $semesters = Semester::where(['active' => true])->get();
+            $degrees = Degree::all();
+            $study_forms = StudyForm::all();
+
+//            $studentsDB = Student::all();
+//            $averages = [];
+//            foreach ($studentsDB as $key => $studentDB) {
+//                $averages[$studentDB->index] = $studentDB->getDBStudies();
+//            }
+//            foreach ($data as $key => $student)
+//            {
+//                if(isset($averages[$student['index']])){
+//                    $data[$key]['exist']['index'] = $averages[$student['index']]->index;
+//                    $data[$key]['exist']['name'] = $averages[$student['index']]->name;
+//                    $data[$key]['exist']['surname'] = $averages[$student['index']]->surname;
+//                    $data[$key]['exist']['email'] = $averages[$student['index']]->email;
+//                }
+//            }
+
+            return view('admin.importAverages')->with([
+                'averages' => $data,
+                'faculties' => $faculties,
+                'semesters' => $semesters,
+                'fields' => $fields,
+                'degrees' => $degrees,
+                'study_forms' => $study_forms,
+            ]);
+        }
+        else {
+            Session::flash('error', 'Nie wybrano pliku CSV');
+            return redirect()->back();
+        }
+    }
+
+    public function appendAverages(Request $request)
+    {
+        $messages = array (
+            'index.required' => 'Numer indeksu jest wymagany.',
+            'index.integer' => 'Numer indeksu może zawierać tylko cyfry.',
+            'index.min' => 'Numer indeksu nie może być mniejszy od 1.',
+            'average.required' => 'Pole średnia jest wymagane.',
+            'average.between' => 'Pole średnia może zawierać tylko wartości z przedziału 2.00 - 7.00.',
+            'average.numeric' => 'Pole średnia może zawierać tylko cyfry.',
+        );
+
+        $faculties = Faculty::where(['active' => true])->get();
+        $fields = Field::where(['active' => true])->get();
+        $semesters = Semester::where(['active' => true])->get();
+        $degrees = Degree::all();
+        $study_forms = StudyForm::all();
+
+        foreach ($request['averages'] as $key => $average) {
+            $v = Validator::make($average, [
+                'index' => 'required|integer|min:1',
+                'average' => 'required|numeric|between:2.00, 7.00'
+            ], $messages);
+
+            if ($v->fails()) {
+                return view('admin.importAverages', [
+                    'averages' => $request->all(),
+                    'faculties' => $faculties,
+                    'semesters' => $semesters,
+                    'fields' => $fields,
+                    'degrees' => $degrees,
+                    'study_forms' => $study_forms,
+                ])->withErrors($v->errors());
+            }
+        }
+
+        $averages = $request['averages'];
+        $selectedFields = $request['fields'];
+        $line = 1;
+//        $selectedField['field_id'] = 1;
+//        $selectedField['faculty_id'] = 1;
+//        $selectedField['semester_id'] = 1;
+//        $selectedField['degree_id'] = 1;
+//        $selectedField['study_form_id'] = 1;
+
+        foreach ($averages as $key => $average) {
+            $tempStudent = Student::where(['index' => $average['index']])->first();
+            if(!$tempStudent) {
+                Session::flash('error', 'Student o indeksie "' .$average['index'] .'" nie stnieje w bazie. Błąd w lini: ' .$line);
+                //return redirect()->back();
+
+                return view('admin.importAverages', [
+                    'selectedFields' => $selectedFields,
+                    'averages' => $averages,
+                    'faculties' => $faculties,
+                    'semesters' => $semesters,
+                    'fields' => $fields,
+                    'degrees' => $degrees,
+                    'study_forms' => $study_forms,
+                    ]);
+            }
+            $study = StudentHasStudy::where(['student_id' => $tempStudent->id, 'field_id' => $selectedFields['field_id'], 'semester_id' => $selectedFields['semester_id'],
+                                            'degree_id' => $selectedFields['degree_id'], 'study_form_id' => $selectedFields['study_form_id']])->first();
+            if(!$study) {
+                Session::flash('error', 'Student o indeksie "' .$average['index'] .'" nie studiuje na wybranym kierunku. Błąd w lini: ' .$line);
+                return view('admin.importAverages', [
+                    'selectedFields' => $selectedFields,
+                    'averages' => $averages,
+                    'faculties' => $faculties,
+                    'semesters' => $semesters,
+                    'fields' => $fields,
+                    'degrees' => $degrees,
+                    'study_forms' => $study_forms,
+                ]);
+            }
+            $study->average = $average['average'];
+            $study->save();
+            ++$line;
+        }
+
+        Session::flash('success', 'Pomyślnie przypisano śrdenie do studentów.');
         return redirect()->route('admin.students');
     }
 
@@ -676,7 +808,7 @@ class StudentController extends Controller
         }
     }
 
-    function csvToArray($filename = '', $delimiter = ',')
+    function csvStudentsToArray($filename = '', $delimiter = ',')
     {
         if (!file_exists($filename) || !is_readable($filename))
             return false;
@@ -723,6 +855,55 @@ class StudentController extends Controller
                     if(count($row) != 4){
                         $error['line'] = $line;
                         $error['msg'] = 'Każda linia pliku powinna zawierać 4 informacje o studencie: "indeks,imie,nazwisko,email"';
+                        return $error;
+                    }
+                    $data[] = array_combine($header, $row);
+                }
+                ++$line;
+            }
+            fclose($handle);
+        }
+
+        return $data;
+    }
+
+    function csvAveragesToArray($filename = '', $delimiter = ',')
+    {
+        if (!file_exists($filename) || !is_readable($filename))
+            return false;
+
+        $header = null;
+        $data = array();
+        if (($handle = fopen($filename, 'r')) !== false)
+        {
+            $line = 1;
+            $error['line'] = $line;
+            $error['msg'] = 'success';
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+            {
+                if (!$header) {
+                    $header = $row;
+                    if(count($header) != 2){
+                        $error['line'] = $line;
+                        $error['msg'] = 'Nagłówek pliku ze średnimi studentów musi wyglądać następująco "index,average"';
+                        return $error;
+                    }
+
+                    if($header[0] != 'index'){
+                        $error['line'] = $line;
+                        $error['msg'] = 'Nazwa pierwszego elementu nagłówka musi mieć wartość "index"';
+                        return $error;
+                    }
+                    if($header[1] != 'average'){
+                        $error['line'] = $line;
+                        $error['msg'] = 'Nazwa drugiego elementu nagłówka musi mieć wartość "average"';
+                        return $error;
+                    }
+                }
+                else {
+                    if(count($row) != 2){
+                        $error['line'] = $line;
+                        $error['msg'] = 'Każda linia pliku powinna zawierać 2 informacje o średniej: "indeks,średnia"';
                         return $error;
                     }
                     $data[] = array_combine($header, $row);
