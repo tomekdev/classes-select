@@ -457,6 +457,11 @@ class StudentController extends Controller
         {
             $file = $request->file('csvFile');
             $data = $this->csvToArray($file);
+            if(isset($data['line'])){
+                Session::flash('error', $data['msg'] .'. Błąd w lini: ' . $data['line']);
+                return redirect()->back();
+            }
+
             $faculties = Faculty::where(['active' => true])->get();
             $fields = Field::where(['active' => true])->get();
             $semesters = Semester::where(['active' => true])->get();
@@ -680,14 +685,49 @@ class StudentController extends Controller
         $data = array();
         if (($handle = fopen($filename, 'r')) !== false)
         {
+            $line = 1;
+            $error['line'] = $line;
+            $error['msg'] = 'success';
             while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
             {
                 if (!$header) {
                     $header = $row;
+                    if(count($header) != 4){
+                        $error['line'] = $line;
+                        $error['msg'] = 'Nagłówek pliku ze studentami musi wyglądać następująco "index,name,surname,email"';
+                        return $error;
+                    }
+
+                    if($header[0] != 'index'){
+                        $error['line'] = $line;
+                        $error['msg'] = 'Nazwa pierwszego elementu nagłówka musi mieć wartość "index"';
+                        return $error;
+                    }
+                    if($header[1] != 'name'){
+                        $error['line'] = $line;
+                        $error['msg'] = 'Nazwa drugiego elementu nagłówka musi mieć wartość "name"';
+                        return $error;
+                    }
+                    if($header[2] != 'surname'){
+                        $error['line'] = $line;
+                        $error['msg'] = 'Nazwa trzeciego elementu nagłówka musi mieć wartość "surname"';
+                        return $error;
+                    }
+                    if($header[3] != 'email'){
+                        $error['line'] = $line;
+                        $error['msg'] = 'Nazwa czwartego elementu nagłówka musi mieć wartość "email"';
+                        return $error;
+                    }
                 }
                 else {
+                    if(count($row) != 4){
+                        $error['line'] = $line;
+                        $error['msg'] = 'Każda linia pliku powinna zawierać 4 informacje o studencie: "indeks,imie,nazwisko,email"';
+                        return $error;
+                    }
                     $data[] = array_combine($header, $row);
                 }
+                ++$line;
             }
             fclose($handle);
         }

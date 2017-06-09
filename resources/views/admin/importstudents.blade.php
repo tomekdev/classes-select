@@ -86,7 +86,6 @@
                             <th class="text-center">Imię</th>
                             <th class="text-center">Nazwisko</th>
                             <th class="text-center">email</th>
-                            <th class="text-center">hasło</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -138,9 +137,6 @@
                                     @else
                                         <input type="text" name="students[{{$index}}][email]" class="form-control" value="{{$student['email']}}"/>
                                     @endif
-                                </td>
-                                <td>
-                                    <input type="text" name="students[{{$index}}][password]" class="form-control" value="{{$student['password']}}"/>
                                 </td>
                             </tr>
                         @endforeach
