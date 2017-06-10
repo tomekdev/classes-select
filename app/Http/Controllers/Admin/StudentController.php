@@ -295,7 +295,7 @@ class StudentController extends Controller
 //                        'token' => $token
 //                    ])
 //                ]);
-                Session::flash('success', 'Pomyślnie dodano studenta. Wiadomość z dalszymi instrukcjami została wysłana do studenta.');
+                Session::flash('success', 'Pomyślnie dodano studenta.');
                 return redirect()->back();
         }
     }
