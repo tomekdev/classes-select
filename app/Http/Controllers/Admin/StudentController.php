@@ -522,6 +522,7 @@ class StudentController extends Controller
         $semesters = Semester::where(['active' => true])->get();
         $degrees = Degree::all();
         $study_forms = StudyForm::all();
+        $line = 1;
         foreach ($request['students'] as $student) {
             $v = Validator::make($student, [
                 'name' => 'required|alpha_spaces|max:255',
@@ -530,8 +531,10 @@ class StudentController extends Controller
                 'email' => 'required|email|max:255',
             ], $messages);
 
+            Session::flash('error', 'Błąd w lini: ' .$line);
             if ($v->fails()) {
                 return view('admin.importStudents', [
+                    'selectedFields' => $request['fields'],
                     'students' => $request['students'],
                     'faculties' => $faculties,
                     'semesters' => $semesters,
@@ -540,9 +543,11 @@ class StudentController extends Controller
                     'study_forms' => $study_forms,
                 ])->withErrors($v->errors());
             }
+            ++$line;
         }
         $studentsDB = [];
         $studentHasStudiesDB = [];
+        $line = 1;
         foreach ($request['students'] as $key => $student)
         {
             if(isset($student['exist']['index'])){
@@ -552,8 +557,9 @@ class StudentController extends Controller
 
                 } else {
                     if(Student::where('index', $student['index'])->first()){
-                        Session::flash('error', $student['index'] .' - ' .'Nie możesz użyć tego indeksu ponieważ jest już zajęty.');
+                        Session::flash('error', $student['index'] .' - ' .'Nie możesz użyć tego indeksu ponieważ jest już zajęty. Błąd w lini: ' .$line);
                         return view('admin.importStudents', [
+                            'selectedFields' => $request['fields'],
                             'students' => $request['students'],
                             'faculties' => $faculties,
                             'semesters' => $semesters,
@@ -575,6 +581,7 @@ class StudentController extends Controller
                 $studentHasStudiesDB[$key]->fill($request['fields']);
                 $studentsDB[$key]['study'] = $studentHasStudiesDB[$key];
             }
+            ++$line;
         }
 
         foreach ($studentsDB as $studentDB) {
@@ -620,6 +627,7 @@ class StudentController extends Controller
         $semesters = Semester::where(['active' => true])->get();
         $degrees = Degree::all();
         $study_forms = StudyForm::all();
+        $line = 1;
         foreach ($request['students'] as $student) {
             $v = Validator::make($student, [
                 'name' => 'required|alpha_spaces|max:255',
@@ -627,9 +635,10 @@ class StudentController extends Controller
                 'index' => 'required|integer|min:1',
                 'email' => 'required|email|max:255',
             ], $messages);
-
+            Session::flash('error', 'Błąd w lini: ' .$line);
             if ($v->fails()) {
                 return view('admin.importStudents', [
+                    'selectedFields' => $request['fields'],
                     'students' => $request['students'],
                     'faculties' => $faculties,
                     'semesters' => $semesters,
@@ -638,6 +647,7 @@ class StudentController extends Controller
                     'study_forms' => $study_forms,
                 ])->withErrors($v->errors());
             }
+            ++$line;
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -732,16 +742,17 @@ class StudentController extends Controller
         $semesters = Semester::where(['active' => true])->get();
         $degrees = Degree::all();
         $study_forms = StudyForm::all();
-
+        $line = 1;
         foreach ($request['averages'] as $key => $average) {
             $v = Validator::make($average, [
                 'index' => 'required|integer|min:1',
                 'average' => 'required|numeric|between:2.00, 7.00'
             ], $messages);
 
+            Session::flash('error', 'Błąd w lini: ' .$line);
             if ($v->fails()) {
                 return view('admin.importAverages', [
-                    'averages' => $request->all(),
+                    'averages' => $request['averages'],
                     'faculties' => $faculties,
                     'semesters' => $semesters,
                     'fields' => $fields,
@@ -749,6 +760,7 @@ class StudentController extends Controller
                     'study_forms' => $study_forms,
                 ])->withErrors($v->errors());
             }
+            ++$line;
         }
 
         $averages = $request['averages'];

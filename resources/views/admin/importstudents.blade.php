@@ -21,7 +21,7 @@
                                 <select id="0" name="fields[faculty_id]" class="form-control select" onchange="ajaxGetFields(this.value, this.id)">
                                     <option value="0">-- bez zmian --</option>
                                     @foreach ($faculties as $faculty)
-                                        <option value="{{$faculty->id}}">{{$faculty->name}}</option>
+                                        <option value="{{$faculty->id}}" {{ isset($selectedFields) ? ($faculty->id == $selectedFields['faculty_id'] ? ' selected' : '') : '' }}>{{$faculty->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -32,7 +32,7 @@
                                 <select id="select-field0" name="fields[field_id]" class="form-control select">
                                     <option value="0">-- bez zmian --</option>
                                     @foreach ($fields as $field)
-                                        <option value="{{$field->id}}">{{$field->name}}</option>
+                                        <option value="{{$field->id}}" {{ isset($selectedFields) ? $field->id == $selectedFields['field_id'] ? ' selected' : '' : '' }}>{{$field->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -43,7 +43,7 @@
                                 <select name="fields[semester_id]" class="form-control select">
                                     <option value="0">-- bez zmian --</option>
                                     @foreach($semesters as $sem)
-                                        <option value="{{$sem->id}}">{{ $sem->number . ' - ' . $sem->name }}</option>
+                                        <option value="{{$sem->id}}" {{ isset($selectedFields) ? $sem->id == $selectedFields['semester_id'] ? ' selected' : '' : '' }}>{{ $sem->number . ' - ' . $sem->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -54,7 +54,7 @@
                                 <select name="fields[degree_id]" class="form-control select">
                                     <option value="0">-- bez zmian --</option>
                                     @foreach ($degrees as $degree)
-                                        <option value="{{$degree->id}}">{{$degree->name .' - ' .$degree->type}}</option>
+                                        <option value="{{$degree->id}}" {{ isset($selectedFields) ? $degree->id == $selectedFields['degree_id'] ? ' selected' : '' : '' }}>{{$degree->name .' - ' .$degree->type}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -65,7 +65,7 @@
                                 <select name="fields[study_form_id]" class="form-control select">
                                     <option value="0">-- bez zmian --</option>
                                     @foreach ($study_forms as $study_form)
-                                        <option value="{{$study_form->id}}">{{$study_form->name}}</option>
+                                        <option value="{{$study_form->id}}" {{ isset($selectedFields) ? $study_form->id == $selectedFields['study_form_id'] ? ' selected' : '' : '' }}>{{$study_form->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
