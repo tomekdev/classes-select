@@ -101,3 +101,7 @@ line.minute-hand{
 .student-exist {
     border: 3px solid dimgrey;
 }
+
+.scroll-text {
+    overflow:auto;
+}
