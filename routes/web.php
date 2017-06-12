@@ -159,10 +159,30 @@ Route::group([
             'uses' => 'Admin\StudentController@appendAverages',
             'as' => 'admin.appendAverages'
         ]);
+        
+        Route::get('/students/subject/{subjectId?}', [
+            'uses' => 'Admin\StudentController@index',
+            'as' => 'admin.studentsWithSubject'
+        ]);
+        
+        Route::get('/students/subsubject/{subSubjectId?}', [
+            'uses' => 'Admin\StudentController@index',
+            'as' => 'admin.studentsWithSubSubject'
+        ]);
 
         Route::get('/students', [
             'uses' => 'Admin\StudentController@index',
             'as' => 'admin.students'
+        ]);
+        
+        Route::post('/students/subject/{subjectId?}', [
+            'uses' => 'Admin\StudentController@index',
+            'as' => 'admin.studentsWithSubject'
+        ]);
+        
+        Route::post('/students/subsubject/{subSubjectId?}', [
+            'uses' => 'Admin\StudentController@index',
+            'as' => 'admin.studentsWithSubSubject'
         ]);
 
         Route::post('/students', [
