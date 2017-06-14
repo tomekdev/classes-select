@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.rawgit.com/T00rk/bootstrap-material-datetimepicker/gh-pages/css/bootstrap-material-datetimepicker.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/FezVrasta/snackbarjs/145e58b8/dist/snackbar.min.css" />
     @yield('head')
 </head>
 
@@ -70,6 +71,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/pl.js"></script>
     <script src="https://cdn.rawgit.com/T00rk/bootstrap-material-datetimepicker/gh-pages/js/bootstrap-material-datetimepicker.js"></script>
+    <script src="https://cdn.rawgit.com/FezVrasta/snackbarjs/145e58b8/dist/snackbar.min.js"></script>
     <script type="text/javascript">
         $.material.options.autofill = true;
         
@@ -189,6 +191,9 @@
                             break;
                     }
                     $('#ajaxMessages').html(message);
+                    var rawMessage = message.substring(message.indexOf("<strong>")+8);
+                    rawMessage = rawMessage.substr(0,rawMessage.indexOf("</strong>"));
+                    $.snackbar({content: rawMessage});
                 }
             });
         }
