@@ -34,6 +34,9 @@ class StudentController extends Controller
         $login = $request['login'];
         $password = $request['password'];
         $student = Student::where('email', $login)->first();
+        if (!$student) {
+            $student = Student::where('index', $login)->first();
+        }
 
         if ($student) {
             if (Hash::check($password, $student->password)) {
