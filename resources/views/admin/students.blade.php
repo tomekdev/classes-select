@@ -42,12 +42,13 @@
                             <div class="collapse text-center scroll-text" id="csvHintStudents">
                                 <p><strong>Przykład poprawnego formatu pliku CSV</strong></p>
                                 <p><strong>Tak powinna wyglądać zawartość poprawnego pliku CSV z danymi studentów</strong></p>
+                                <p><strong>Każdy wiersz powienien składać się z indeksu, imienia, nazwiska i emaila studenta.</strong></p>
+                                <p><strong>Kolejność danych musi być zgodna z podaną w przykładzie.</strong></p>
                                 <p><strong>========================================</strong></p>
-                                <p><strong>index,name,surname,email,password</strong></p>
-                                <p><strong>89546,Jan,Kowalski,s89546@student.po.edu.pl,</strong></p>
-                                <p><strong>89545,Jan,Nowak,s89545@student.po.edu.pl,</strong></p>
-                                <p><strong>89543,Zenon,Nowak,s89543@student.po.edu.pl,</strong></p>
-                                <p><strong>89557,Paweł,Burak,s89557@student.po.edu.pl,</strong></p>
+                                <p><strong>89546;Jan;Kowalski;s89546@student.po.edu.pl</strong></p>
+                                <p><strong>89545;Jan;Nowak;s89545@student.po.edu.pl</strong></p>
+                                <p><strong>89543;Zenon;Nowak;s89543@student.po.edu.pl</strong></p>
+                                <p><strong>89557;Paweł;Burak;s89557@student.po.edu.pl</strong></p>
                                 <p><strong>========================================</strong></p>
                             </div>
                         </div>
@@ -76,12 +77,13 @@
                             <div class="collapse text-center scroll-text" id="csvHintAvg">
                                 <p><strong>Przykład poprawnego formatu pliku CSV</strong></p>
                                 <p><strong>Tak powinna wyglądać zawartość poprawnego pliku CSV ze średnimi studentów</strong></p>
+                                <p><strong>Każdy wiersz powienien się składać z indeksu i średniej studenta.</strong></p>
+                                <p><strong>Kolejność danych musi być zgodna z podaną w przykładzie.</strong></p>
                                 <p><strong>========================================</strong></p>
-                                <p><strong>index,average</strong></p>
-                                <p><strong>89546,4.5</strong></p>
-                                <p><strong>89545,3.55</strong></p>
-                                <p><strong>89543,5</strong></p>
-                                <p><strong>89557,4.12</strong></p>
+                                <p><strong>89546;4.5</strong></p>
+                                <p><strong>89545;3.55</strong></p>
+                                <p><strong>89543;5</strong></p>
+                                <p><strong>89557;4,12</strong></p>
                                 <p><strong>========================================</strong></p>
                             </div>
                         </div>
