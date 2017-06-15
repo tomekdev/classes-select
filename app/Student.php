@@ -104,6 +104,11 @@ class Student extends Model implements Authenticatable
     {
         return $this->belongsToMany(SubSubject::class, 'student_has_subjects', 'student_id', 'subSubject_id')->get();
     }
+    
+    public function subSubjects()
+    {
+        return $this->belongsToMany(SubSubject::class, 'student_has_subjects', 'student_id', 'subSubject_id');
+    }
 
     // metoda zwraca przedmioty wybieralne danego studenta na podstawie wybranych aktywności (zajęć)
     public function getSelectedSubjects()

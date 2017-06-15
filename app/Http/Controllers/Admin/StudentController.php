@@ -19,6 +19,8 @@ use App\Email;
 use App\Semester;
 use App\Degree;
 use App\StudyForm;
+use App\Subject;
+use App\SubSubject;
 use Input;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +29,8 @@ use Illuminate\Support\Facades\DB;
 class StudentController extends Controller
 {
     public function index(Request $request) {
+        $subject = $request->route('subjectId')? Subject::find($request->route('subjectId')) : null;
+        $subSubject = $request->route('subSubjectId')? SubSubject::find($request->route('subSubjectId')) : null;
         $sortProperty = $request->input('sortProperty')?:'surname';
         $sortOrder = $request->input('sortOrder')?:'asc';
         
@@ -40,6 +44,28 @@ class StudentController extends Controller
                 
         $query = Student::where([]);
         
+        if($subSubject) {
+            $query->whereHas('subSubjects', function($q) use ($subSubject){
+                $q->where('sub_subjects.id', $subSubject->id);
+            });
+        } else if ($subject) {
+            $query->whereHas('study_forms', function($q) use ($subject){
+                $q->where('study_forms.id', $subject->getStudyForm()->id);
+            });
+            $query->whereHas('degrees', function($q) use ($subject){
+                $q->where('degrees.id', $subject->getDegree()->id);
+            });
+            //chcemy tylko aktualny semestr? chyba nie
+//            $query->whereHas('semesters', function($q) use ($subject){
+//                $q->where('semesters.id', $subject->getSemester()->id);
+//            });
+            $query->whereHas('fields', function($q) use ($subject){
+                $q->where('fields.id', $subject->getField()->id);
+            });
+            $query->with(['subSubjects' => function ($query) use($subject){
+                $query->where('subject_id', $subject->id);
+            }]);
+        }
         //trzyma dane filtrowania w sesji dokładnie jedno zapytanie
         if ($request->isMethod('post')) { //jeżeli wysłano filtry
             Session::flash(get_class($this), $request->all()); //zapisz filtry w sesji pod nazwą kontrolera
@@ -108,6 +134,8 @@ class StudentController extends Controller
             'sortOrder' => $sortOrder,
             'filtered' => $filtered,
             'active' => $active,
+            'subject' => $subject,
+            'subSubject' => $subSubject
         ]);
     }
     

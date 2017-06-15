@@ -121,14 +121,14 @@
                             @foreach($subjects as $index => $subject)
                                 <tr>
                                     <td class="text-center">{{ $index + 1 }}</td>
-                                    <td class="text-center">{{ $subject->name }}</td>
+                                    <td class="text-center"><a href="{{ route('admin.studentsWithSubject', ['subject' => $subject->id]) }}">{{ $subject->name }}</a></td>
                                     {{--<td class="text-center">{{ $subject->max_person }}</td>--}}
                                     {{--<td class="text-center">{{ $subject->min_person }}</td>--}}
                                     <td class="text-center">{{ $subject->getField()->name .' - ' .$subject->getSemester()->name}}</td>
                                     <td class="text-center">{{ $subject->getDegree()->name .', ' .$subject->getStudyForm()->name}}</td>
                                     <td>
                                         @foreach ($subject->getSubSubjects()?: [] as $subSubject)
-                                            <p>{{$subSubject->name}}</p>
+                                        <p><a href="{{ route('admin.studentsWithSubSubject', ['subsubject' => $subSubject->id]) }}">{{$subSubject->name}}</a></p>
                                         @endforeach
                                     </td>
                                     <td>
