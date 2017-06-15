@@ -4,84 +4,96 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-3">
-                        <h3>Studenci</h3>
+                    <div class="col-md-9">
+                        @if ($subSubject)
+                            <h3>Studenci zapisani na "{{$subSubject->name}}"</h3>
+                        @elseif ($subject)
+                            <h3>Studenci z możliwością zapisu na przedmiot "{{$subject->name}}"</h3>
+                        @else
+                            <h3>Studenci</h3>
+                        @endif
                     </div>
-                    <div class="text-right col-md-9">
+                    <div class="text-right col-md-3">
                         <a href="{{route('admin.getstudent')}}" class="btn btn-primary">Dodaj studenta</a>
-                        <form action="{{ route('admin.importStudents') }}" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                                <div class="col-md-8">
-                                    <input type="file" id="csvFile" name="csvFile" multiple="">
-                                    <input type="text" readonly="" class="form-control" placeholder="Wybierz plik CSV (Studenci) z komputera...">
+                    </div>
+                </div>
+                @if (!$subSubject && !$subject)
+                    <div class="row">
+                        <div class="text-right col-md-9 col-md-offset-3">
+                            <form action="{{ route('admin.importStudents') }}" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <div class="col-md-8">
+                                        <input type="file" id="csvFile" name="csvFile" multiple="">
+                                        <input type="text" readonly="" class="form-control" placeholder="Wybierz plik CSV (Studenci) z komputera...">
+                                    </div>
                                 </div>
-                        </div>
-                            <button type="submit" class="btn btn-primary">Zaimportuj</button>
-                            {{ csrf_field() }}
-                        </form>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="text-right col-md-12">
-                        <a data-toggle="collapse" href="#csvHintStudents" class="btn btn-primary btn-sm">Przykładowy plik CSV (Studenci)</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="collapse text-center scroll-text" id="csvHintStudents">
-                            <p><strong>Przykład poprawnego formatu pliku CSV</strong></p>
-                            <p><strong>Tak powinna wyglądać zawartość poprawnego pliku CSV z danymi studentów</strong></p>
-                            <p><strong>========================================</strong></p>
-                            <p><strong>index,name,surname,email,password</strong></p>
-                            <p><strong>89546,Jan,Kowalski,s89546@student.po.edu.pl,</strong></p>
-                            <p><strong>89545,Jan,Nowak,s89545@student.po.edu.pl,</strong></p>
-                            <p><strong>89543,Zenon,Nowak,s89543@student.po.edu.pl,</strong></p>
-                            <p><strong>89557,Paweł,Burak,s89557@student.po.edu.pl,</strong></p>
-                            <p><strong>========================================</strong></p>
+                                <button type="submit" class="btn btn-primary">Zaimportuj</button>
+                                {{ csrf_field() }}
+                            </form>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="text-right col-md-9 col-md-offset-3">
-                        <form action="{{ route('admin.importAverages') }}" method="post" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <div class="col-md-8">
-                                    <input type="file" id="csvFile" name="csvFile" multiple="">
-                                    <input type="text" readonly="" class="form-control" placeholder="Wybierz plik CSV (Średnie studentów) z komputera...">
-                                </div>
+                    <div class="row">
+                        <div class="text-right col-md-12">
+                            <a data-toggle="collapse" href="#csvHintStudents" class="btn btn-primary btn-sm">Przykładowy plik CSV (Studenci)</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 col-xs-12">
+                            <div class="collapse text-center scroll-text" id="csvHintStudents">
+                                <p><strong>Przykład poprawnego formatu pliku CSV</strong></p>
+                                <p><strong>Tak powinna wyglądać zawartość poprawnego pliku CSV z danymi studentów</strong></p>
+                                <p><strong>========================================</strong></p>
+                                <p><strong>index,name,surname,email,password</strong></p>
+                                <p><strong>89546,Jan,Kowalski,s89546@student.po.edu.pl,</strong></p>
+                                <p><strong>89545,Jan,Nowak,s89545@student.po.edu.pl,</strong></p>
+                                <p><strong>89543,Zenon,Nowak,s89543@student.po.edu.pl,</strong></p>
+                                <p><strong>89557,Paweł,Burak,s89557@student.po.edu.pl,</strong></p>
+                                <p><strong>========================================</strong></p>
                             </div>
-                            <button type="submit" class="btn btn-primary">Zaimportuj</button>
-                            {{ csrf_field() }}
-                        </form>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="text-right col-md-12">
-                        <a data-toggle="collapse" href="#csvHintAvg" class="btn btn-primary btn-sm">Przykładowy plik CSV (Średnie studentów)</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="collapse text-center scroll-text" id="csvHintAvg">
-                            <p><strong>Przykład poprawnego formatu pliku CSV</strong></p>
-                            <p><strong>Tak powinna wyglądać zawartość poprawnego pliku CSV ze średnimi studentów</strong></p>
-                            <p><strong>========================================</strong></p>
-                            <p><strong>index,average</strong></p>
-                            <p><strong>89546,4.5</strong></p>
-                            <p><strong>89545,3.55</strong></p>
-                            <p><strong>89543,5</strong></p>
-                            <p><strong>89557,4.12</strong></p>
-                            <p><strong>========================================</strong></p>
                         </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="text-right col-md-9 col-md-offset-3">
+                            <form action="{{ route('admin.importAverages') }}" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <div class="col-md-8">
+                                        <input type="file" id="csvFile" name="csvFile" multiple="">
+                                        <input type="text" readonly="" class="form-control" placeholder="Wybierz plik CSV (Średnie studentów) z komputera...">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Zaimportuj</button>
+                                {{ csrf_field() }}
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="text-right col-md-12">
+                            <a data-toggle="collapse" href="#csvHintAvg" class="btn btn-primary btn-sm">Przykładowy plik CSV (Średnie studentów)</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="collapse text-center scroll-text" id="csvHintAvg">
+                                <p><strong>Przykład poprawnego formatu pliku CSV</strong></p>
+                                <p><strong>Tak powinna wyglądać zawartość poprawnego pliku CSV ze średnimi studentów</strong></p>
+                                <p><strong>========================================</strong></p>
+                                <p><strong>index,average</strong></p>
+                                <p><strong>89546,4.5</strong></p>
+                                <p><strong>89545,3.55</strong></p>
+                                <p><strong>89543,5</strong></p>
+                                <p><strong>89557,4.12</strong></p>
+                                <p><strong>========================================</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" href="#filter">Filtruj <i class="fa fa-filter"></i></a>
                         </h4>
                         <div class="panel-body collapse {{$filtered? 'in': ''}}" id="filter">
-                            <form class="form" method="post" action="{{route('admin.students')}}">
+                            <form class="form" method="post" action="">
                                 <div class="form-group col-md-4">
                                     <label for="faculties">Wydział</label>
                                     <select id="faculties" name="faculties" class="form-control select">
@@ -157,43 +169,101 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">
-                                    <a href="{{{URL::route('admin.students', array('sortProperty' => 'index', 'sortOrder' => $sortProperty === 'index'? ($sortOrder === 'asc'? 'desc': 'asc'): $sortOrder ))}}}">Nr indeksu
-                                        @if ($sortProperty === 'index')
-                                            <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
-                                        <span class="caret"></span>
-                                    </span>
-                                        @endif
-                                    </a>
+                                    @if ($subSubject)
+                                        <a href="{{{URL::route('admin.studentsWithSubSubject', array('subsubject' => $subSubject->id, 'sortProperty' => 'index', 'sortOrder' => $sortProperty === 'index'? ($sortOrder === 'asc'? 'desc': 'asc'): $sortOrder ))}}}">Nr indeksu
+                                            @if ($sortProperty === 'index')
+                                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                            <span class="caret"></span>
+                                        </span>
+                                            @endif
+                                        </a>
+                                    @elseif ($subject)
+                                        <a href="{{{URL::route('admin.studentsWithSubject', array('subject' => $subject->id, 'sortProperty' => 'index', 'sortOrder' => $sortProperty === 'index'? ($sortOrder === 'asc'? 'desc': 'asc'): $sortOrder ))}}}">Nr indeksu
+                                            @if ($sortProperty === 'index')
+                                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                            <span class="caret"></span>
+                                        </span>
+                                            @endif
+                                        </a>
+                                    @else
+                                        <a href="{{{URL::route('admin.students', array('sortProperty' => 'index', 'sortOrder' => $sortProperty === 'index'? ($sortOrder === 'asc'? 'desc': 'asc'): $sortOrder ))}}}">Nr indeksu
+                                            @if ($sortProperty === 'index')
+                                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                            <span class="caret"></span>
+                                        </span>
+                                            @endif
+                                        </a>
+                                    @endif
                                 </th>
                                 <th class="text-center">
-                                    <a href="{{{URL::route('admin.students', array('sortProperty' => 'surname', 'sortOrder' => $sortProperty === 'surname'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Nazwisko i imię
-                                        @if ($sortProperty === 'surname')
-                                            <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
-                                        <span class="caret"></span>
-                                    </span>
-                                        @endif
-                                    </a>
+                                    @if ($subSubject)
+                                        <a href="{{{URL::route('admin.studentsWithSubSubject', array('subsubject' => $subSubject->id, 'sortProperty' => 'surname', 'sortOrder' => $sortProperty === 'surname'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Nazwisko i imię
+                                            @if ($sortProperty === 'surname')
+                                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                            <span class="caret"></span>
+                                        </span>
+                                            @endif
+                                        </a>
+                                    @elseif ($subject)
+                                        <a href="{{{URL::route('admin.studentsWithSubject', array('subject' => $subject->id, 'sortProperty' => 'surname', 'sortOrder' => $sortProperty === 'surname'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Nazwisko i imię
+                                            @if ($sortProperty === 'surname')
+                                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                            <span class="caret"></span>
+                                        </span>
+                                            @endif
+                                        </a>
+                                    @else
+                                        <a href="{{{URL::route('admin.students', array('sortProperty' => 'surname', 'sortOrder' => $sortProperty === 'surname'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Nazwisko i imię
+                                            @if ($sortProperty === 'surname')
+                                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                            <span class="caret"></span>
+                                        </span>
+                                            @endif
+                                        </a>
+                                    @endif
                                 </th>
                                 <th class="text-center">
-                                    <a href="{{{URL::route('admin.students', array('sortProperty' => 'email', 'sortOrder' => $sortProperty === 'email'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Email
-                                        @if ($sortProperty === 'email')
-                                            <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
-                                        <span class="caret"></span>
-                                    </span>
-                                        @endif
-                                    </a>
+                                    @if ($subSubject)
+                                        <a href="{{{URL::route('admin.studentsWithSubSubject', array('subsubject' => $subSubject->id, 'sortProperty' => 'email', 'sortOrder' => $sortProperty === 'email'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Email
+                                            @if ($sortProperty === 'email')
+                                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                            <span class="caret"></span>
+                                        </span>
+                                            @endif
+                                        </a>
+                                    @elseif ($subject)
+                                        <a href="{{{URL::route('admin.studentsWithSubject', array('subject' => $subject->id, 'sortProperty' => 'email', 'sortOrder' => $sortProperty === 'email'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Email
+                                            @if ($sortProperty === 'email')
+                                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                            <span class="caret"></span>
+                                        </span>
+                                            @endif
+                                        </a>
+                                    @else
+                                        <a href="{{{URL::route('admin.students', array('sortProperty' => 'email', 'sortOrder' => $sortProperty === 'email'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Email
+                                            @if ($sortProperty === 'email')
+                                                <span class="{{$sortOrder === 'asc'?' dropup' : ''}}">
+                                            <span class="caret"></span>
+                                        </span>
+                                            @endif
+                                        </a>
+                                    @endif
                                 </th>
-                                <th class="text-center">
-                                    {{--<a href="{{{URL::route('admin.students', array('sortProperty' => 'average', 'sortOrder' => $sortProperty === 'average'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Średnia--}}
+                                @if ($subject)
+                                    <th class="text-center">Wybrane zajęcia</th>
+                                @else
+                                    <th class="text-center">
+                                        {{--<a href="{{{URL::route('admin.students', array('sortProperty' => 'average', 'sortOrder' => $sortProperty === 'average'? ($sortOrder === 'asc'? 'desc' : 'asc'): $sortOrder ))}}}">Średnia--}}
                                         {{--@if ($sortProperty === 'average')--}}
-                                            {{--<span class="{{$sortOrder === 'asc'?' dropup' : ''}}">--}}
+                                        {{--<span class="{{$sortOrder === 'asc'?' dropup' : ''}}">--}}
                                         {{--<span class="caret"></span>--}}
-                                    {{--</span>--}}
+                                        {{--</span>--}}
                                         {{--@endif--}}
-                                    {{--</a>--}}
-                                    Średnia(e)
-                                </th>
-                                <th class="text-center">Kierunki</th>
+                                        {{--</a>--}}
+                                        Średnia(e)
+                                    </th>
+                                    <th class="text-center">Kierunki</th>
+                                @endif
                                 <th class="text-center">Opcje</th>
                                 <th class="text-right">Zaznacz</th>
                             </tr>
@@ -205,16 +275,24 @@
                                     <td>{{{$student->index}}}</td>
                                     <td>{{{$student->surname}}} {{{$student->name}}}</td>
                                     <td>{{{$student->email}}}</td>
-                                    <td>
-                                        @foreach($student->getDBStudies() as $study)
-                                            <p>{{ $study->average }}</p>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach ($student->getStudies() as $study)
-                                            <p>{{{$study['field']->name}}}, {{$study['semester']->number .' - ' .$study['semester']->name }}</p>
-                                        @endforeach
-                                    </td>
+                                    @if ($subject)
+                                        <td>
+                                            @foreach($student->subSubjects as $subSubject)
+                                                <p>{{ $subSubject->name }}</p>
+                                            @endforeach
+                                        </td>
+                                    @else
+                                        <td>
+                                            @foreach($student->getDBStudies() as $study)
+                                                <p>{{ $study->average }}</p>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach ($student->getStudies() as $study)
+                                                <p>{{{$study['field']->name}}}, {{$study['semester']->number .' - ' .$study['semester']->name }}</p>
+                                            @endforeach
+                                        </td>
+                                    @endif
                                     <td>
                                         @if ($student->active)
                                             <a href="javascript:void(0)" onclick="deleteItems('Czy na pewno chcesz usunąć tego studenta?', '{{ route('admin.deletestudent', ['id' => $student->id]) }}')">Usuń</a>
