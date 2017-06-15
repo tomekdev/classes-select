@@ -36,7 +36,7 @@ class SubjectController extends Controller
                             }
                             else {
                                 $isActive = false;
-                                foreach ($subject->getSubSubjects() as $subSubject){
+                                foreach ($subject->getSubSubjects() ? $subject->getSubSubjects() : [] as $subSubject){
                                     if($subSubject->active){
                                         $isActive = true;
                                         break;
