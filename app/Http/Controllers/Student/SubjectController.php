@@ -35,6 +35,15 @@ class SubjectController extends Controller
                                 ];
                             }
                             else {
+                                $isActive = false;
+                                foreach ($subject->getSubSubjects() as $subSubject){
+                                    if($subSubject->active){
+                                        $isActive = true;
+                                        break;
+                                    }
+                                }
+                                if(!$isActive)
+                                    continue;
                                 $subjectData = [];
                                 $subjectData['selected'] = false;
                                 $subjectData['selectable'] = true;
@@ -63,7 +72,7 @@ class SubjectController extends Controller
 
                                 if ($term->finish_date > $currentDate) {
                                     foreach ($subject->getSubSubjects() as $key2 => $subSubject) {
-                                        $numberOfChoosedSubSubject = $subSubject->current_person;
+                                        $numberOfChoosedSubSubject = count(StudentHasSubject::where('subSubject_id', $subSubject->id)->get());
                                         $subjectData['subSubjects'][$key2]['name'] = $subSubject->name;
                                         $subjectData['subSubjects'][$key2]['id'] = $subSubject->id;
                                         $subjectData['subSubjects'][$key2]['active'] = $numberOfChoosedSubSubject >= $subSubject->max_person ? false : true;

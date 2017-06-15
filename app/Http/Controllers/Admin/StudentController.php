@@ -742,17 +742,21 @@ class StudentController extends Controller
         $semesters = Semester::where(['active' => true])->get();
         $degrees = Degree::all();
         $study_forms = StudyForm::all();
+        $averages = $request['averages'];
         $line = 1;
-        foreach ($request['averages'] as $key => $average) {
-            $v = Validator::make($average, [
+        foreach ($averages as $key => $average) {
+            $averages[$key]['average'] = str_replace(',', '.', $averages[$key]['average']);
+
+            $v = Validator::make($averages[$key], [
                 'index' => 'required|integer|min:1',
                 'average' => 'required|numeric|between:2.00, 7.00'
             ], $messages);
 
-            Session::flash('error', 'Błąd w lini: ' .$line);
+
             if ($v->fails()) {
+                Session::flash('error', 'Błąd w lini: ' .$line);
                 return view('admin.importAverages', [
-                    'averages' => $request['averages'],
+                    'averages' => $averages,
                     'faculties' => $faculties,
                     'semesters' => $semesters,
                     'fields' => $fields,
@@ -763,7 +767,6 @@ class StudentController extends Controller
             ++$line;
         }
 
-        $averages = $request['averages'];
         $selectedFields = $request['fields'];
         $line = 1;
 //        $selectedField['field_id'] = 1;
@@ -820,7 +823,7 @@ class StudentController extends Controller
         }
     }
 
-    function csvStudentsToArray($filename = '', $delimiter = ',')
+    function csvStudentsToArray($filename = '', $delimiter = ';')
     {
         if (!file_exists($filename) || !is_readable($filename))
             return false;
@@ -832,45 +835,49 @@ class StudentController extends Controller
             $line = 1;
             $error['line'] = $line;
             $error['msg'] = 'success';
+            $header[0] = 'index';
+            $header[1] = 'name';
+            $header[2] = 'surname';
+            $header[3] = 'email';
             while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
             {
-                if (!$header) {
-                    $header = $row;
-                    if(count($header) != 4){
-                        $error['line'] = $line;
-                        $error['msg'] = 'Nagłówek pliku ze studentami musi wyglądać następująco "index,name,surname,email"';
-                        return $error;
-                    }
-
-                    if($header[0] != 'index'){
-                        $error['line'] = $line;
-                        $error['msg'] = 'Nazwa pierwszego elementu nagłówka musi mieć wartość "index"';
-                        return $error;
-                    }
-                    if($header[1] != 'name'){
-                        $error['line'] = $line;
-                        $error['msg'] = 'Nazwa drugiego elementu nagłówka musi mieć wartość "name"';
-                        return $error;
-                    }
-                    if($header[2] != 'surname'){
-                        $error['line'] = $line;
-                        $error['msg'] = 'Nazwa trzeciego elementu nagłówka musi mieć wartość "surname"';
-                        return $error;
-                    }
-                    if($header[3] != 'email'){
-                        $error['line'] = $line;
-                        $error['msg'] = 'Nazwa czwartego elementu nagłówka musi mieć wartość "email"';
-                        return $error;
-                    }
-                }
-                else {
+//                if (!$header) {
+//                    $header = $row;
+//                    if(count($header) != 4){
+//                        $error['line'] = $line;
+//                        $error['msg'] = 'Nagłówek pliku ze studentami musi wyglądać następująco "index,name,surname,email"';
+//                        return $error;
+//                    }
+//
+//                    if($header[0] != 'index'){
+//                        $error['line'] = $line;
+//                        $error['msg'] = 'Nazwa pierwszego elementu nagłówka musi mieć wartość "index"';
+//                        return $error;
+//                    }
+//                    if($header[1] != 'name'){
+//                        $error['line'] = $line;
+//                        $error['msg'] = 'Nazwa drugiego elementu nagłówka musi mieć wartość "name"';
+//                        return $error;
+//                    }
+//                    if($header[2] != 'surname'){
+//                        $error['line'] = $line;
+//                        $error['msg'] = 'Nazwa trzeciego elementu nagłówka musi mieć wartość "surname"';
+//                        return $error;
+//                    }
+//                    if($header[3] != 'email'){
+//                        $error['line'] = $line;
+//                        $error['msg'] = 'Nazwa czwartego elementu nagłówka musi mieć wartość "email"';
+//                        return $error;
+//                    }
+//                }
+//                else {
                     if(count($row) != 4){
                         $error['line'] = $line;
-                        $error['msg'] = 'Każda linia pliku powinna zawierać 4 informacje o studencie: "indeks,imie,nazwisko,email"';
+                        $error['msg'] = 'Każda linia pliku powinna zawierać 4 informacje o studencie według kolejności: "indeks;imie;nazwisko;email"';
                         return $error;
                     }
                     $data[] = array_combine($header, $row);
-                }
+               // }
                 ++$line;
             }
             fclose($handle);
@@ -879,7 +886,7 @@ class StudentController extends Controller
         return $data;
     }
 
-    function csvAveragesToArray($filename = '', $delimiter = ',')
+    function csvAveragesToArray($filename = '', $delimiter = ';')
     {
         if (!file_exists($filename) || !is_readable($filename))
             return false;
@@ -891,35 +898,37 @@ class StudentController extends Controller
             $line = 1;
             $error['line'] = $line;
             $error['msg'] = 'success';
+            $header[0] = 'index';
+            $header[1] = 'average';
             while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
             {
-                if (!$header) {
-                    $header = $row;
-                    if(count($header) != 2){
-                        $error['line'] = $line;
-                        $error['msg'] = 'Nagłówek pliku ze średnimi studentów musi wyglądać następująco "index,average"';
-                        return $error;
-                    }
-
-                    if($header[0] != 'index'){
-                        $error['line'] = $line;
-                        $error['msg'] = 'Nazwa pierwszego elementu nagłówka musi mieć wartość "index"';
-                        return $error;
-                    }
-                    if($header[1] != 'average'){
-                        $error['line'] = $line;
-                        $error['msg'] = 'Nazwa drugiego elementu nagłówka musi mieć wartość "average"';
-                        return $error;
-                    }
-                }
-                else {
+//                if (!$header) {
+//                    $header = $row;
+//                    if(count($header) != 2){
+//                        $error['line'] = $line;
+//                        $error['msg'] = 'Nagłówek pliku ze średnimi studentów musi wyglądać następująco "index,average"';
+//                        return $error;
+//                    }
+//
+//                    if($header[0] != 'index'){
+//                        $error['line'] = $line;
+//                        $error['msg'] = 'Nazwa pierwszego elementu nagłówka musi mieć wartość "index"';
+//                        return $error;
+//                    }
+//                    if($header[1] != 'average'){
+//                        $error['line'] = $line;
+//                        $error['msg'] = 'Nazwa drugiego elementu nagłówka musi mieć wartość "average"';
+//                        return $error;
+//                    }
+//                }
+//                else {
                     if(count($row) != 2){
                         $error['line'] = $line;
-                        $error['msg'] = 'Każda linia pliku powinna zawierać 2 informacje o średniej: "indeks,średnia"';
+                        $error['msg'] = 'Każda linia pliku powinna zawierać 2 informacje o średniej według kolejności: "indeks;średnia"';
                         return $error;
                     }
                     $data[] = array_combine($header, $row);
-                }
+  //              }
                 ++$line;
             }
             fclose($handle);

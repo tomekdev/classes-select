@@ -43,7 +43,7 @@
 															<option value="0">-- wybierz --</option>
 															@if($subject['selected'])
 																@foreach ($subject['subSubjects'] as $subSubject)
-																	<option value="{{$subSubject['id']}}" {{ $subSubject['active'] ? $subject['subSubject']['id'] == $subSubject['id'] ? ' selected' : '' : ' disabled' }}>{{$subSubject['name']}}{{' ('.$subSubject['selectedCount'].'/'.$subSubject['max_person'].')'}}</option>
+																	<option value="{{$subSubject['id']}}" {{ $subSubject['active'] ? $subject['subSubject']['id'] == $subSubject['id'] ? ' selected' : '' : ' disabled' }}>{{$subSubject['name']}}{{' ('.$subSubject['selectedCount'].'/'.$subSubject['max_person'].')'}}{{ $subSubject['active'] ? $subject['subSubject']['id'] == $subSubject['id'] ? ' - aktualnie wybrany' : '' : ''}}</option>
 																@endforeach
 															@else
 																@foreach ($subject['subSubjects'] as $subSubject)

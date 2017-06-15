@@ -24,11 +24,12 @@ class AjaxController extends Controller
             return 'hakPieseł ostrzega, modyfikowanie kodu jest nielegalne.';
         if(!$term = $student->getTermFromSubject($subject))
             return 'hakPieseł wywęszył jakąś kombinacje z przedmiotem wybieralnym. Niestety to nie przejdzie.';
-        $date = Carbon::now();
+        $date = Carbon::now()->setTimezone('Europe/Warsaw');
         $canSave = false;
         foreach ($subject->getTerms() as $term) {
             if ($term->start_date < $date && $term->finish_date > $date) {
                 $canSave = true;
+                break;
             }
         }
         if(!$canSave)
@@ -38,8 +39,10 @@ class AjaxController extends Controller
         if($selectedSubSubject) {
             $isValid = false;
             foreach ($subSubjects as $subSubject)
-                if ($subSubject->id == $selectedSubSubject)
+                if ($subSubject->id == $selectedSubSubject) {
                     $isValid = true;
+                    break;
+                }
             if(!$isValid)
                 return 'hakCoś kombinujesz, podany przemiot jest niezgodny z tym wybranym. Pieseł czuwa xd';
         } else return 'errAby się zapisać musisz wybrać jedną z opcji.';
@@ -53,32 +56,32 @@ class AjaxController extends Controller
             if($selectedSubject)
                 break;
         }
+
+        $maxPerson = SubSubject::find($selectedSubSubject)->first();
+        $maxPerson = $maxPerson->max_person;
+        $currentPerson = count(StudentHasSubject::where('subSubject_id', $selectedSubSubject)->get());
+        if($currentPerson >= $maxPerson) {
+            return 'errNiestety nie ma już wolnych miejsc na tym przedmiocie.';
+        }
+
         $studentHasSubject = $selectedSubject ? $selectedSubject : new StudentHasSubject();
         $studentHasSubject->student_id = $student->id;
         $studentHasSubject->subSubject_id = $selectedSubSubject;
+        $studentHasSubject->save();
 
-        try {
-            $studentHasSubject->save();
-            $subSubjects = $subject->getSubSubjects();
-        }
-        catch (QueryException $ex)
-        {
-            if($ex->getCode() == 10000) {
-                return '10000';
-            }
-        }
+
 
 
         $message = 'WoW<option  value="0">-- wybierz --</option>';
         foreach ($subSubjects as $subSubject)
         {
-
+            $currentPerson = count(StudentHasSubject::where('subSubject_id', $subSubject->id)->get());
 
             $value = $subSubject->id;
-            $active = $subSubject->current_person >= $subSubject->max_person ? false : true;
+            $active = $currentPerson >= $subSubject->max_person ? false : true;
             $selected = $active ? $subSubject->id == $selectedSubSubject ? ' selected' : '' : ' disabled';
-            $name = $subSubject->name .' (' .$subSubject->current_person .'/'.$subSubject->max_person.')';
-            $message .= '<option value="' .$value .'" ' . $selected .'>' .$name .'</option>';
+            $name = $subSubject->name .' (' .$currentPerson .'/'.$subSubject->max_person.')';
+            $message .= '<option value="' .$value .'" ' . $selected .'>' .$name . ($selected ? ' - aktualnie wybrany' : '') . '</option>';
         }
 
         return $message;

@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2 col-xs-12">
+                    <div class="col-md-8 col-md-offset-2">
                         <div class="collapse text-center scroll-text" id="csvHintStudents">
                             <p><strong>Przykład poprawnego formatu pliku CSV</strong></p>
                             <p><strong>Tak powinna wyglądać zawartość poprawnego pliku CSV z danymi studentów</strong></p>
